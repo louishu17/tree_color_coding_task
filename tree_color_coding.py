@@ -96,10 +96,6 @@ def split_Trees(trees):
 
 
 def get_overcounting(tree):
-
-    #USE DICTIONARY
-
-
     pieceset = set()
 
     first_1_ind = tree.index(1)
