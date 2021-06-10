@@ -181,8 +181,6 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
 
 
         colorSubsets = findsubsets(C, len(T_k))
-
-        print(colorSubsets)
         
         for x in range(1, n+1):
             for Cs in colorSubsets:
@@ -232,7 +230,7 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
     
     # for keys, values in X_dict.items():
     #      print(keys, values)
-    
+
     finalSum = 0
     finalTreeKey = tuple(tree_dict[1][0])
     finalColorKey = tuple(list(range(1,K+2)))
@@ -274,32 +272,30 @@ if __name__ == '__main__':
     K = len(edges)
     n = len(M)
 
-
-    C = rand_assign(K, n)
-
-    print(C)
-
-
-    X_dict = initialize_X(C, n)
-
-    # for keys, values in X_dict.items():
-    #      print(keys, values)
-
-
-    tree_dict = get_Trees(tree, edges)
-
-    # for keys, values in tree_dict.items():
-    #      print(keys, values)
-
-    q = check_equality(tree)
-
-    print("q", q)
-    
+    trials = 10000
     finalSum = 0
-    for i in range(0, 1):
-        result = X_func(X_dict, tree_dict, M, C, n, K, q)
-        finalSum += result
-    
-    finalAverage = finalSum / 1.0
 
-    print(finalAverage)
+    for i in range(trials):
+        C = rand_assign(K, n)
+
+        print(C)
+
+
+        X_dict = initialize_X(C, n)
+
+        # for keys, values in X_dict.items():
+        #      print(keys, values)
+
+
+        tree_dict = get_Trees(tree, edges)
+
+        # for keys, values in tree_dict.items():
+        #      print(keys, values)
+
+        q = check_equality(tree)
+
+        # print("q", q)
+        
+        finalSum += X_func(X_dict, tree_dict, M, C, n, K, q)
+
+    print(finalSum/trials)
