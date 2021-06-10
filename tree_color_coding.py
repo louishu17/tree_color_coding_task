@@ -278,7 +278,7 @@ if __name__ == '__main__':
     for i in range(trials):
         C = rand_assign(K, n)
 
-        print(C)
+        # print(C)
 
 
         X_dict = initialize_X(C, n)
