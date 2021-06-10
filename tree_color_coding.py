@@ -4,19 +4,14 @@ Created on 6/7/21
 @author: louishu17, fayfayning, kieranlele
 """
 
-"""task one (I think this should work/we need it)"""
-def check_equality(tree):
-    if tree.count(1) < 2:
-        return False
-    m = tree.index(1,2)
-    L1 = [tree[i] - 1 for i in range(1,m)]
-    L2 = [tree[i] for i in range(m,len(tree))]
-    L2.insert(0,0)
-    if L1 == L2:
-        print("L1 and L2 are the same")
-        return 2
-    return 1
+import random
+import itertools
+import more_itertools as mit
 
+
+"""
+Returns a list of all the edges in the tree
+"""
 def get_edges(tree):
 
     edges = [] 
@@ -40,16 +35,93 @@ def get_edges(tree):
     return edges
 
 
+"""
+This method calcualtes the d for T_k
+"""
+
+def get_overcounting(tree):
+    pieceset = set()
+
+    first_1_ind = tree.index(1)
+    
+    try:
+        second_1_ind = tree.index(1, first_1_ind+1)
+    except ValueError:
+        return 1
+     
+    tup = tuple(tree[first_1_ind:second_1_ind])
+    pieceset.add(tup)
+
+    counter = 1
+
+    left = second_1_ind
+
+    for i in range(second_1_ind+1, len(tree)+1):
+        if(i == len(tree) or tree[i] == 1):
+            piece = tuple(tree[left:i])
+            # print(tree, tup, piece)
+
+            if piece in pieceset:
+                counter += 1
+
+            left = i
+        
+
+    return counter
+
+"""
+Splitting tree into Tak and Tbk
+"""
+
+def split_Trees(tree):
+
+    first_1_ind = tree.index(1)
+
+    second_exists = True
+    try:
+        second_1_ind = tree.index(1, first_1_ind+1)
+    except ValueError:
+        second_exists = False
+    
+    if(second_exists):
+        Tbk = [tree[i] - 1 for i in range(1,second_1_ind)]
+        Tak = [tree[i] for i in range(second_1_ind,len(tree))]
+        Tak.insert(0,0)
+
+        return (Tak, Tbk)
+    else:
+        Tbk = [tree[i]-1 for i in range(1, len(tree))]
+        Tak = [0]
+
+        return (Tak, Tbk)
+
+
+"""
+Randomly Assigning colors (1, ..., K+1) to nodes 0 to n-1 inclusive nodes in G
+"""
+
+def rand_assign(K, n):
+    all_colors = range(1, K+2)
+    colors = []
+    for i in range(n):
+        colors.append(random.choice(all_colors))
+    return colors
+
+
+"""
+Generates a dictionary storing K,...,1 as keys, and T_k as the first value, d(T_k, V_k) as second value, and T_ak, and T_bk as 3rd and 4th value
+"""
 def get_Trees(tree_level, edges):
 
     #Edges list is indexed from 0, so edges[0] = edge 1
 
     tree_dict = {}
 
-    tree_dict[0] = [0]
 
     for k in range(len(edges), 0, -1):
-        tree_dict[k] = []
+
+        tree_dict.setdefault(k, [])
+
         r_double_prime = len(tree_level) 
 
         #R is edges[k][1]-1
@@ -59,81 +131,168 @@ def get_Trees(tree_level, edges):
                 r_double_prime = j
                 break
 
+        T_k = []
         #from l_R+1 to l_R'' - l_R'
-        tree_dict[k].append(0)
+        T_k.append(0)
         for j in range(edges[k-1][1], r_double_prime+1):
-            tree_dict[k].append(tree_level[j-1] - tree_level[edges[k-1][0]-1])
-            
-        print()
+            T_k.append(tree_level[j-1] - tree_level[edges[k-1][0]-1])
+        
+
+        tree_dict[k].append(T_k)
+        tree_dict[k].append(get_overcounting(T_k))
+        
+        #store T_ak, and T_bk
+        tree_dict[k].append(split_Trees(T_k)[0])
+        tree_dict[k].append(split_Trees(T_k)[1])
     
     return tree_dict
 
+"""
+initializes all the X(x, T_0, c(x)), C is 0 indexed, however X_dict is 1 indexed
+"""
+def initialize_X(C, n):
+    X_dict = {}
 
-def split_Trees(trees):
-    for keys, values in trees.items():
-        if(len(values) == 1):
-            continue
+    for i in range(1, n+1):
 
-        first_1_ind = values.index(1)
-        second_exists = True
+        zero_key = tuple([0])
+        color_key = tuple([C[i-1]])
+
+        X_dict.setdefault(i, {}).setdefault(zero_key, {})[color_key] = 1
+    
+    return X_dict
+        
+"""
+Returns the combinations of Color set C
+"""
+def findsubsets(C, n):
+    return list(itertools.combinations(C, n))
+
+"""
+X function
+"""
+def X_func(X_dict, tree_dict, M, C, n, K, q):
+
+    #finding every subset C
+
+
+    for k in range(K, 0, -1):
+        T_k = tuple(tree_dict[k][0])
+        d = tree_dict[k][1]
+        T_a = tuple(tree_dict[k][2])
+        T_b = tuple(tree_dict[k][3])
+
+
+        colorSubsets = findsubsets(C, len(T_k))
+        for x in range(1, n+1):
+            for Cs in colorSubsets:
+                #resultingSum is X(x, T_k, C)
+                resultingSum = 0
+
+
+                outerSum = 0
+                for y in range(1, n+1):
+                    if y == x:
+                        continue
+
+                    if(M[x-1][y-1] == 0):
+                        continue
+                    
+                    innerSum = 0
+    
+                    #dividing C into C1 and C2 wher C1 are the colors in Tak and C2 are the colors in Tbk
+                    for i in itertools.combinations(Cs, len(T_b)):
+
+                        c2 = list(i)
+                        c1 = [item for item in Cs if item not in c2]
+
+                        if len(set(c1)) < len(T_a) or len(set(c2)) < len(T_b):
+                            continue
+
+                        c2_key = tuple(c2)
+                        c1_key = tuple(c1)
+                        
+                        try:
+                            innerSum += (X_dict[x][T_a][c1_key] * X_dict[y][T_b][c2_key] * M[x-1][y-1])
+                        except KeyError:
+                            continue
+                    
+                    outerSum += innerSum
+                
+                resultingSum = outerSum * d
+                Cs_key = tuple(sorted(Cs))
+                X_dict.setdefault(x, {}).setdefault(T_k, {})[Cs_key] = resultingSum
+    
+    finalSum = 0
+    finalTreeKey = tuple(tree_dict[1][0])
+    finalColorKey = tuple(list(range(1,K+2)))
+    for x in range(1, n+1):
         try:
-            second_1_ind = values.index(1, first_1_ind+1)
-        except ValueError:
-            second_exists = False
-        
-        if(second_exists):
-            Tbk = [values[i] - 1 for i in range(1,second_1_ind)]
-            Tak = [values[i] for i in range(second_1_ind,len(values))]
-            Tak.insert(0,0)
-
-            print(keys, Tbk, Tak)
-        
-        else:
-            Tbk = [values[i]-1 for i in range(1, len(values))]
-            Tak = [0]
-
-            print(keys, Tbk, Tak)
+            finalSum += X_dict[x][finalTreeKey][finalColorKey]
+        except:
+            continue
+    
+    return finalSum / q
 
 
-def get_overcounting(tree):
-    pieceset = set()
 
-    first_1_ind = tree.index(1)
-    second_1_ind = tree.index(1, first_1_ind+1)
-     
-    tup = tuple(tree[first_1_ind:second_1_ind])
-    print(tup)
-    pieceset.add(tup)
 
-    counter = 1
 
-    left = 0
-    right = 0
-
-    for i in range(second_1_ind, len(tree)):
-        if(tree[i] == 1 and tree[left] != 1):
-            left = i
-        elif(tree[i] == 1 and tree[left] == 1):
-            right = i
-        
-        if(tree[left] == 1 and tree[right] == 1):
-            piece = tuple(tree[left:right])
-            print(piece)
-
-            if piece in pieceset:
-                counter += 1
-
-    return counter
+"""
+Calculate q
+"""
+def check_equality(tree):
+    if tree.count(1) < 2:
+        return False
+    m = tree.index(1,2)
+    L1 = [tree[i] - 1 for i in range(1,m)]
+    L2 = [tree[i] for i in range(m,len(tree))]
+    L2.insert(0,0)
+    if L1 == L2:
+        return 2
+    return 1
 
 if __name__ == '__main__':
-    tree = [0, 1, 2, 2, 1, 2, 2, 1]
+    tree = [0, 1, 1]
+    # tree = [0, 1, 2, 3, 3, 3, 2, 1, 2, 2, 1, 2, 2]
+    M = [[0, 1, 0, 0, 1, 0],
+            [1, 0, 1, 0, 1, 0],
+            [0, 1, 0, 1, 0, 0],
+            [0, 0, 1, 0, 1, 1],
+            [1, 1, 0, 1, 0, 0],
+            [0, 0, 0, 1, 0, 0]]
 
+    
     edges = get_edges(tree)
 
-    trees = get_Trees(tree, edges)
+    K = len(edges)
+    n = len(M)
 
-    split_Trees(trees)
 
-    count = get_overcounting(tree)
+    C = rand_assign(K, n)
 
-    print(count)
+    # print(C)
+
+
+    X_dict = initialize_X(C, n)
+
+    # for keys, values in X_dict.items():
+    #     print(keys, values)
+
+
+    tree_dict = get_Trees(tree, edges)
+
+    # for keys, values in tree_dict.items():
+    #     print(keys, values)
+
+    q = check_equality(tree)
+
+    
+    finalSum = 0
+    for i in range(0, 1000):
+        result = X_func(X_dict, tree_dict, M, C, n, K, q)
+        finalSum += result
+    
+    finalAverage = finalSum / 1000
+
+    print(finalAverage)
