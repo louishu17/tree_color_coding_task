@@ -6,7 +6,6 @@ Created on 6/7/21
 
 import random
 import itertools
-import more_itertools as mit
 
 
 """
@@ -95,7 +94,6 @@ def split_Trees(tree):
 
         return (Tak, Tbk)
 
-
 """
 Randomly Assigning colors (1, ..., K+1) to nodes 0 to n-1 inclusive nodes in G
 """
@@ -166,17 +164,16 @@ def initialize_X(C, n):
 Returns the combinations of Color set C
 """
 def findsubsets(C, n):
-    return list(itertools.combinations(C, n))
+    return set(itertools.combinations(C, n))
 
 """
 X function
 """
 def X_func(X_dict, tree_dict, M, C, n, K, q):
 
-    #finding every subset C
-
 
     for k in range(K, 0, -1):
+        
         T_k = tuple(tree_dict[k][0])
         d = tree_dict[k][1]
         T_a = tuple(tree_dict[k][2])
@@ -184,6 +181,9 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
 
 
         colorSubsets = findsubsets(C, len(T_k))
+
+        print(colorSubsets)
+        
         for x in range(1, n+1):
             for Cs in colorSubsets:
                 #resultingSum is X(x, T_k, C)
@@ -192,24 +192,31 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
 
                 outerSum = 0
                 for y in range(1, n+1):
+
                     if y == x:
                         continue
 
                     if(M[x-1][y-1] == 0):
                         continue
-                    
+
                     innerSum = 0
     
                     #dividing C into C1 and C2 wher C1 are the colors in Tak and C2 are the colors in Tbk
-                    for i in itertools.combinations(Cs, len(T_b)):
+                    c1c2Subset = set(findsubsets(Cs, len(T_b)))
+                    # print("C1c2 subset:", c1c2Subset)
+                    for i in c1c2Subset:
+                        
+                        #tupple subtraction
+                        c2 = set(i)
+                        c1 = set(Cs) - c2
 
-                        c2 = list(i)
-                        c1 = [item for item in Cs if item not in c2]
+                        # print(Cs, c1, c2)
 
-                        if len(set(c1)) < len(T_a) or len(set(c2)) < len(T_b):
+                        if len(c1) < len(T_a) or len(c2) < len(T_b):
+                            # print("SKIPPED")
                             continue
 
-                        c2_key = tuple(c2)
+                        c2_key = i
                         c1_key = tuple(c1)
                         
                         try:
@@ -219,9 +226,12 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
                     
                     outerSum += innerSum
                 
-                resultingSum = outerSum * d
+                resultingSum = outerSum / d
                 Cs_key = tuple(sorted(Cs))
                 X_dict.setdefault(x, {}).setdefault(T_k, {})[Cs_key] = resultingSum
+    
+    # for keys, values in X_dict.items():
+    #      print(keys, values)
     
     finalSum = 0
     finalTreeKey = tuple(tree_dict[1][0])
@@ -234,16 +244,12 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
     
     return finalSum / q
 
-
-
-
-
 """
-Calculate q
+This method returns q
 """
 def check_equality(tree):
     if tree.count(1) < 2:
-        return False
+        return 2 if len(tree) == 2 else 1
     m = tree.index(1,2)
     L1 = [tree[i] - 1 for i in range(1,m)]
     L2 = [tree[i] for i in range(m,len(tree))]
@@ -253,7 +259,7 @@ def check_equality(tree):
     return 1
 
 if __name__ == '__main__':
-    tree = [0, 1, 1]
+    tree = [0, 1]
     # tree = [0, 1, 2, 3, 3, 3, 2, 1, 2, 2, 1, 2, 2]
     M = [[0, 1, 0, 0, 1, 0],
             [1, 0, 1, 0, 1, 0],
@@ -271,28 +277,29 @@ if __name__ == '__main__':
 
     C = rand_assign(K, n)
 
-    # print(C)
+    print(C)
 
 
     X_dict = initialize_X(C, n)
 
     # for keys, values in X_dict.items():
-    #     print(keys, values)
+    #      print(keys, values)
 
 
     tree_dict = get_Trees(tree, edges)
 
     # for keys, values in tree_dict.items():
-    #     print(keys, values)
+    #      print(keys, values)
 
     q = check_equality(tree)
 
+    print("q", q)
     
     finalSum = 0
-    for i in range(0, 1000):
+    for i in range(0, 1):
         result = X_func(X_dict, tree_dict, M, C, n, K, q)
         finalSum += result
     
-    finalAverage = finalSum / 1000
+    finalAverage = finalSum / 1.0
 
     print(finalAverage)
