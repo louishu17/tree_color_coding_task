@@ -482,7 +482,7 @@ def check_equality(tree):
     return 1
 
 
-def algorithmOne(tree, M):
+def algorithmOne(tree, M, C):
     t0 = time.time()
     edges = get_edges(tree)
 
@@ -493,9 +493,7 @@ def algorithmOne(tree, M):
     finalSum = 0
 
 
-    C = rand_assign(K, n)
     # print(C)
-
 
     X_dict = initialize_X(C, n)
 
@@ -523,8 +521,10 @@ def getX(i):
     global A
     global B
     sumX = 0
+    CA = rand_assign(K, n)
+    CB = rand_assign(K, n)
     for keys, values in freeTrees.items():
-        sumX += (values * algorithmOne(keys, A) * algorithmOne(keys, B))
+        sumX += (values * algorithmOne(keys, A, CA) * algorithmOne(keys, B, CB))
     return sumX
 
 if __name__ == '__main__':
