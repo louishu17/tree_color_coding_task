@@ -151,10 +151,10 @@ def generateFreeTrees(K):
         tree = get_si(tree, vals)
         while(free_check(tree, K) == False):
             tree = skip(tree)
-        
+
         tree_key = tuple(tree)
         free.setdefault(tree_key, aut(tree))
-    
+
     return free
 
 
@@ -521,7 +521,6 @@ def algorithmOne(tree, M):
 
 if __name__ == '__main__':
     K = 4
-    freeTrees = []
 
     freeTrees = generateFreeTrees(K+1)
 
@@ -539,11 +538,10 @@ if __name__ == '__main__':
          [0, 0, 1, 0, 1, 1],
          [1, 1, 0, 1, 0, 0],
          [0, 0, 0, 1, 0, 0]]
-    
 
-    r = math.factorial(K+1) / pow(K+1, K+1)
+    r = math.factorial(K+1) / math.pow(K+1, K+1)
 
-    t = math.ceil(1/(pow(r,2)))
+    t = int(math.ceil(1/(math.pow(r,2))))
 
     sumY = 0
     for i in range(1, t+1):
