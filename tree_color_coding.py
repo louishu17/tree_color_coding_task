@@ -516,7 +516,7 @@ def algorithmOne(tree, M, C):
     # print("Time:", t1-t0)
     return finalSum
 
-def getX(freeTrees, A, B):
+def getX(freeTrees, A, B, K):
     sumX = 0
     n = len(A)
     CA = rand_assign(K, n)
@@ -552,7 +552,7 @@ if __name__ == '__main__':
     t = int(math.ceil(1/(math.pow(r,2))))
 
     pool = mp.Pool(mp.cpu_count())
-    results = pool.starmap(getX, [(freeTrees, A, B) for i in range(t)])
+    results = pool.starmap(getX, [(freeTrees, A, B, K) for i in range(t)])
     pool.close()
     sumY = sum(results) / t
     print(sumY)
