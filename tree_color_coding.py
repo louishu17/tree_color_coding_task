@@ -552,7 +552,7 @@ if __name__ == '__main__':
     t = int(math.ceil(1/(math.pow(r,2))))
 
     pool = mp.Pool(mp.cpu_count())
-    results = pool.starmap(getX, [(freeTrees, A, B, K) for i in range(t)])
+    results = pool.starmap(getX, [(freeTrees, A, B, K) for i in range(1, t)])
     pool.close()
     sumY = sum(results) / t
     print(sumY)
