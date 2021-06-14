@@ -555,9 +555,9 @@ if __name__ == '__main__':
     t = int(math.ceil(1/(math.pow(r,2))))
 
     pool = mp.Pool(mp.cpu_count())
-    results = pool.map_async(getX, [i for i in range(t)]).get()
+    results = pool.map(getX, [i for i in range(t)])
     pool.close()
-    sumY = sum(results/t)
+    sumY = sum(results) / t
     print(sumY)
 
     print(time.time() - start)
