@@ -8,6 +8,7 @@ import itertools
 import time
 import math
 
+import multiprocessing as mp
 
 """
 This method finds the primary root of an n-path tree
@@ -517,9 +518,18 @@ def algorithmOne(tree, M):
     # print("Time:", t1-t0)
     return finalSum
 
-
+def getX(i):
+    global freeTrees
+    global A
+    global B
+    sumX = 0
+    for keys, values in freeTrees.items():
+        sumX += (values * algorithmOne(keys, A) * algorithmOne(keys, B))
+    return sumX
 
 if __name__ == '__main__':
+    start = time.time()
+
     K = 4
 
     freeTrees = generateFreeTrees(K+1)
@@ -543,14 +553,10 @@ if __name__ == '__main__':
 
     t = int(math.ceil(1/(math.pow(r,2))))
 
-    sumY = 0
-    for i in range(1, t+1):
-        sumX = 0
-        for keys, values in freeTrees.items():
-            sumX += (values * algorithmOne(keys, A) * algorithmOne(keys, B))
-        
-        sumY += sumX
-    
+    pool = mp.Pool(mp.cpu_count())
+    results = pool.map(getX, [i for i in range(t)])
+    pool.close()
+    sumY = sum(results)
     print(sumY)
-    
-    
+
+    print(time.time() - start)
