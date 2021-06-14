@@ -521,6 +521,7 @@ def getX(i):
     global A
     global B
     sumX = 0
+    n = len(A)
     CA = rand_assign(K, n)
     CB = rand_assign(K, n)
     for keys, values in freeTrees.items():
@@ -554,9 +555,9 @@ if __name__ == '__main__':
     t = int(math.ceil(1/(math.pow(r,2))))
 
     pool = mp.Pool(mp.cpu_count())
-    results = pool.map(getX, [i for i in range(t)])
+    results = pool.map_async(getX, [i for i in range(t)]).get()
     pool.close()
-    sumY = sum(results)
+    sumY = sum(results) / t
     print(sumY)
 
     print(time.time() - start)
