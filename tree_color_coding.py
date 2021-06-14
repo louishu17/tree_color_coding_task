@@ -556,7 +556,7 @@ if __name__ == '__main__':
     pool = mp.Pool(mp.cpu_count())
     results = pool.map(getX, [i for i in range(t)])
     pool.close()
-    sumY = sum(results)
+    sumY = sum(results/t)
     print(sumY)
 
     print(time.time() - start)
