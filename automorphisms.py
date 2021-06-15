@@ -4,7 +4,19 @@ Created on 6/7/21
 """
 import math
 
-from get_x import checkL1L2
+
+"""
+checks if L1 and L2 are equal
+"""
+def checkL1L2(tree):
+    ind_1 = tree.index(1)
+    m = tree.index(1, ind_1 + 1)
+    L1 = [tree[i] - 1 for i in range(1, m)]
+    L2 = [tree[i] for i in range(m, len(tree))]
+    L2.insert(0, tree[0])
+    if L1 == L2:
+        return True
+    return False
 
 
 """
