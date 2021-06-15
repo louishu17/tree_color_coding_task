@@ -1,0 +1,10 @@
+input <- read.csv(file = "fin.csv")
+df <- data.frame(input)
+df_new <- data.frame(df$n, df$err)
+colnames(df_new) <- c("n", "error")
+df_new["error"] = abs(df_new["error"])
+attach(df_new)
+plot(n, error, main="Increasing n Decreases Error",
+     xlab="n", ylab="error", pch=19)
+#abline(lm(df_new$error ~ df_new$n))
+detach(df_new)
