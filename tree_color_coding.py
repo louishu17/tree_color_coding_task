@@ -9,6 +9,7 @@ import time
 import math
 
 import multiprocessing as mp
+from networkx.linalg.graphmatrix import adjacency_matrix
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -534,7 +535,7 @@ def generateErdosReyniGraphs(n,p,m):
     return result
 
 
-def calculateExpectedValue(r, n, K, p, L):
+def calculateExpectedValueOne(r, n, K, p, L):
     return r * ((math.factorial(n))/(math.factorial(n-K-1) * aut(L))) * pow(p,K)
 
 
@@ -557,7 +558,7 @@ def simulation1():
 
     t = int(math.ceil(1/(math.pow(r,2))))
 
-    ev = calculateExpectedValue(r, n, K, p, L)
+    ev = calculateExpectedValueOne(r, n, K, p, L)
 
 
     resMSum = 0
@@ -575,9 +576,107 @@ def simulation1():
     print("Ratio:", 1 - (ev/xH))
     print(time.time() - start)
 
+def generateErdosReyniGraphEdges(n,p):
+    result = []
+    G = nx.generators.random_graphs.gnp_random_graph(n,p)
+    A = list(G.edges())
+    print(A)
+    # nx.draw(G, with_labels = True)
+    # plt.show()
+    result.append(A)
+
+    return result
+
+def sEdgeSelection(edges, s):
+
+    ps = np.random.binomial(size = len(edges), n=1, p=s)
+    for i in range(len(edges)-1, -1, -1):
+        if ps[i] == 0:
+            del edges[i]
+    print(edges)
+
+    return edges
+
+
+def edgesToAdjMatrix(edges, n):
+
+
+    adjacency_matrix = [[0 for x in range(n)] for y in range(n)]
+    if len(edges) != 0:
+        for i,j in edges[0]:
+            adjacency_matrix[i][j] = 1
+
+    return adjacency_matrix
+
+
+def centerAdjMatrix(g, n, p, s):
+    for i in range(0, n):
+        for j in range(0, i):
+            g[i][j] = g[i][j] - p*s
+            g[j][i] = g[i][j]
+    
+    return g
+
+
+def calculateExpectedValueTwo(r, n, p, s, K, sizeT):
+    return 0.5 * pow(r,2) * ((math.factorial(n) * pow((p*pow(s,2) * (1- p)), K))/ math.factorial(n - K - 1)) * sizeT
+
+def algorithm2(freeTrees, A, B, K):
+    sumX = 0
+    n = len(A)
+    CA = rand_assign(K,n)
+    CB = rand_assign(K, n)
+    for keys, values in freeTrees.items():
+        sumX += (values * algorithmOne(keys, A, CA) * algorithm2(keys, B, CB))
+    return sumX
+
+def simulation2():
+
+    n= 50
+    p = 0.3
+    m = 2
+    s = 0.75
+
+    K = 7
+
+    freeTrees = generateFreeTrees(K)
+
+    r = math.factorial(K+1) / pow(K+1, K+1)
+
+    t = math.ceil(1/pow(r,2))
+
+    ev = calculateExpectedValueTwo(r, n, p, s, K, len(freeTrees))
+
+    for i in range(m):
+        edgesA = generateErdosReyniGraphEdges(n, p)
+        edgesB = generateErdosReyniGraphEdges(n, p)
+
+        sEdgesA = sEdgeSelection(edgesA, s)
+        sEdgesB = sEdgeSelection(edgesB, s)
+
+        graphA = edgesToAdjMatrix(sEdgesA, n)
+        graphB = edgesToAdjMatrix(sEdgesB, n)
+
+        centeredGraphA = centerAdjMatrix(graphA, n, p, s)
+        centeredGraphB = centerAdjMatrix(graphB, n, p, s)
+
+
+
+
+        pool = mp.Pool(mp.cpu_count())
+        results = pool.starmap(algorithm2, [(freeTrees, centeredGraphA, centeredGraphB, K) for i in range(t)])
+        pool.close()
+        resY = sum(results) / t
+
+        if resY >= ev:
+            print(1)
+        else:
+            print(0)
+
+
 
 if __name__ == '__main__':
-    simulation1()
+    simulation2()
     
 
 
