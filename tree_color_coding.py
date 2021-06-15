@@ -9,6 +9,9 @@ import time
 import math
 
 import multiprocessing as mp
+import numpy as np
+import networkx as nx
+import matplotlib.pyplot as plt
 
 """
 This method finds the primary root of an n-path tree
@@ -217,7 +220,7 @@ def calc_aut(labels):
     return num
 
 """
-Runs program on a given tree
+calculates automorphisms based on a given tree
 """
 def aut(tree):
     if not checkL1L2(tree):
@@ -516,45 +519,60 @@ def algorithmOne(tree, M, C):
     # print("Time:", t1-t0)
     return finalSum
 
-def getX(freeTrees, A, B, K):
-    sumX = 0
-    n = len(A)
-    CA = rand_assign(K, n)
-    CB = rand_assign(K, n)
-    for keys, values in freeTrees.items():
-        sumX += (values * algorithmOne(keys, A, CA) * algorithmOne(keys, B, CB))
-    return sumX
+def getX(H, g, K, n):
+    C = rand_assign(K, n)
+    return algorithmOne(H, g, C)
+
+
+def generateErdosReyniGraphs(n,p,m):
+    result = []
+    for i in range(m):
+        G = nx.generators.random_graphs.gnp_random_graph(n,p)
+        A = nx.adjacency_matrix(G)
+        result.append(A)
+
+    return result
+
+
+def calculateExpectedValue(r, n, K, p, L):
+    return r * ((math.factorial(n))/(math.factorial(n-K-1) * aut(L))) * pow(p,K)
+
 
 if __name__ == '__main__':
     start = time.time()
 
-    K = 4
 
-    freeTrees = generateFreeTrees(K+1)
+    n = 1000
+    p = 0.3
+    m = 1
 
-    # tree = [0, 1, 2, 3, 3, 3, 2, 1, 2, 2, 1, 2, 2]
-    A = [[0, 1, 1, 0, 1, 1],
-         [1, 0, 1, 0, 0, 0],
-         [1, 1, 0, 1, 1, 0],
-         [0, 0, 1, 0, 1, 0],
-         [1, 0, 1, 1, 0, 0],
-         [1, 0, 0, 0, 1, 0]]
-    
-    B = [[0, 1, 0, 0, 1, 0],
-         [1, 0, 1, 0, 1, 0],
-         [0, 1, 0, 1, 0, 0],
-         [0, 0, 1, 0, 1, 1],
-         [1, 1, 0, 1, 0, 0],
-         [0, 0, 0, 1, 0, 0]]
+    graphs = generateErdosReyniGraphs(n, p, m)
+
+
+    L = [0, 1, 1]
+
+    K = len(L) - 1
 
     r = math.factorial(K+1) / math.pow(K+1, K+1)
 
     t = int(math.ceil(1/(math.pow(r,2))))
 
-    pool = mp.Pool(mp.cpu_count())
-    results = pool.starmap(getX, [(freeTrees, A, B, K) for i in range(1, t)])
-    pool.close()
-    sumY = sum(results) / t
-    print(sumY)
+    ev = calculateExpectedValue(r, n, K, p, L)
 
+
+    resMSum = 0
+    for g in graphs:
+        a = g.todense().tolist()
+        pool = mp.Pool(mp.cpu_count())
+        results = pool.starmap(getX, [(L, a, K, n) for i in range(t)])
+        pool.close()
+
+        resMSum += sum(results) / t
+    
+    xH = resMSum / m
+
+
+    print("Ratio:", 1 - (ev/xH))
     print(time.time() - start)
+
+
