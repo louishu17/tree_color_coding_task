@@ -101,7 +101,7 @@ def free_check(tree, n):
 def skip(tree):
     ind_1 = tree.index(1)
 
-    m = tree.index(1, ind_1 + 1) 
+    m = tree.index(1, ind_1 + 1)
 
 
     #finding p and q
@@ -119,7 +119,7 @@ def skip(tree):
             pqArr[1] = i + 1
             pqArr[0] += 1
             break
-    
+
 
     tree2 = get_si(tree, pqArr)
     ind_1_prime = tree2.index(1)
@@ -242,8 +242,8 @@ Returns a list of all the edges in the tree
 """
 def get_edges(tree):
 
-    edges = [] 
-    
+    edges = []
+
     for i in range(1, len(tree)):
         edge = []
 
@@ -271,12 +271,12 @@ def get_overcounting(tree):
     pieceset = set()
 
     first_1_ind = tree.index(1)
-    
+
     try:
         second_1_ind = tree.index(1, first_1_ind+1)
     except ValueError:
         return 1
-     
+
     tup = tuple(tree[first_1_ind:second_1_ind])
     pieceset.add(tup)
 
@@ -293,7 +293,7 @@ def get_overcounting(tree):
                 counter += 1
 
             left = i
-        
+
 
     return counter
 
@@ -310,7 +310,7 @@ def split_Trees(tree):
         second_1_ind = tree.index(1, first_1_ind+1)
     except ValueError:
         second_exists = False
-    
+
     if(second_exists):
         Tbk = [tree[i] - 1 for i in range(1,second_1_ind)]
         Tak = [tree[i] for i in range(second_1_ind,len(tree))]
@@ -349,7 +349,7 @@ def get_Trees(tree_level, edges):
 
         tree_dict.setdefault(k, [])
 
-        r_double_prime = len(tree_level) 
+        r_double_prime = len(tree_level)
 
         #R is edges[k][1]-1
         for j in range(edges[k-1][0], len(edges)+1):
@@ -363,15 +363,15 @@ def get_Trees(tree_level, edges):
         T_k.append(0)
         for j in range(edges[k-1][1], r_double_prime+1):
             T_k.append(tree_level[j-1] - tree_level[edges[k-1][0]-1])
-        
+
 
         tree_dict[k].append(T_k)
         tree_dict[k].append(get_overcounting(T_k))
-        
+
         #store T_ak, and T_bk
         tree_dict[k].append(split_Trees(T_k)[0])
         tree_dict[k].append(split_Trees(T_k)[1])
-    
+
     return tree_dict
 
 """
@@ -386,9 +386,9 @@ def initialize_X(C, n):
         color_key = tuple([C[i-1]])
 
         X_dict.setdefault(i, {}).setdefault(zero_key, {})[color_key] = 1
-    
+
     return X_dict
-        
+
 """
 Returns the combinations of Color set C
 """
@@ -402,7 +402,7 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
 
 
     for k in range(K, 0, -1):
-        
+
         T_k = tuple(tree_dict[k][0])
         d = tree_dict[k][1]
         T_a = tuple(tree_dict[k][2])
@@ -410,7 +410,7 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
 
 
         colorSubsets = findsubsets(C, len(T_k))
-        
+
         for x in range(1, n+1):
             for Cs in colorSubsets:
                 #resultingSum is X(x, T_k, C)
@@ -427,12 +427,12 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
                         continue
 
                     innerSum = 0
-    
+
                     #dividing C into C1 and C2 wher C1 are the colors in Tak and C2 are the colors in Tbk
                     c1c2Subset = set(findsubsets(Cs, len(T_b)))
                     # print("C1c2 subset:", c1c2Subset)
                     for i in c1c2Subset:
-                        
+
                         #tupple subtraction
                         c2 = set(i)
                         c1 = set(Cs) - c2
@@ -445,18 +445,18 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
 
                         c2_key = i
                         c1_key = tuple(c1)
-                        
+
                         try:
                             innerSum += (X_dict[x][T_a][c1_key] * X_dict[y][T_b][c2_key] * M[x-1][y-1])
                         except KeyError:
                             continue
-                    
+
                     outerSum += innerSum
-                
+
                 resultingSum = outerSum / d
                 Cs_key = tuple(sorted(Cs))
                 X_dict.setdefault(x, {}).setdefault(T_k, {})[Cs_key] = resultingSum
-    
+
     # for keys, values in X_dict.items():
     #      print(keys, values)
 
@@ -468,7 +468,7 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
             finalSum += X_dict[x][finalTreeKey][finalColorKey]
         except:
             continue
-    
+
     return finalSum / q
 
 """
@@ -513,7 +513,7 @@ def algorithmOne(tree, M, C):
     q = check_equality(tree)
 
     # print("q", q)
-    
+
     finalSum = X_func(X_dict, tree_dict, M, C, n, K, q)
 
     t1 = time.time()
@@ -569,7 +569,7 @@ def simulation1():
         pool.close()
 
         resMSum += sum(results) / t
-    
+
     xH = resMSum / m
 
 
@@ -614,7 +614,7 @@ def centerAdjMatrix(g, n, p, s):
         for j in range(0, i):
             g[i][j] = g[i][j] - p*s
             g[j][i] = g[i][j]
-    
+
     return g
 
 
@@ -677,6 +677,3 @@ def simulation2():
 
 if __name__ == '__main__':
     simulation2()
-    
-
-
