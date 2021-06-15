@@ -313,5 +313,3 @@ def algorithm2(freeTrees, A, B, K):
     for keys, values in freeTrees.items():
         sumX += (values * algorithmOne(keys, A, CA) * algorithm2(keys, B, CB))
     return sumX
-
-if __name__ == '__main__':

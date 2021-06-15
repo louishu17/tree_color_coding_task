@@ -158,4 +158,3 @@ def generateFreeTrees(K):
 
     return free
 
-if __name__ == '__main__':

@@ -12,7 +12,6 @@ from tree_generation import generateFreeTrees
 import multiprocessing as mp
 from networkx.linalg.graphmatrix import adjacency_matrix
 import numpy as np
-import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
 
@@ -35,7 +34,7 @@ def calculateExpectedValueOne(r, n, K, p, L):
 def simulation1():
     start = time.time()
 
-    n = 1000
+    n = 100
     p = 0.3
     m = 1
 
@@ -154,3 +153,4 @@ def simulation2():
             print(0)
 
 if __name__ == '__main__':
+    simulation1()

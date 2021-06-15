@@ -66,4 +66,3 @@ def aut(tree):
         num = aut_L1 * aut_L1 * 2
     return num
 
-if __name__ == '__main__':
