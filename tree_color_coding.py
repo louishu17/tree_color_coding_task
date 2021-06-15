@@ -538,7 +538,7 @@ def calculateExpectedValue(r, n, K, p, L):
     return r * ((math.factorial(n))/(math.factorial(n-K-1) * aut(L))) * pow(p,K)
 
 
-if __name__ == '__main__':
+def simulation1():
     start = time.time()
 
 
@@ -574,5 +574,10 @@ if __name__ == '__main__':
 
     print("Ratio:", 1 - (ev/xH))
     print(time.time() - start)
+
+
+if __name__ == '__main__':
+    simulation1()
+    
 
 
