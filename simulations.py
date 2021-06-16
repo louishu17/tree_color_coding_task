@@ -16,20 +16,16 @@ import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 
-
 def erd_ren(n, p):
     # returns adjacency matrix for randomly created Erdos-Renyi graph
     # edge included in graph with probability p
-    M = [[0 for j in range(n)] for i in range(n)]
+    M = np.zeros((n, n))
     for i in range(n):
         for j in range(i + 1, n):
             temp = random.random()
             if temp < p:
-                temp = 1
-            else:
-                temp = 0
-            M[i][j] = temp
-            M[j][i] = temp
+                M[i][j] = 1
+                M[j][i] = 1
     return M
 
 
@@ -45,8 +41,6 @@ def simulation1():
     p = 0.5
     m = 3
 
-    graphs = generateErdosReyniGraphs(n, p, m)
-
     L = [0, 1, 1]
 
     K = len(L) - 1
@@ -55,14 +49,14 @@ def simulation1():
 
     t = int(math.ceil(1 / (math.pow(r, 2))))
 
-    #ev = calculateExpectedValueOne(r, n, K, p, L)
+    ev = calculateExpectedValueOne(r, n, K, p, L)
 
     pool = mp.Pool(mp.cpu_count())
+    graphs = pool.starmap(erd_ren, [(n, p) for i in range(m)])
 
     resMSum = 0
     for g in graphs:
-        a = g.todense().tolist()
-        results = pool.starmap(getX, [(L, a, K, n) for i in range(t)])
+        results = pool.starmap(getX, [(L, g, K, n) for i in range(t)])
 
         resMSum += sum(results) / t
 
@@ -71,22 +65,19 @@ def simulation1():
     xH = resMSum / m
     print(xH)
 
-    #print("Ratio:", 1 - (ev / xH))
+    print("Ratio:", 1 - (ev / xH))
     print(time.time() - start)
 
 def corr_erd_ren(n, s, C):
     # creates a correlated Erdos-Renyi random graph from a random graph C
-    M = [[0 for j in range(n)] for i in range(n)]
+    M = np.zeros((n, n))
     for i in range(n):
         for j in range(i + 1, n):
             if C[i][j] == 1:
                 temp = random.random()
                 if temp < s:
-                    temp = 1
-                else:
-                    temp = 0
-                M[i][j] = temp
-                M[j][i] = temp
+                    M[i][j] = 1
+                    M[j][i] = 1
     return M
 
 def centerAdjMatrix(g, n, p, s):
@@ -147,4 +138,7 @@ def sim2(m, n, p, s, K):
 if __name__ == '__main__':
 
     start = time.time()
+
     print(sim2(20, 99, 0.5, 0.7, 3))
+
+    print(time.time() - start)
