@@ -166,16 +166,35 @@ def initialize_X(C, n):
 
     return X_dict
 
+
+def findSubsets(k, C, color_dict):
+    color_dict.setdefault(k, [])
+    colorCombos = list(itertools.combinations(C, k))
+    colorCombos.sort()
+    color_dict[k] = colorCombos
+    return colorCombos
+
+def findc1c2Subsets(k, Cs, color_dict):
+    cs_key = tuple(Cs)
+    color_dict.setdefault(cs_key, {}).setdefault(k, [])
+    colorCombos = list(itertools.combinations(Cs, k))
+    color_dict[cs_key][k] = colorCombos
+    return colorCombos
     
 def X_func(X_dict, tree_dict, M, C, n, K, q):
 
     local_C = set(C)
+
+
+    color_dict = {}
+    c1c2_dict = {}
 
     t0 = time.time()
     for k in range(K, 0, -1):
         print()
 
         print(k)
+        print(local_C)
         T_k = tuple(tree_dict[k][0])
         d = tree_dict[k][1]
         T_a = tuple(tree_dict[k][2])
@@ -184,24 +203,35 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
         print(T_k, d, T_a, T_b)
 
         t5 = time.time()
-        colorSubsets = list(itertools.combinations(local_C, len(T_k)))
+        if len(T_k) in color_dict:
+            colorSubsets = color_dict[len(T_k)]
+        else:
+            colorSubsets = findSubsets(len(T_k), local_C, color_dict)
+
         t6 = time.time()
+
         # print(colorSubsets)
 
-        # print("Time to find color subsets:", t6-t5)
-
-        # print("Generating Color Subsets c1 and c2 Time:", t4-t3)
-        # print(colors)
                     
 
         
         for x in range(1, n + 1):
             for Cs in colorSubsets:
+                Cs_key = tuple(Cs)
+
                 # print(x)
                 t0 = time.time()
                 
                 # resultingSum is X(x, T_k, C) in paper
                 resultingSum = 0
+
+                if Cs_key in c1c2_dict:
+                    if len(T_b) in c1c2_dict[Cs_key]:
+                        c1c2Subset = c1c2_dict[Cs_key][len(T_b)]
+                else:
+                    c1c2Subset = findc1c2Subsets(len(T_b), Cs, c1c2_dict)
+
+                # print(c1c2Subset)
 
                 outerSum = 0
                 for y in range(1, n + 1):
@@ -212,16 +242,14 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
                     if (M[x - 1][y - 1] == 0):
                         continue
 
-                    c1c2Subset = list(itertools.combinations(Cs, len(T_b)))
 
                     for i in c1c2Subset:
                         innerSum = 0
 
                         # set subtraction
-                        c2 = set(i)
-                        c1 = set(Cs) - c2
+                        c1 = set(i)
+                        c2 = set(Cs) - c1
 
-                        # print(Cs, c1, c2)
 
                         if len(c1) < len(T_a) or len(c2) < len(T_b):
                             # print("SKIPPED")
@@ -240,12 +268,11 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
                     outerSum += innerSum
 
                 resultingSum = outerSum / d
-                Cs_key = tuple(sorted(Cs))
                 X_dict.setdefault(x, {}).setdefault(T_k, {})[
                     Cs_key] = resultingSum
 
-                t1 = time.time()
-                # print("X_loop_time:", t1-t0)
+            t1 = time.time()
+            # print("X_loop_time:", t1-t0)
     
     
 
@@ -368,7 +395,7 @@ if __name__ == '__main__':
     #      [0, 1, 0, 1, 0, 0, 0, 0, 0, 0]]
 
     A = generateErdosReyniGraph(1000,0.4).todense().tolist()
-    L = [0, 1, 2, 1, 2]
+    L = [0, 1, 2, 1]
     C = rand_assign(len(L)-1, len(A))
     trials = 1
     times = []
