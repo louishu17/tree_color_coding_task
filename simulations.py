@@ -7,7 +7,7 @@ import time
 import random
 
 from automorphisms import aut
-from get_x import getX, algorithm2
+from get_x import algorithmOne, algorithm2
 from tree_generation import generateFreeTrees
 
 import multiprocessing as mp
@@ -54,7 +54,14 @@ def simulation1(m, n, p, H):
 
     resMSum = 0
     for g in graphs:
+<<<<<<< HEAD
+        a = g.todense().tolist()
+        pool = mp.Pool(mp.cpu_count())
+        results = pool.starmap(algorithmOne, [(L, a, K, n) for i in range(t)])
+        pool.close()
+=======
         results = pool.starmap(getX, [(H, g, K, n) for i in range(t)])
+>>>>>>> df8935864df9a36aa742cf4bc46e9a39b827af6b
 
         resMSum += sum(results) / t
 
@@ -122,13 +129,6 @@ def run_Y_comp(n, p, s, K, Corr):
 
 def sim2(m, n, p, s, K):
     # runs simulation 2
-
-    if K > (math.log(n) / math.log(math.log(n))):
-        print('K too large')
-        return
-    if s * s <= 0.33833:
-        print('s too small')
-        return
     sum_corr = 0
     for i in range(m):
         sum_corr += run_Y_comp(n, p, s, K, True)
