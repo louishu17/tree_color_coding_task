@@ -166,7 +166,10 @@ def initialize_X(C, n):
 
     return X_dict
 
+    
 def X_func(X_dict, tree_dict, M, C, n, K, q):
+
+    local_C = set(C)
 
     t0 = time.time()
     for k in range(K, 0, -1):
@@ -178,14 +181,20 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
         T_a = tuple(tree_dict[k][2])
         T_b = tuple(tree_dict[k][3])
 
-        colorSubsets = set(itertools.combinations(C, len(T_k)))
+        # print(T_k, d, T_a, T_b)
 
+        t5 = time.time()
+        colorSubsets = list(itertools.combinations(local_C, len(T_k)))
+        t6 = time.time()
+        print(colorSubsets)
+
+        # print("Time to find color subsets:", t6-t5)
         colors = []
 
         t3 = time.time()
         for Cs in colorSubsets:
 
-                c1c2Subset = set(itertools.combinations(Cs, len(T_b)))
+                c1c2Subset = list(itertools.combinations(Cs, len(T_b)))
 
                 for i in c1c2Subset:
 
@@ -203,48 +212,49 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
 
         t4 = time.time()
 
-        print("Generating Color Subsets Time:", t4-t3)
+        # print("Generating Color Subsets c1 and c2 Time:", t4-t3)
         # print(colors)
                     
 
-
+        
         for x in range(1, n + 1):
-            print(x)
-            t0 = time.time()
-            
-            # resultingSum is X(x, T_k, C) in paper
-            resultingSum = 0
+            for Cs in colorSubsets:
+                # print(x)
+                t0 = time.time()
+                
+                # resultingSum is X(x, T_k, C) in paper
+                resultingSum = 0
 
-            outerSum = 0
-            for y in range(1, n + 1):
+                outerSum = 0
+                for y in range(1, n + 1):
 
-                if y == x:
-                    continue
-
-                if (M[x - 1][y - 1] == 0):
-                    continue
-
-                for c1_key, c2_key in colors:
-                    innerSum = 0
-
-                    # dividing C into C1 and C2 wher C1 are the colors in Tak and C2 are the colors in Tbk
-                    
-                    try:
-                        innerSum += (
-                                    X_dict[x][T_a][c1_key] * X_dict[y][T_b][
-                                c2_key] * M[x - 1][y - 1])
-                    except KeyError:
+                    if y == x:
                         continue
 
-                outerSum += innerSum
+                    if (M[x - 1][y - 1] == 0):
+                        continue
+
+                    for c1_key, c2_key in colors:
+                        innerSum = 0
+
+                        # dividing C into C1 and C2 wher C1 are the colors in Tak and C2 are the colors in Tbk
+                        
+                        try:
+                            innerSum += (
+                                        X_dict[x][T_a][c1_key] * X_dict[y][T_b][
+                                    c2_key] * M[x - 1][y - 1])
+                        except KeyError:
+                            continue
+
+                    outerSum += innerSum
 
                 resultingSum = outerSum / d
-                Cs_key = tuple(sorted(Cs))
+                Cs_key = tuple(Cs)
                 X_dict.setdefault(x, {}).setdefault(T_k, {})[
                     Cs_key] = resultingSum
 
-            t1 = time.time()
-            print("X_loop_time:", t1-t0)
+                t1 = time.time()
+                # print("X_loop_time:", t1-t0)
     
     
 
@@ -367,7 +377,7 @@ if __name__ == '__main__':
     #      [0, 1, 0, 1, 0, 0, 0, 0, 0, 0]]
 
     A = generateErdosReyniGraph(100,0.4).todense().tolist()
-    L = [0, 1, 2, 3, 1, 2]
+    L = [0, 1, 2, 1, 2]
     C = rand_assign(len(L)-1, len(A))
     trials = 1
     times = []
@@ -376,7 +386,7 @@ if __name__ == '__main__':
         a = algorithmOne(L, A, C)
         t1 = time.time()
         times.append(t1-t0)
-
+    print(a)
     print("Average Time:", sum(times)/len(times))
 
     
