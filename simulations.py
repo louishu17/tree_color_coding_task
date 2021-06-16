@@ -4,6 +4,7 @@ Created on 6/7/21
 """
 import math
 import time
+import random
 
 from automorphisms import aut
 from get_x import getX, algorithm2
@@ -16,14 +17,20 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 
-def generateErdosReyniGraphs(n, p, m):
-    result = []
-    for i in range(m):
-        G = nx.generators.random_graphs.gnp_random_graph(n, p)
-        A = nx.adjacency_matrix(G)
-        result.append(A)
-
-    return result
+def erd_ren(n, p):
+    # returns adjacency matrix for randomly created Erdos-Renyi graph
+    # edge included in graph with probability p
+    M = [[0 for j in range(n)] for i in range(n)]
+    for i in range(n):
+        for j in range(i + 1, n):
+            temp = random.random()
+            if temp < p:
+                temp = 1
+            else:
+                temp = 0
+            M[i][j] = temp
+            M[j][i] = temp
+    return M
 
 
 def calculateExpectedValueOne(r, n, K, p, L):
@@ -35,8 +42,8 @@ def simulation1():
     start = time.time()
 
     n = 100
-    p = 0.3
-    m = 1
+    p = 0.5
+    m = 3
 
     graphs = generateErdosReyniGraphs(n, p, m)
 
@@ -48,109 +55,96 @@ def simulation1():
 
     t = int(math.ceil(1 / (math.pow(r, 2))))
 
-    ev = calculateExpectedValueOne(r, n, K, p, L)
+    #ev = calculateExpectedValueOne(r, n, K, p, L)
+
+    pool = mp.Pool(mp.cpu_count())
 
     resMSum = 0
     for g in graphs:
         a = g.todense().tolist()
-        pool = mp.Pool(mp.cpu_count())
         results = pool.starmap(getX, [(L, a, K, n) for i in range(t)])
-        pool.close()
 
         resMSum += sum(results) / t
 
-    xH = resMSum / m
+    pool.close()
 
-    print("Ratio:", 1 - (ev / xH))
+    xH = resMSum / m
+    print(xH)
+
+    #print("Ratio:", 1 - (ev / xH))
     print(time.time() - start)
 
-
-def generateErdosReyniGraphEdges(n, p):
-    result = []
-    G = nx.generators.random_graphs.gnp_random_graph(n, p)
-    A = list(G.edges())
-    # print(A)
-    # nx.draw(G, with_labels = True)
-    # plt.show()
-    result.append(A)
-
-    return result
-
-
-def sEdgeSelection(edges, s):
-    ps = np.random.binomial(size=len(edges), n=1, p=s)
-    for i in range(len(edges) - 1, -1, -1):
-        if ps[i] == 0:
-            del edges[i]
-    print(edges)
-
-    return edges
-
-
-def edgesToAdjMatrix(edges, n):
-    adjacency_matrix = [[0 for x in range(n)] for y in range(n)]
-    if len(edges) != 0:
-        for i, j in edges[0]:
-            adjacency_matrix[i][j] = 1
-
-    return adjacency_matrix
-
+def corr_erd_ren(n, s, C):
+    # creates a correlated Erdos-Renyi random graph from a random graph C
+    M = [[0 for j in range(n)] for i in range(n)]
+    for i in range(n):
+        for j in range(i + 1, n):
+            if C[i][j] == 1:
+                temp = random.random()
+                if temp < s:
+                    temp = 1
+                else:
+                    temp = 0
+                M[i][j] = temp
+                M[j][i] = temp
+    return M
 
 def centerAdjMatrix(g, n, p, s):
-    for i in range(0, n):
-        for j in range(0, i):
+    for i in range(n):
+        for j in range(i):
             g[i][j] = g[i][j] - p * s
             g[j][i] = g[i][j]
 
     return g
 
 def calculateExpectedValueTwo(r, n, p, s, K, sizeT):
-    return 0.5 * pow(r, 2) * ((math.factorial(n) * pow(
-        (p * pow(s, 2) * (1 - p)), K)) / math.factorial(n - K - 1)) * sizeT
+    return 0.5 * r * r * ((math.factorial(n) * math.pow(
+        (p * s * s * (1 - p)), K)) / math.factorial(n - K - 1)) * sizeT
 
-def simulation2():
+def run_Y_comp(n, p, s, K, Corr):
+    # run one time, get Y and compare
+    # Corr is True when graphs are correlated, False when independent
 
-    n = 10
-    p = 0.3
-    m = 2
-    s = 0.75
+    r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
+    T = generateFreeTrees(K)
 
-    K = 7
+    if Corr:
+        C = erd_ren(n, p)
+        A = corr_erd_ren(n, s, C)
+        B = corr_erd_ren(n, s, C)
+    else:
+        A = erd_ren(n, p * s)
+        B = erd_ren(n, p * s)
 
-    freeTrees = generateFreeTrees(K)
+    A_center = centerAdjMatrix(A, n, p, s)
+    B_center = centerAdjMatrix(B, n, p, s)
+    Y_corr = algorithm2(T, A_center, B_center, K)
+    exp_corr = calculateExpectedValueTwo(r, n, p, s, K, len(T))
+    print('rec_Y', Y_corr)
+    print('exp_Y', exp_corr)
+    if Y_corr >= exp_corr:
+        return 1
+    else:
+        return 0
 
-    r = math.factorial(K+1) / pow(K+1, K+1)
-
-    t = math.ceil(1/pow(r,2))
-
-    ev = calculateExpectedValueTwo(r, n, p, s, K, len(freeTrees))
-
+def sim2(m, n, p, s, K):
+    if K > (math.log(n) / math.log(math.log(n))):
+        print('K too large')
+        return
+    if s * s <= 0.33833:
+        print('s too small')
+        return
+    sum_corr = 0
     for i in range(m):
-        edgesA = generateErdosReyniGraphEdges(n, p)
-        edgesB = generateErdosReyniGraphEdges(n, p)
-
-        sEdgesA = sEdgeSelection(edgesA, s)
-        sEdgesB = sEdgeSelection(edgesB, s)
-
-        graphA = edgesToAdjMatrix(sEdgesA, n)
-        graphB = edgesToAdjMatrix(sEdgesB, n)
-
-        centeredGraphA = centerAdjMatrix(graphA, n, p, s)
-        centeredGraphB = centerAdjMatrix(graphB, n, p, s)
-
-
-
-
-        pool = mp.Pool(mp.cpu_count())
-        results = pool.starmap(algorithm2, [(freeTrees, centeredGraphA, centeredGraphB, K) for i in range(t)])
-        pool.close()
-        resY = sum(results) / t
-        print(resY)
-
-        if resY >= ev:
-            print(1)
-        else:
-            print(0)
+        sum_corr += run_Y_comp(n, p, s, K, True)
+    sum_ind = 0
+    for i in range(m):
+        sum_ind += run_Y_comp(n, p, s, K, False)
+    sum_corr = sum_corr / m
+    sum_ind = sum_ind / m
+    return [sum_corr, sum_ind]
 
 if __name__ == '__main__':
-    simulation1()
+
+    start = time.time()
+    print(sim2(20, 99, 0.5, 0.7, 3))

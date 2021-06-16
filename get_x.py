@@ -204,7 +204,7 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
                         # print(Cs, c1, c2)
 
                         if len(c1) < len(T_a) or len(c2) < len(T_b):
-                            # print("SKIPPED")
+                            #print("SKIPPED")
                             continue
 
                         c2_key = i
@@ -298,6 +298,6 @@ def algorithm2(freeTrees, A, B, K):
     n = len(A)
     CA = rand_assign(K, n)
     CB = rand_assign(K, n)
-    for keys, values in freeTrees.items():
-        sumX += (values * algorithmOne(keys, A, CA) * algorithm2(keys, B, CB))
+    for key, values in freeTrees.items():
+        sumX += values * algorithmOne(key, A, CA) * algorithmOne(key, B, CB)
     return sumX
