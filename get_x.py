@@ -170,9 +170,9 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
 
     t0 = time.time()
     for k in range(K, 0, -1):
-        print()
+        #print()
 
-        print(k)
+        #print(k)
         T_k = tuple(tree_dict[k][0])
         d = tree_dict[k][1]
         T_a = tuple(tree_dict[k][2])
@@ -203,13 +203,13 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
 
         t4 = time.time()
 
-        print("Generating Color Subsets Time:", t4-t3)
+        #print("Generating Color Subsets Time:", t4-t3)
         # print(colors)
                     
 
 
         for x in range(1, n + 1):
-            print(x)
+            #print(x)
             t0 = time.time()
             
             # resultingSum is X(x, T_k, C) in paper
@@ -244,7 +244,7 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
                     Cs_key] = resultingSum
 
             t1 = time.time()
-            print("X_loop_time:", t1-t0)
+            #print("X_loop_time:", t1-t0)
     
     
 
@@ -293,14 +293,14 @@ def algorithmOne(tree, M, C):
     X_dict = initialize_X(C, n)
 
     t1 = time.time()
-    print("Time Of Initialization:", t1-t0)
+    #print("Time Of Initialization:", t1-t0)
 
     # for keys, values in X_dict.items():
     #      print(keys, values)
 
     tree_dict = get_Trees(tree, edges)
     t2 = time.time()
-    print("Time of generating trees:", t2-t1)
+    #print("Time of generating trees:", t2-t1)
 
     # for keys, values in tree_dict.items():
     #      print(keys, values)
@@ -309,7 +309,7 @@ def algorithmOne(tree, M, C):
     q = check_equality(tree)
     t3 = time.time()
 
-    print("Time of check equality:", t3-t2)
+    #print("Time of check equality:", t3-t2)
 
 
     # print("q", q)
@@ -317,7 +317,7 @@ def algorithmOne(tree, M, C):
     finalSum = X_func(X_dict, tree_dict, M, C, n, K, q)
     t4 = time.time()
 
-    print("Time of X_function:", t4-t3)
+    #print("Time of X_function:", t4-t3)
 
     return finalSum
 
