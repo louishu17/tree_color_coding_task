@@ -7,6 +7,11 @@ import random
 
 import multiprocessing as mp
 import time
+import math
+from tree_generation import generateFreeTrees
+import networkx as nx
+import pprint
+
 
 
 
@@ -39,7 +44,6 @@ def get_edges(tree):
 """
 This method calcualtes the d for T_k
 """
-
 
 def get_overcounting(tree):
     pieceset = set()
@@ -75,7 +79,6 @@ def get_overcounting(tree):
 Splitting tree into Tak and Tbk
 """
 
-
 def split_Trees(tree):
     first_1_ind = tree.index(1)
 
@@ -102,7 +105,6 @@ def split_Trees(tree):
 Randomly Assigning colors (1, ..., K+1) to nodes 0 to n-1 inclusive nodes in G
 """
 
-
 def rand_assign(K, n):
     all_colors = range(1, K + 2)
     colors = []
@@ -114,7 +116,6 @@ def rand_assign(K, n):
 """
 Generates a dictionary storing K,...,1 as keys, and T_k as the first value, d(T_k, V_k) as second value, and T_ak, and T_bk as 3rd and 4th value
 """
-
 
 def get_Trees(tree_level, edges):
     # Edges list is indexed from 0, so edges[0] = edge 1
@@ -154,7 +155,6 @@ def get_Trees(tree_level, edges):
 initializes all the X(x, T_0, c(x)), C is 0 indexed, however X_dict is 1 indexed
 """
 
-
 def initialize_X(C, n):
     X_dict = {}
 
@@ -167,8 +167,12 @@ def initialize_X(C, n):
     return X_dict
 
 def X_func(X_dict, tree_dict, M, C, n, K, q):
-    for k in range(K, 0, -1):
 
+    t0 = time.time()
+    for k in range(K, 0, -1):
+        print()
+
+        print(k)
         T_k = tuple(tree_dict[k][0])
         d = tree_dict[k][1]
         T_a = tuple(tree_dict[k][2])
@@ -176,57 +180,77 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
 
         colorSubsets = set(itertools.combinations(C, len(T_k)))
 
+        colors = []
+
+        t3 = time.time()
+        for Cs in colorSubsets:
+
+                c1c2Subset = set(itertools.combinations(Cs, len(T_b)))
+
+                for i in c1c2Subset:
+
+                    # set subtraction
+                    c2 = set(i)
+                    c1 = set(Cs) - c2
+
+                    # print(Cs, c1, c2)
+
+                    if len(c1) < len(T_a) or len(c2) < len(T_b):
+                        # print("SKIPPED")
+                        continue
+
+                    colors.append((tuple(c1),tuple(c2)))
+
+        t4 = time.time()
+
+        print("Generating Color Subsets Time:", t4-t3)
+        # print(colors)
+                    
+
+
         for x in range(1, n + 1):
-            for Cs in colorSubsets:
-                # resultingSum is X(x, T_k, C)
-                resultingSum = 0
+            print(x)
+            t0 = time.time()
+            
+            # resultingSum is X(x, T_k, C) in paper
+            resultingSum = 0
 
-                outerSum = 0
-                for y in range(1, n + 1):
+            outerSum = 0
+            for y in range(1, n + 1):
 
-                    if y == x:
-                        continue
+                if y == x:
+                    continue
 
-                    if (M[x - 1][y - 1] == 0):
-                        continue
+                if (M[x - 1][y - 1] == 0):
+                    continue
 
+                for c1_key, c2_key in colors:
                     innerSum = 0
 
                     # dividing C into C1 and C2 wher C1 are the colors in Tak and C2 are the colors in Tbk
-                    c1c2Subset = set(itertools.combinations(Cs, len(T_b)))
-                    # print("C1c2 subset:", c1c2Subset)
-                    for i in c1c2Subset:
+                    
+                    try:
+                        innerSum += (
+                                    X_dict[x][T_a][c1_key] * X_dict[y][T_b][
+                                c2_key] * M[x - 1][y - 1])
+                    except KeyError:
+                        continue
 
-                        # tupple subtraction
-                        c2 = set(i)
-                        c1 = set(Cs) - c2
-
-                        # print(Cs, c1, c2)
-
-                        if len(c1) < len(T_a) or len(c2) < len(T_b):
-                            # print("SKIPPED")
-                            continue
-
-                        c2_key = i
-                        c1_key = tuple(c1)
-
-                        try:
-                            innerSum += (
-                                        X_dict[x][T_a][c1_key] * X_dict[y][T_b][
-                                    c2_key] * M[x - 1][y - 1])
-                        except KeyError:
-                            continue
-
-                    outerSum += innerSum
+                outerSum += innerSum
 
                 resultingSum = outerSum / d
                 Cs_key = tuple(sorted(Cs))
                 X_dict.setdefault(x, {}).setdefault(T_k, {})[
                     Cs_key] = resultingSum
 
-    # for keys, values in X_dict.items():
-    #      print(keys, values)
+            t1 = time.time()
+            print("X_loop_time:", t1-t0)
+    
+    
 
+    # pprint.pprint(X_dict)
+
+    #XMH calculation
     finalSum = 0
     finalTreeKey = tuple(tree_dict[1][0])
     finalColorKey = tuple(list(range(1, K + 2)))
@@ -235,14 +259,14 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
             finalSum += X_dict[x][finalTreeKey][finalColorKey]
         except:
             continue
-
+    
+    t1 = time.time()
     return finalSum / q
 
 
 """
 This method returns q
 """
-
 
 def check_equality(tree):
     if tree.count(1) < 2:
@@ -266,31 +290,37 @@ def algorithmOne(tree, M, C):
     finalSum = 0
 
     # print(C)
-
     X_dict = initialize_X(C, n)
+
+    t1 = time.time()
+    print("Time Of Initialization:", t1-t0)
 
     # for keys, values in X_dict.items():
     #      print(keys, values)
 
     tree_dict = get_Trees(tree, edges)
+    t2 = time.time()
+    print("Time of generating trees:", t2-t1)
 
     # for keys, values in tree_dict.items():
     #      print(keys, values)
 
+
     q = check_equality(tree)
+    t3 = time.time()
+
+    print("Time of check equality:", t3-t2)
+
 
     # print("q", q)
 
     finalSum = X_func(X_dict, tree_dict, M, C, n, K, q)
+    t4 = time.time()
 
-    t1 = time.time()
-    # print("Time:", t1-t0)
+    print("Time of X_function:", t4-t3)
+
     return finalSum
 
-
-def getX(H, g, K, n):
-    C = rand_assign(K, n)
-    return algorithmOne(H, g, C)
 
 
 def algorithm2(freeTrees, A, B, K):
@@ -299,5 +329,79 @@ def algorithm2(freeTrees, A, B, K):
     CA = rand_assign(K, n)
     CB = rand_assign(K, n)
     for keys, values in freeTrees.items():
-        sumX += (values * algorithmOne(keys, A, CA) * algorithm2(keys, B, CB))
+        sumX += (values * algorithmOne(keys, A, CA) * algorithmOne(keys, B, CB))
     return sumX
+
+
+def generateErdosReyniGraph(n, p):
+
+    G = nx.generators.random_graphs.gnp_random_graph(n, p)
+    A = nx.adjacency_matrix(G)
+    return A
+
+
+
+if __name__ == '__main__':
+
+
+    # A = [[0, 1, 0, 1, 1, 0, 1, 0, 0, 0],
+    #      [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    #      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #      [1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    #      [1, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+    #      [0, 0, 0, 1, 1, 0, 0, 0, 1, 0],
+    #      [1, 0, 0, 0, 1, 0, 0, 1, 1, 0],
+    #      [0, 0, 0, 0, 1, 0, 1, 0, 1, 0],
+    #      [0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+    #      [0, 1, 0, 1, 0, 0, 0, 0, 0, 0]]
+    
+    # B = [[0, 1, 0, 1, 1, 0, 1, 0, 0, 0],
+    #      [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    #      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #      [1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    #      [1, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+    #      [0, 0, 0, 1, 1, 0, 0, 0, 1, 0],
+    #      [1, 0, 0, 0, 1, 0, 0, 1, 0, 0],
+    #      [0, 0, 0, 0, 1, 0, 1, 0, 0, 0],
+    #      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    #      [0, 1, 0, 1, 0, 0, 0, 0, 0, 0]]
+
+    A = generateErdosReyniGraph(100,0.4).todense().tolist()
+    L = [0, 1, 2, 3, 1, 2]
+    C = rand_assign(len(L)-1, len(A))
+    trials = 1
+    times = []
+    for i in range(trials):
+        t0 = time.time()
+        a = algorithmOne(L, A, C)
+        t1 = time.time()
+        times.append(t1-t0)
+
+    print("Average Time:", sum(times)/len(times))
+
+    
+
+    # K = 4
+
+    # #constant time
+    # freeTrees = generateFreeTrees(K)
+
+
+    # r = math.factorial(K+1) / pow(K+1, K+1)
+
+    # t = math.ceil(1/pow(r,2))
+
+
+    # pool = mp.Pool(mp.cpu_count())
+    # results = pool.starmap(algorithm2, [(freeTrees, A, B, K) for i in range(t)])
+    # pool.close()
+    # # ressum = 0
+    # # for i in range(t):
+    # #     ressum += algorithm2(freeTrees, A, B, K)
+
+    # resY = sum(results) / t
+    # t1 = time.time() 
+    # print(resY)
+    # print("Time:", t1-t0)
+
+

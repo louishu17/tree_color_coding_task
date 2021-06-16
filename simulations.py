@@ -6,7 +6,7 @@ import math
 import time
 
 from automorphisms import aut
-from get_x import getX, algorithm2
+from get_x import algorithmOne, algorithm2
 from tree_generation import generateFreeTrees
 
 import multiprocessing as mp
@@ -54,7 +54,7 @@ def simulation1():
     for g in graphs:
         a = g.todense().tolist()
         pool = mp.Pool(mp.cpu_count())
-        results = pool.starmap(getX, [(L, a, K, n) for i in range(t)])
+        results = pool.starmap(algorithmOne, [(L, a, K, n) for i in range(t)])
         pool.close()
 
         resMSum += sum(results) / t
