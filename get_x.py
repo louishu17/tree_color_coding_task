@@ -181,36 +181,14 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
         T_a = tuple(tree_dict[k][2])
         T_b = tuple(tree_dict[k][3])
 
-        # print(T_k, d, T_a, T_b)
+        print(T_k, d, T_a, T_b)
 
         t5 = time.time()
         colorSubsets = list(itertools.combinations(local_C, len(T_k)))
         t6 = time.time()
-        print(colorSubsets)
+        # print(colorSubsets)
 
         # print("Time to find color subsets:", t6-t5)
-        colors = []
-
-        t3 = time.time()
-        for Cs in colorSubsets:
-
-                c1c2Subset = list(itertools.combinations(Cs, len(T_b)))
-
-                for i in c1c2Subset:
-
-                    # set subtraction
-                    c2 = set(i)
-                    c1 = set(Cs) - c2
-
-                    # print(Cs, c1, c2)
-
-                    if len(c1) < len(T_a) or len(c2) < len(T_b):
-                        # print("SKIPPED")
-                        continue
-
-                    colors.append((tuple(c1),tuple(c2)))
-
-        t4 = time.time()
 
         # print("Generating Color Subsets c1 and c2 Time:", t4-t3)
         # print(colors)
@@ -234,22 +212,35 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
                     if (M[x - 1][y - 1] == 0):
                         continue
 
-                    for c1_key, c2_key in colors:
+                    c1c2Subset = list(itertools.combinations(Cs, len(T_b)))
+
+                    for i in c1c2Subset:
                         innerSum = 0
 
+                        # set subtraction
+                        c2 = set(i)
+                        c1 = set(Cs) - c2
+
+                        # print(Cs, c1, c2)
+
+                        if len(c1) < len(T_a) or len(c2) < len(T_b):
+                            # print("SKIPPED")
+                            continue
+
                         # dividing C into C1 and C2 wher C1 are the colors in Tak and C2 are the colors in Tbk
-                        
+                        c1_key = tuple(c1)
+                        c2_key = tuple(c2)
+                            
                         try:
                             innerSum += (
-                                        X_dict[x][T_a][c1_key] * X_dict[y][T_b][
-                                    c2_key] * M[x - 1][y - 1])
+                                X_dict[x][T_a][c1_key] * X_dict[y][T_b][c2_key] * M[x - 1][y - 1])
                         except KeyError:
                             continue
 
                     outerSum += innerSum
 
                 resultingSum = outerSum / d
-                Cs_key = tuple(Cs)
+                Cs_key = tuple(sorted(Cs))
                 X_dict.setdefault(x, {}).setdefault(T_k, {})[
                     Cs_key] = resultingSum
 
@@ -376,7 +367,7 @@ if __name__ == '__main__':
     #      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
     #      [0, 1, 0, 1, 0, 0, 0, 0, 0, 0]]
 
-    A = generateErdosReyniGraph(100,0.4).todense().tolist()
+    A = generateErdosReyniGraph(1000,0.4).todense().tolist()
     L = [0, 1, 2, 1, 2]
     C = rand_assign(len(L)-1, len(A))
     trials = 1
