@@ -122,13 +122,6 @@ def run_Y_comp(n, p, s, K, Corr):
 
 def sim2(m, n, p, s, K):
     # runs simulation 2
-
-    if K > (math.log(n) / math.log(math.log(n))):
-        print('K too large')
-        return
-    if s * s <= 0.33833:
-        print('s too small')
-        return
     sum_corr = 0
     for i in range(m):
         sum_corr += run_Y_comp(n, p, s, K, True)
