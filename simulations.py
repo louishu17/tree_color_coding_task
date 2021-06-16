@@ -7,7 +7,7 @@ import time
 import random
 
 from automorphisms import aut
-from get_x import algorithmOne, algorithm2
+from get_x import algorithmOne, algorithm2, rand_assign
 from tree_generation import generateFreeTrees
 
 import multiprocessing as mp
@@ -54,14 +54,8 @@ def simulation1(m, n, p, H):
 
     resMSum = 0
     for g in graphs:
-<<<<<<< HEAD
-        a = g.todense().tolist()
-        pool = mp.Pool(mp.cpu_count())
-        results = pool.starmap(algorithmOne, [(L, a, K, n) for i in range(t)])
-        pool.close()
-=======
-        results = pool.starmap(getX, [(H, g, K, n) for i in range(t)])
->>>>>>> df8935864df9a36aa742cf4bc46e9a39b827af6b
+        color_nodes = pool.starmap(rand_assign, [(K, n) for i in range(t)])
+        results = pool.starmap(algorithmOne, [(H, g, C) for C in color_nodes])
 
         resMSum += sum(results) / t
 
