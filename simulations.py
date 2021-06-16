@@ -29,34 +29,32 @@ def erd_ren(n, p):
     return M
 
 
-def calculateExpectedValueOne(r, n, K, p, L):
-    return r * ((math.factorial(n)) / (
-                math.factorial(n - K - 1) * aut(L))) * pow(p, K)
+def calculateExpectedValueOne(m, n, p, H):
+    # returns expected value based on r, n, K, p, H
+    r = math.factorial(len(H)) / math.pow(len(H), len(H))
+    exp_val = math.factorial(n) / math.factorial(n - len(H))
+    exp_val = exp_val * math.pow(p, len(H) - 1) * r / aut(H)
+    return exp_val
 
 
-def simulation1():
+def simulation1(m, n, p, H):
+    # runs simulation 1
     start = time.time()
 
-    n = 100
-    p = 0.5
-    m = 3
-
-    L = [0, 1, 1]
-
-    K = len(L) - 1
+    K = len(H) - 1
 
     r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
 
     t = int(math.ceil(1 / (math.pow(r, 2))))
 
-    ev = calculateExpectedValueOne(r, n, K, p, L)
+    ev = calculateExpectedValueOne(r, n, K, p, H)
 
     pool = mp.Pool(mp.cpu_count())
     graphs = pool.starmap(erd_ren, [(n, p) for i in range(m)])
 
     resMSum = 0
     for g in graphs:
-        results = pool.starmap(getX, [(L, g, K, n) for i in range(t)])
+        results = pool.starmap(getX, [(H, g, K, n) for i in range(t)])
 
         resMSum += sum(results) / t
 
@@ -67,6 +65,8 @@ def simulation1():
 
     print("Ratio:", 1 - (ev / xH))
     print(time.time() - start)
+
+    return xH
 
 def corr_erd_ren(n, s, C):
     # creates a correlated Erdos-Renyi random graph from a random graph C
@@ -81,6 +81,7 @@ def corr_erd_ren(n, s, C):
     return M
 
 def centerAdjMatrix(g, n, p, s):
+    # centers adjacency matrix
     for i in range(n):
         for j in range(i):
             g[i][j] = g[i][j] - p * s
@@ -89,6 +90,7 @@ def centerAdjMatrix(g, n, p, s):
     return g
 
 def calculateExpectedValueTwo(r, n, p, s, K, sizeT):
+    # calculates expected value of simulation 2
     return 0.5 * r * r * ((math.factorial(n) * math.pow(
         (p * s * s * (1 - p)), K)) / math.factorial(n - K - 1)) * sizeT
 
@@ -119,6 +121,8 @@ def run_Y_comp(n, p, s, K, Corr):
         return 0
 
 def sim2(m, n, p, s, K):
+    # runs simulation 2
+
     if K > (math.log(n) / math.log(math.log(n))):
         print('K too large')
         return
@@ -139,6 +143,9 @@ if __name__ == '__main__':
 
     start = time.time()
 
-    print(sim2(20, 99, 0.5, 0.7, 3))
+    # args = [3, 100, 0.5, [0, 1, 1]]
+    # print(simulation1(*args))
+
+    print(sim2(100, 99, 0.5, 0.7, 3))
 
     print(time.time() - start)

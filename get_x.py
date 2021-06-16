@@ -292,12 +292,17 @@ def getX(H, g, K, n):
     C = rand_assign(K, n)
     return algorithmOne(H, g, C)
 
+def get_sum_alg2(key, value, A, CA, B, CB):
+    return value * algorithmOne(key, A, CA) * algorithmOne(key, B, CB)
 
 def algorithm2(freeTrees, A, B, K):
     sumX = 0
     n = len(A)
     CA = rand_assign(K, n)
     CB = rand_assign(K, n)
-    for key, values in freeTrees.items():
-        sumX += values * algorithmOne(key, A, CA) * algorithmOne(key, B, CB)
+    pool = mp.Pool(mp.cpu_count())
+    allX = pool.starmap(get_sum_alg2, [(key, value, A, CA, B, CB) for key,
+                                value in freeTrees.items()])
+    pool.close()
+    sumX = sum(allX)
     return sumX
