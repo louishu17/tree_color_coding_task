@@ -133,6 +133,21 @@ def sim2(m, n, p, s, K):
     sum_ind = sum_ind / m
     return [sum_corr, sum_ind]
 
+def kTiming(N,maxK):
+    #function to test algo1 timings
+    g = erd_ren(n,.4)
+    timings = [[],[]]
+    for x in range(1, maxK + 1):
+        h = center_tree(x)
+        c = rand_assign(x,n)
+        start = time.time()
+        algorithmOne(h,g,c)
+        end = time.time()
+        timings[0].append(x)
+        timings[1].append(end-start)
+    return timings
+
+
 if __name__ == '__main__':
 
     start = time.time()
