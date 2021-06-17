@@ -8,7 +8,7 @@ import random
 
 from automorphisms import aut
 from get_x import algorithmOne, algorithm2, rand_assign
-from tree_generation import generateFreeTrees
+from tree_generation import generateFreeTrees, center_tree
 
 import multiprocessing as mp
 from networkx.linalg.graphmatrix import adjacency_matrix
@@ -135,27 +135,28 @@ def sim2(m, n, p, s, K):
 
 def kTiming(N,maxK):
     #function to test algo1 timings
-    g = erd_ren(n,.4)
+    g = erd_ren(N,.4)
     timings = [[],[]]
     for x in range(1, maxK + 1):
-        time = 0
-        h = center_tree(x)
-        c = rand_assign(x,n)
+        h = center_tree(x + 1)
+        c = rand_assign(x,N)
         start = time.time()
         algorithmOne(h,g,c)
         end = time.time()
         timings[0].append(x)
         timings[1].append(end-start)
+        print(timings)
     return timings
 
 
 if __name__ == '__main__':
 
-    start = time.time()
+    #start = time.time()
 
-    args = [3, 100, 0.5, [0, 1, 1]]
-    print(simulation1(*args))
+    #args = [3, 100, 0.5, [0, 1, 1]]
+    #print(simulation1(*args))
 
     #print(sim2(100, 99, 0.5, 0.7, 3))
 
-    print(time.time() - start)
+    #print(time.time() - start)
+    kTiming(100,15)
