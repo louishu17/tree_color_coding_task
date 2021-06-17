@@ -268,11 +268,6 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
                         # print()
 
 
-
-                        if len(c1) < len(T_a) or len(c2) < len(T_b):
-                            # print("SKIPPED")
-                            continue
-
                         # dividing C into C1 and C2 wher C1 are the colors in Tak and C2 are the colors in Tbk
                         c1_key = tuple(c1)
                         c2_key = tuple(c2)
@@ -297,7 +292,7 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
     
     
 
-    pprint.pprint(X_dict)
+    # pprint.pprint(X_dict)
 
     #XMH calculation
     finalSum = 0
