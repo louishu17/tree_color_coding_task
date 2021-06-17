@@ -21,7 +21,7 @@ def erd_ren(n, p):
     # edge included in graph with probability p
     M = np.zeros((n, n))
     for i in range(n):
-        for j in range(i + 1, n):
+        for j in range(i):
             temp = random.random()
             if temp < p:
                 M[i][j] = 1
@@ -32,8 +32,8 @@ def erd_ren(n, p):
 def calculateExpectedValueOne(m, n, p, H):
     # returns expected value based on r, n, K, p, H
     r = math.factorial(len(H)) / math.pow(len(H), len(H))
-    exp_val = math.factorial(n) / math.factorial(n - len(H))
-    exp_val = exp_val * math.pow(p, len(H) - 1) * r / aut(H)
+    exp_val = r * math.factorial(n) / math.factorial(n - len(H)) * math.pow(
+        p, len(H) - 1) / aut(H)
     return exp_val
 
 
@@ -73,7 +73,7 @@ def corr_erd_ren(n, s, C):
     # creates a correlated Erdos-Renyi random graph from a random graph C
     M = np.zeros((n, n))
     for i in range(n):
-        for j in range(i + 1, n):
+        for j in range(i):
             if C[i][j] == 1:
                 temp = random.random()
                 if temp < s:
