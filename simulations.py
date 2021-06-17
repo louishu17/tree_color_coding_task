@@ -16,6 +16,8 @@ import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 
+from get_x import XMH
+
 def erd_ren(n, p):
     # returns adjacency matrix for randomly created Erdos-Renyi graph
     # edge included in graph with probability p
@@ -49,13 +51,15 @@ def simulation1(m, n, p, H):
 
     ev = calculateExpectedValueOne(m, n, p, H)
 
-    pool = mp.Pool(mp.cpu_count())
+    #pool = mp.Pool(mp.cpu_count())
+    pool = mp.Pool(1)
+
     graphs = pool.starmap(erd_ren, [(n, p) for i in range(m)])
 
     resMSum = 0
     for g in graphs:
         color_nodes = pool.starmap(rand_assign, [(K, n) for i in range(t)])
-        results = pool.starmap(algorithmOne, [(H, g, C) for C in color_nodes])
+        results = pool.starmap(XMH, [(H, g, C) for C in color_nodes])
 
         resMSum += sum(results) / t
 

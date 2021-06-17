@@ -163,14 +163,15 @@ def get_Trees(tree_level, edges):
 initializes all the X(x, T_0, c(x)), C is 0 indexed, however X_dict is 1 indexed
 """
 
-def initialize_X(C, n):
+def initialize_X(colors, C, n):
     X_dict = {}
 
     for i in range(1, n + 1):
         zero_key = tuple([0])
+        for j in colors:
+            X_dict.setdefault(i, {}).setdefault(zero_key, {})[tuple([j])] = 0
         color_key = tuple([C[i - 1]])
-
-        X_dict.setdefault(i, {}).setdefault(zero_key, {})[color_key] = 1
+        X_dict[i][zero_key][color_key] = 1
 
     return X_dict
 
@@ -187,6 +188,118 @@ def findSubsets(k, C, color_dict):
 #     colorCombos = list(itertools.combinations(Cs, k))
 #     c1c2_dict[cs_key][k] = colorCombos
 #     return colorCombos
+
+def X_func_sm(X_dict, T_k, T_a, T_b, d, M, x, C, n, last):
+    #print('CALL')
+    C1s = list(itertools.combinations(C, len(T_a)))
+    C2s = [sorted(set(C) - set(i)) for i in C1s]
+    num_C_splits = len(C1s)
+    sum = 0
+    """
+    if last:
+        print(T_k, T_a, T_b)
+        print(C1s)
+        print(C2s)
+        print(C)
+        print(X_dict[x][T_a])
+        print(X_dict[x][T_b])
+    """
+    for y in range(1, n + 1):
+        for i in range(num_C_splits):
+            #print(x, T_a, tuple(C1s[i]))
+            #print('ye', y, T_b, tuple(C2s[i]))
+            #print(T_k)
+            try:
+                x1 = X_dict[x][T_a][tuple(C1s[i])]
+            except KeyError:
+                print('x1', x, T_a, tuple(C1s[i]))
+                print(X_dict[x])
+                print(X_dict[x][T_a])
+                exit()
+            try:
+                x2 = X_dict[y][T_b][tuple(C2s[i])]
+            except KeyError:
+                print('x2', y, T_b, tuple(C2s[i]))
+                exit()
+            sum += x1 * x2 * M[x - 1][y - 1]
+    sum = sum / d
+    #print('lol',x, T_k, tuple(C))
+    X_dict.setdefault(x, {}).setdefault(T_k, {})[tuple(C)] = sum
+
+    return [X_dict, sum]
+
+
+def XMH(tree, M, C):
+    print('LOOK', tree, C)
+    print(M)
+    t0 = time.time()
+    edges = get_edges(tree)
+
+    K = len(edges)
+    n = len(M)
+
+    finalSum = 0
+
+    colors = range(1, len(tree) + 1)
+
+    # print(C)
+    X_dict = initialize_X(colors, C, n)
+
+    t1 = time.time()
+    #print("Time Of Initialization:", t1-t0)
+
+    # for keys, values in X_dict.items():
+    #      print(keys, values)
+
+    tree_dict = get_Trees(tree, edges)
+    t2 = time.time()
+    #print("Time of generating trees:", t2-t1)
+
+    # for keys, values in tree_dict.items():
+    #      print(keys, values)
+
+
+    q = check_equality(tree)
+    t3 = time.time()
+
+    #print("Time of check equality:", t3-t2)
+
+
+    # print("q", q)
+
+    allC = {}
+    for key in tree_dict.keys():
+        allC[key] = [i for i in itertools.combinations(colors, len(tree_dict[
+            key][0]))]
+
+    XMH = 0
+    for k in range(K, 1, -1):
+        for x in range(1, n + 1):
+            T_k = tuple(tree_dict[k][0])
+            d = tree_dict[k][1]
+            T_a = tuple(tree_dict[k][2])
+            T_b = tuple(tree_dict[k][3])
+            for C_sm in allC[k]:
+                res = X_func_sm(X_dict, T_k, T_a, T_b, d, M, x, C_sm, n, False)
+                X_dict = res[0]
+
+    ind_1 = tree.index(1)
+    m = tree.index(1, ind_1 + 1)
+    L1 = [tree[i] - 1 for i in range(1, m)]
+    L2 = [tree[i] for i in range(m, K + 1)]
+    L2.insert(0, tree[0])
+    L1_t = tuple(L1)
+    L2_t = tuple(L2)
+    for x in range(1, n + 1):
+        XMH += X_func_sm(X_dict, tuple(tree), L2_t, L1_t, d, M, x, colors, n,
+                         True)[1]
+
+    t4 = time.time()
+
+    #print("Time of X_function:", t4-t3)
+
+    return XMH / q
+
     
 def X_func(X_dict, tree_dict, M, C, n, K, q):
 
@@ -415,14 +528,38 @@ if __name__ == '__main__':
     #      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
     #      [0, 1, 0, 1, 0, 0, 0, 0, 0, 0]]
 
+
     A = erd_ren(100,1).tolist()
     L = [0, 1, 2, 3, 1, 2, 3]
     C = rand_assign(len(L)-1, len(A))
+
+    L = [0, 1, 1]
+    C = [1, 1, 1, 1, 1, 2, 3, 1, 1, 3]
+    C = [1, 3, 3, 3, 1, 2, 2, 1, 1, 2]
+    C = [2, 2, 3, 2, 3, 3, 3, 2, 3, 3]
+
+    M = [[0, 1, 1, 0, 1, 1, 0, 0, 0, 0],
+         [1, 0, 1, 1, 1, 1, 0, 0, 1, 0],
+         [1, 1, 0, 0, 0, 0, 1, 0, 1, 1],
+         [0, 1, 0, 0, 1, 0, 1, 0, 1, 0],
+         [1, 1, 0, 1, 0, 0, 0, 0, 1, 1],
+         [1, 1, 0, 0, 0, 0, 1, 1, 0, 0],
+         [0, 0, 1, 1, 0, 1, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 1, 0, 0, 1, 0],
+         [0, 1, 1, 1, 1, 0, 0, 1, 0, 0],
+         [0, 0, 1, 0, 1, 0, 0, 0, 0, 0]]
+
+
+
+
+
+    A = erd_ren(len(C), 0.5)
+
     trials = 1
     times = []
     for i in range(trials):
         t0 = time.time()
-        a = algorithmOne(L, A, C)
+        a = XMH(L, A, C)
         t1 = time.time()
         times.append(t1-t0)
     print(a)

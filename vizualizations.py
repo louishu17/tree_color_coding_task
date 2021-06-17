@@ -33,8 +33,8 @@ def sim1_many():
             temp_lst.append(err)
 
             df.loc[len(df), :] = temp_lst
-    except Exception as e:
-        print(e)
+    except OverflowError:
+        print('OverflowError: int too large to convert to float')
     df.to_csv('out.csv', index=True, header=True)
 
 if __name__ == '__main__':
