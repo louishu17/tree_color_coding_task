@@ -11,6 +11,7 @@ import math
 from tree_generation import generateFreeTrees
 import networkx as nx
 import matplotlib.pyplot as plt
+import numpy as np
 import pprint
 
 
@@ -258,19 +259,14 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
                         innerSum = 0
 
                         # set subtraction
-                        c1 = set(i)
-                        c2 = set(Cs) - c1
+                        c2 = set(i)
+                        c1 = set(Cs) - c2
 
-                        print("Cs:", Cs)
-                        print("C1:", c1)
-                        print("C2", c2)
-                        print()
+                        # print("Cs:", Cs)
+                        # print("C1:", c1)
+                        # print("C2", c2)
+                        # print()
 
-
-
-                        if len(c1) < len(T_a) or len(c2) < len(T_b):
-                            # print("SKIPPED")
-                            continue
 
                         # dividing C into C1 and C2 wher C1 are the colors in Tak and C2 are the colors in Tbk
                         c1_key = tuple(c1)
@@ -310,7 +306,6 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
     
     t1 = time.time()
     return finalSum / q
-
 
 """
 This method returns q
@@ -381,13 +376,17 @@ def algorithm2(freeTrees, A, B, K):
     return sumX
 
 
-def generateErdosReyniGraph(n, p):
-
-    G = nx.generators.random_graphs.gnp_random_graph(n, p)
-    # nx.draw(G, with_labels = True)
-    # plt.show()
-    A = nx.adjacency_matrix(G)
-    return A
+def erd_ren(n, p):
+    # returns adjacency matrix for randomly created Erdos-Renyi graph
+    # edge included in graph with probability p
+    M = np.zeros((n, n))
+    for i in range(n):
+        for j in range(i):
+            temp = random.random()
+            if temp < p:
+                M[i][j] = 1
+                M[j][i] = 1
+    return M
 
 
 
@@ -416,9 +415,7 @@ if __name__ == '__main__':
     #      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
     #      [0, 1, 0, 1, 0, 0, 0, 0, 0, 0]]
 
-    A = generateErdosReyniGraph(100,1).todense()
-    print(A)
-    A = A.tolist()
+    A = erd_ren(100,1).tolist()
     L = [0, 1, 2, 3, 1, 2, 3]
     C = rand_assign(len(L)-1, len(A))
     trials = 1
