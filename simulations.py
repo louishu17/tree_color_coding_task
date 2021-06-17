@@ -138,6 +138,7 @@ def kTiming(N,maxK):
     g = erd_ren(n,.4)
     timings = [[],[]]
     for x in range(1, maxK + 1):
+        time = 0
         h = center_tree(x)
         c = rand_assign(x,n)
         start = time.time()
