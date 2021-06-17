@@ -47,7 +47,7 @@ def simulation1(m, n, p, H):
 
     t = int(math.ceil(1 / (math.pow(r, 2))))
 
-    ev = calculateExpectedValueOne(r, n, K, p, H)
+    ev = calculateExpectedValueOne(m, n, p, H)
 
     pool = mp.Pool(mp.cpu_count())
     graphs = pool.starmap(erd_ren, [(n, p) for i in range(m)])
@@ -137,9 +137,9 @@ if __name__ == '__main__':
 
     start = time.time()
 
-    # args = [3, 100, 0.5, [0, 1, 1]]
-    # print(simulation1(*args))
+    args = [3, 100, 0.5, [0, 1, 1]]
+    print(simulation1(*args))
 
-    print(sim2(100, 99, 0.5, 0.7, 3))
+    #print(sim2(100, 99, 0.5, 0.7, 3))
 
     print(time.time() - start)
