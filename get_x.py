@@ -120,6 +120,8 @@ Generates a dictionary storing K,...,1 as keys, and T_k as the first value, d(T_
 def get_Trees(tree_level, edges):
     # Edges list is indexed from 0, so edges[0] = edge 1
 
+    #uk = r', and vk = k+1
+
     tree_dict = {}
 
     for k in range(len(edges), 0, -1):
@@ -131,9 +133,10 @@ def get_Trees(tree_level, edges):
         # R is edges[k][1]-1
         for j in range(edges[k - 1][0], len(edges) + 1):
 
-            if tree_level[j] == tree_level[edges[k - 1][0] - 1]:
+            if tree_level[j] <= tree_level[edges[k - 1][0] - 1] and tree_level[j-1] > tree_level[edges[k - 1][0] - 1]:
                 r_double_prime = j
                 break
+        
 
         T_k = []
         # from l_R+1 to l_R'' - l_R'
@@ -144,9 +147,12 @@ def get_Trees(tree_level, edges):
         tree_dict[k].append(T_k)
         tree_dict[k].append(get_overcounting(T_k))
 
+        
+
         # store T_ak, and T_bk
-        tree_dict[k].append(split_Trees(T_k)[0])
-        tree_dict[k].append(split_Trees(T_k)[1])
+        T_ab = split_Trees(T_k)
+        tree_dict[k].append(T_ab[0])
+        tree_dict[k].append(T_ab[1])
 
     return tree_dict
 
@@ -170,21 +176,19 @@ def initialize_X(C, n):
 def findSubsets(k, C, color_dict):
     color_dict.setdefault(k, [])
     colorCombos = list(itertools.combinations(C, k))
-    colorCombos.sort()
     color_dict[k] = colorCombos
     return colorCombos
 
-def findc1c2Subsets(k, Cs, color_dict):
+def findc1c2Subsets(k, Cs, c1c2_dict):
     cs_key = tuple(Cs)
-    color_dict.setdefault(cs_key, {}).setdefault(k, [])
+    c1c2_dict.setdefault(cs_key, {}).setdefault(k, [])
     colorCombos = list(itertools.combinations(Cs, k))
-    color_dict[cs_key][k] = colorCombos
+    c1c2_dict[cs_key][k] = colorCombos
     return colorCombos
     
 def X_func(X_dict, tree_dict, M, C, n, K, q):
 
     local_C = set(C)
-
 
     color_dict = {}
     c1c2_dict = {}
@@ -193,14 +197,14 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
     for k in range(K, 0, -1):
         #print()
 
-        #print(k)
-        #print(local_C)
+        print(k)
+        # print(local_C)
         T_k = tuple(tree_dict[k][0])
         d = tree_dict[k][1]
         T_a = tuple(tree_dict[k][2])
         T_b = tuple(tree_dict[k][3])
 
-        #print(T_k, d, T_a, T_b)
+        # print(T_k, d, T_a, T_b)
 
         t5 = time.time()
         if len(T_k) in color_dict:
@@ -212,25 +216,25 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
 
         # print(colorSubsets)
 
-                    
+        # pprint.pprint(color_dict)
 
         
-        for x in range(1, n + 1):
-            for Cs in colorSubsets:
-                Cs_key = tuple(Cs)
+        
+        for Cs in colorSubsets:
+            Cs_key = tuple(sorted(Cs))
 
-                # print(x)
-                t0 = time.time()
-                
-                # resultingSum is X(x, T_k, C) in paper
-                resultingSum = 0
+            t0 = time.time()
+            
+            # resultingSum is X(x, T_k, C) in paper
+            resultingSum = 0
 
-                if Cs_key in c1c2_dict:
-                    if len(T_b) in c1c2_dict[Cs_key]:
-                        c1c2Subset = c1c2_dict[Cs_key][len(T_b)]
-                else:
-                    c1c2Subset = findc1c2Subsets(len(T_b), Cs, c1c2_dict)
+            if Cs_key in c1c2_dict:
+                if len(T_b) in c1c2_dict[Cs_key]:
+                    c1c2Subset = c1c2_dict[Cs_key][len(T_b)]
+            else:
+                c1c2Subset = findc1c2Subsets(len(T_b), Cs, c1c2_dict)
 
+            for x in range(1, n + 1):
                 # print(c1c2Subset)
 
                 outerSum = 0
@@ -405,7 +409,7 @@ if __name__ == '__main__':
         t1 = time.time()
         times.append(t1-t0)
     print(a)
-    print("Average Time:", sum(times)/len(times))
+    print("Time:", sum(times)/len(times))
 
     
 
