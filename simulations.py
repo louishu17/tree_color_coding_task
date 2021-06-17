@@ -31,9 +31,9 @@ def erd_ren(n, p):
 
 def calculateExpectedValueOne(m, n, p, H):
     # returns expected value based on r, n, K, p, H
+    print(m, n, p, H)
     r = math.factorial(len(H)) / math.pow(len(H), len(H))
-    exp_val = r * math.factorial(n) / math.factorial(n - len(H)) * math.pow(
-        p, len(H) - 1) / aut(H)
+    exp_val = r * math.factorial(n) / math.factorial(n - len(H)) * math.pow(p, len(H) - 1) / aut(H)
     return exp_val
 
 
@@ -151,12 +151,12 @@ def kTiming(N,maxK):
 
 if __name__ == '__main__':
 
-    #start = time.time()
+    start = time.time()
 
-    #args = [3, 100, 0.5, [0, 1, 1]]
-    #print(simulation1(*args))
+    args = [3, 100, 0.5, [0, 1, 1]]
+    print(simulation1(*args))
 
     #print(sim2(100, 99, 0.5, 0.7, 3))
 
     #print(time.time() - start)
-    kTiming(100,15)
+    # kTiming(100,15)
