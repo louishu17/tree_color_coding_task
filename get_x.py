@@ -10,6 +10,7 @@ import time
 import math
 from tree_generation import generateFreeTrees
 import networkx as nx
+import matplotlib.pyplot as plt
 import pprint
 
 
@@ -179,32 +180,34 @@ def findSubsets(k, C, color_dict):
     color_dict[k] = colorCombos
     return colorCombos
 
-def findc1c2Subsets(k, Cs, c1c2_dict):
-    cs_key = tuple(Cs)
-    c1c2_dict.setdefault(cs_key, {}).setdefault(k, [])
-    colorCombos = list(itertools.combinations(Cs, k))
-    c1c2_dict[cs_key][k] = colorCombos
-    return colorCombos
+# def findc1c2Subsets(k, Cs, c1c2_dict):
+#     cs_key = tuple(Cs)
+#     c1c2_dict.setdefault(cs_key, {}).setdefault(k, [])
+#     colorCombos = list(itertools.combinations(Cs, k))
+#     c1c2_dict[cs_key][k] = colorCombos
+#     return colorCombos
     
 def X_func(X_dict, tree_dict, M, C, n, K, q):
 
     local_C = set(C)
 
     color_dict = {}
-    c1c2_dict = {}
+    # c1c2_dict = {}
+
+    pprint.pprint(X_dict)
 
     t0 = time.time()
     for k in range(K, 0, -1):
-        #print()
+        print()
 
         print(k)
-        # print(local_C)
+        print(local_C)
         T_k = tuple(tree_dict[k][0])
         d = tree_dict[k][1]
         T_a = tuple(tree_dict[k][2])
         T_b = tuple(tree_dict[k][3])
 
-        # print(T_k, d, T_a, T_b)
+        print(T_k, d, T_a, T_b)
 
         t5 = time.time()
         if len(T_k) in color_dict:
@@ -214,7 +217,7 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
 
         t6 = time.time()
 
-        # print(colorSubsets)
+        print(colorSubsets)
 
         # pprint.pprint(color_dict)
 
@@ -228,11 +231,15 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
             # resultingSum is X(x, T_k, C) in paper
             resultingSum = 0
 
-            if Cs_key in c1c2_dict:
-                if len(T_b) in c1c2_dict[Cs_key]:
-                    c1c2Subset = c1c2_dict[Cs_key][len(T_b)]
-            else:
-                c1c2Subset = findc1c2Subsets(len(T_b), Cs, c1c2_dict)
+            # if Cs_key in c1c2_dict:
+            #     if len(T_b) in c1c2_dict[Cs_key]:
+            #         c1c2Subset = c1c2_dict[Cs_key][len(T_b)]
+            # else:
+            #     c1c2Subset = findc1c2Subsets(len(T_b), Cs, c1c2_dict)
+
+            c1c2Subset = list(itertools.combinations(Cs, len(T_b)))
+
+            # print(Cs, c1c2Subset)
 
             for x in range(1, n + 1):
                 # print(c1c2Subset)
@@ -254,6 +261,12 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
                         c1 = set(i)
                         c2 = set(Cs) - c1
 
+                        print("Cs:", Cs)
+                        print("C1:", c1)
+                        print("C2", c2)
+                        print()
+
+
 
                         if len(c1) < len(T_a) or len(c2) < len(T_b):
                             # print("SKIPPED")
@@ -274,9 +287,12 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
                 resultingSum = outerSum / d
                 X_dict.setdefault(x, {}).setdefault(T_k, {})[
                     Cs_key] = resultingSum
+            
+            # pprint.pprint(X_dict)
 
             t1 = time.time()
             # print("X_loop_time:", t1-t0)
+        
     
     
 
@@ -325,14 +341,14 @@ def algorithmOne(tree, M, C):
     X_dict = initialize_X(C, n)
 
     t1 = time.time()
-    #print("Time Of Initialization:", t1-t0)
+    print("Time Of Initialization:", t1-t0)
 
     # for keys, values in X_dict.items():
     #      print(keys, values)
 
     tree_dict = get_Trees(tree, edges)
     t2 = time.time()
-    #print("Time of generating trees:", t2-t1)
+    print("Time of generating trees:", t2-t1)
 
     # for keys, values in tree_dict.items():
     #      print(keys, values)
@@ -341,7 +357,7 @@ def algorithmOne(tree, M, C):
     q = check_equality(tree)
     t3 = time.time()
 
-    #print("Time of check equality:", t3-t2)
+    print("Time of check equality:", t3-t2)
 
 
     # print("q", q)
@@ -349,7 +365,7 @@ def algorithmOne(tree, M, C):
     finalSum = X_func(X_dict, tree_dict, M, C, n, K, q)
     t4 = time.time()
 
-    #print("Time of X_function:", t4-t3)
+    print("Time of X_function:", t4-t3)
 
     return finalSum
 
@@ -368,6 +384,8 @@ def algorithm2(freeTrees, A, B, K):
 def generateErdosReyniGraph(n, p):
 
     G = nx.generators.random_graphs.gnp_random_graph(n, p)
+    # nx.draw(G, with_labels = True)
+    # plt.show()
     A = nx.adjacency_matrix(G)
     return A
 
@@ -398,8 +416,10 @@ if __name__ == '__main__':
     #      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
     #      [0, 1, 0, 1, 0, 0, 0, 0, 0, 0]]
 
-    A = generateErdosReyniGraph(1000,0.4).todense().tolist()
-    L = [0, 1, 2, 1]
+    A = generateErdosReyniGraph(100,1).todense()
+    print(A)
+    A = A.tolist()
+    L = [0, 1, 2, 3, 1, 2, 3]
     C = rand_assign(len(L)-1, len(A))
     trials = 1
     times = []
