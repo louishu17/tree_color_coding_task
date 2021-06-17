@@ -21,7 +21,7 @@ def erd_ren(n, p):
     # edge included in graph with probability p
     M = np.zeros((n, n))
     for i in range(n):
-        for j in range(i + 1, n):
+        for j in range(i):
             temp = random.random()
             if temp < p:
                 M[i][j] = 1
@@ -32,8 +32,8 @@ def erd_ren(n, p):
 def calculateExpectedValueOne(m, n, p, H):
     # returns expected value based on r, n, K, p, H
     r = math.factorial(len(H)) / math.pow(len(H), len(H))
-    exp_val = math.factorial(n) / math.factorial(n - len(H))
-    exp_val = exp_val * math.pow(p, len(H) - 1) * r / aut(H)
+    exp_val = r * math.factorial(n) / math.factorial(n - len(H)) * math.pow(
+        p, len(H) - 1) / aut(H)
     return exp_val
 
 
@@ -47,7 +47,7 @@ def simulation1(m, n, p, H):
 
     t = int(math.ceil(1 / (math.pow(r, 2))))
 
-    ev = calculateExpectedValueOne(r, n, K, p, H)
+    ev = calculateExpectedValueOne(m, n, p, H)
 
     pool = mp.Pool(mp.cpu_count())
     graphs = pool.starmap(erd_ren, [(n, p) for i in range(m)])
@@ -73,7 +73,7 @@ def corr_erd_ren(n, s, C):
     # creates a correlated Erdos-Renyi random graph from a random graph C
     M = np.zeros((n, n))
     for i in range(n):
-        for j in range(i + 1, n):
+        for j in range(i):
             if C[i][j] == 1:
                 temp = random.random()
                 if temp < s:
@@ -133,13 +133,29 @@ def sim2(m, n, p, s, K):
     sum_ind = sum_ind / m
     return [sum_corr, sum_ind]
 
+def kTiming(N,maxK):
+    #function to test algo1 timings
+    g = erd_ren(n,.4)
+    timings = [[],[]]
+    for x in range(1, maxK + 1):
+        time = 0
+        h = center_tree(x)
+        c = rand_assign(x,n)
+        start = time.time()
+        algorithmOne(h,g,c)
+        end = time.time()
+        timings[0].append(x)
+        timings[1].append(end-start)
+    return timings
+
+
 if __name__ == '__main__':
 
     start = time.time()
 
-    # args = [3, 100, 0.5, [0, 1, 1]]
-    # print(simulation1(*args))
+    args = [3, 100, 0.5, [0, 1, 1]]
+    print(simulation1(*args))
 
-    print(sim2(100, 99, 0.5, 0.7, 3))
+    #print(sim2(100, 99, 0.5, 0.7, 3))
 
     print(time.time() - start)
