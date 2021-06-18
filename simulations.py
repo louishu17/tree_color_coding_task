@@ -130,10 +130,9 @@ def run_Y_comp(n, p, s, K, Corr):
 def sim2(m, n, p, s, K):
     # runs simulation 2
     sum_corr = 0
-    for i in range(m):
-        sum_corr += run_Y_comp(n, p, s, K, True)
     sum_ind = 0
     for i in range(m):
+        sum_corr += run_Y_comp(n, p, s, K, True)
         sum_ind += run_Y_comp(n, p, s, K, False)
     sum_corr = sum_corr / m
     sum_ind = sum_ind / m

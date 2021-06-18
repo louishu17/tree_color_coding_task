@@ -50,13 +50,13 @@ def sim1_many():
 
 def sim2_many():
     #m, n, p, s, K
-    args = [20, 10, 0.5, 0.9, 3]
-    lst = [10 ** i for i in range(1, 4)]
+    args = [20, 100, 0.5, False, 4]
+    lst = [0.05 *i for i in range(21)]
 
     df = pd.DataFrame(columns=['m', 'n', 'p', 's', 'K', 'corr', 'ind', 'time'])
 
     for i in lst:
-        args[1] = i
+        args[3] = i
 
         temp_lst = [i for i in args]
 
@@ -71,24 +71,40 @@ def sim2_many():
 
     df.to_csv('out2.csv', index=True, header=True)
 
-def scatter_sim1s(file):
-    var1 = "n"
-    var2 = "time"
+def scatter_simp(file):
+    var1 = 'n'
+    var2 = "err"
     df = pd.read_csv(file)
     if var2 == "err":
         df["err"] = df["err"].abs()
     print(df.head(5))
-    plt.scatter(x = df[var1], y = df[var2])
-    plt.ylabel(var1)
-    plt.xlabel(var2)
+    plt.scatter(x=df[var1], y=df[var2], label=var2)
+    plt.xlabel(var1)
+    plt.ylabel(var2)
     plt.title("{} vs. {}".format(var1, var2))
     plt.show()
 
+def scatter_corr_ind(file):
+    var1 = 's'
+    var2 = "corr"
+    var3 = "ind"
+    df = pd.read_csv(file)
+    print(df.head(5))
+    plt.scatter(x = df[var1], y = df[var2], color='green',label=var2)
+    plt.scatter(x = df[var1], y = df[var3], color='blue',label=var3)
+    plt.legend()
+    plt.xlabel(var1)
+    plt.ylabel("Proportion")
+    plt.title("{} vs. {} and {}".format(var1, "ind", var2))
+    plt.show()
 
 if __name__ == '__main__':
     #sim1_many()
 
     #file = "out1.csv"
-    #scatter_sim1s(file)
+    #scatter_simp(file)
 
     sim2_many()
+
+    file = "out2.csv"
+    scatter_corr_ind(file)

@@ -383,13 +383,19 @@ def algorithmOne(tree, M, C):
 Algorithm two in research paper
 """
 
+def alg2_fetch(key, value, A, B, CA, CB):
+    return value * algorithmOne(key, A, CA) * algorithmOne(key, B, CB)
+
 def algorithm2(freeTrees, A, B, K):
-    sumX = 0
     n = len(A)
     CA = rand_assign(K, n)
     CB = rand_assign(K, n)
-    for keys, values in freeTrees.items():
-        sumX += (values * algorithmOne(keys, A, CA) * algorithmOne(keys, B, CB))
+
+    pool = mp.Pool(mp.cpu_count())
+    results = pool.starmap(alg2_fetch, [(key, freeTrees[key], A, B, CA,
+                                         CB) for key in freeTrees.keys()])
+    pool.close()
+    sumX = sum(results)
     return sumX
 
 
