@@ -175,6 +175,9 @@ def initialize_X(C, n):
     return X_dict
 
 
+"""
+Finds combinations based on size k of C and memorizes it in color_dict
+"""
 def findSubsets(k, C, color_dict):
     color_dict.setdefault(k, [])
     colorCombos = list(itertools.combinations(C, k))
@@ -187,7 +190,11 @@ def findSubsets(k, C, color_dict):
 #     colorCombos = list(itertools.combinations(Cs, k))
 #     c1c2_dict[cs_key][k] = colorCombos
 #     return colorCombos
-    
+
+"""
+The X function in the research paper
+"""
+
 def X_func(X_dict, tree_dict, M, C, n, K, q):
 
     local_C = set(C)
@@ -327,6 +334,10 @@ def check_equality(tree):
     return 1
 
 
+"""
+Algorithm one in research paper
+"""
+
 def algorithmOne(tree, M, C):
     t0 = time.time()
     edges = get_edges(tree)
@@ -368,7 +379,9 @@ def algorithmOne(tree, M, C):
 
     return finalSum
 
-
+"""
+Algorithm two in research paper
+"""
 
 def algorithm2(freeTrees, A, B, K):
     sumX = 0
@@ -380,6 +393,10 @@ def algorithm2(freeTrees, A, B, K):
     return sumX
 
 
+
+"""
+Generates erd_renyi graphs
+"""
 def erd_ren(n, p):
     # returns adjacency matrix for randomly created Erdos-Renyi graph
     # edge included in graph with probability p
