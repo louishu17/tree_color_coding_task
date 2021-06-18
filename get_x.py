@@ -193,22 +193,22 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
     local_C = set(C)
 
     color_dict = {}
-    # c1c2_dict = {}
+    c1c2_dict = {}
 
-    pprint.pprint(X_dict)
+    # pprint.pprint(X_dict)
 
     t0 = time.time()
     for k in range(K, 0, -1):
-        print()
+        # print()
 
-        print(k)
-        print(local_C)
+        # print(k)
+        # print(local_C)
         T_k = tuple(tree_dict[k][0])
         d = tree_dict[k][1]
         T_a = tuple(tree_dict[k][2])
         T_b = tuple(tree_dict[k][3])
 
-        print(T_k, d, T_a, T_b)
+        # print(T_k, d, T_a, T_b)
 
         t5 = time.time()
         if len(T_k) in color_dict:
@@ -218,14 +218,14 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
 
         t6 = time.time()
 
-        print(colorSubsets)
+        # print(colorSubsets)
 
         # pprint.pprint(color_dict)
 
         
-        
+        counter = 0
         for Cs in colorSubsets:
-            Cs_key = tuple(sorted(Cs))
+            Cs_key = tuple(Cs)
 
             t0 = time.time()
             
@@ -239,7 +239,6 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
             #     c1c2Subset = findc1c2Subsets(len(T_b), Cs, c1c2_dict)
 
             c1c2Subset = list(itertools.combinations(Cs, len(T_b)))
-
             # print(Cs, c1c2Subset)
 
             for x in range(1, n + 1):
@@ -254,33 +253,38 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
                     if (M[x - 1][y - 1] == 0):
                         continue
 
-
                     for i in c1c2Subset:
-                        innerSum = 0
-
                         # set subtraction
                         c2 = set(i)
                         c1 = set(Cs) - c2
 
-                        # print("Cs:", Cs)
-                        # print("C1:", c1)
-                        # print("C2", c2)
-                        # print()
-
-
                         # dividing C into C1 and C2 wher C1 are the colors in Tak and C2 are the colors in Tbk
                         c1_key = tuple(c1)
                         c2_key = tuple(c2)
-                            
+
                         try:
-                            innerSum += (
+                            valueX = X_dict[x][T_a][c1_key]
+                        except KeyError:
+                            valueX = "Not Found"
+                        
+                        try:
+                            valueY = X_dict[y][T_b][c2_key]
+                        except KeyError:
+                            valueY = "Not Found"
+
+
+                        # print("X:", x, "Ta:", T_a, "C1", c1, "ValueX:", valueX)
+                        # print("Y:", y, "Tb:", T_b, "C2", c2, "ValueY", valueY)
+                        # print("outerSum:", outerSum)
+                        # print()
+                        try:
+                            outerSum += (
                                 X_dict[x][T_a][c1_key] * X_dict[y][T_b][c2_key] * M[x - 1][y - 1])
                         except KeyError:
                             continue
-
-                    outerSum += innerSum
-
-                resultingSum = outerSum / d
+                    
+                # print(outerSum)
+                resultingSum = outerSum /d
                 X_dict.setdefault(x, {}).setdefault(T_k, {})[
                     Cs_key] = resultingSum
             
@@ -305,7 +309,7 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
             continue
     
     t1 = time.time()
-    return finalSum / q
+    return finalSum /q
 
 """
 This method returns q
@@ -336,14 +340,14 @@ def algorithmOne(tree, M, C):
     X_dict = initialize_X(C, n)
 
     t1 = time.time()
-    print("Time Of Initialization:", t1-t0)
+    # print("Time Of Initialization:", t1-t0)
 
     # for keys, values in X_dict.items():
     #      print(keys, values)
 
     tree_dict = get_Trees(tree, edges)
     t2 = time.time()
-    print("Time of generating trees:", t2-t1)
+    # print("Time of generating trees:", t2-t1)
 
     # for keys, values in tree_dict.items():
     #      print(keys, values)
@@ -352,7 +356,7 @@ def algorithmOne(tree, M, C):
     q = check_equality(tree)
     t3 = time.time()
 
-    print("Time of check equality:", t3-t2)
+    # print("Time of check equality:", t3-t2)
 
 
     # print("q", q)
@@ -360,7 +364,7 @@ def algorithmOne(tree, M, C):
     finalSum = X_func(X_dict, tree_dict, M, C, n, K, q)
     t4 = time.time()
 
-    print("Time of X_function:", t4-t3)
+    # print("Time of X_function:", t4-t3)
 
     return finalSum
 
@@ -415,8 +419,9 @@ if __name__ == '__main__':
     #      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
     #      [0, 1, 0, 1, 0, 0, 0, 0, 0, 0]]
 
-    A = erd_ren(100,1).tolist()
-    L = [0, 1, 2, 3, 1, 2, 3]
+    A = erd_ren(10,1).tolist()
+    print(A)
+    L = [0, 1]
     C = rand_assign(len(L)-1, len(A))
     trials = 1
     times = []

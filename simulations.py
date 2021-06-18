@@ -62,7 +62,8 @@ def simulation1(m, n, p, H):
     pool.close()
 
     xH = resMSum / m
-    print(xH)
+    print("xH:",xH)
+    print("ev:", ev)
 
     print("Ratio:", 1 - (ev / xH))
     print(time.time() - start)
@@ -151,12 +152,12 @@ def kTiming(N,maxK):
 
 if __name__ == '__main__':
 
-    #start = time.time()
+    start = time.time()
 
-    #args = [3, 100, 0.5, [0, 1, 1]]
-    #print(simulation1(*args))
+    args = [3, 100, 0.5, [0, 1, 1]]
+    simulation1(*args)
 
-    #print(sim2(100, 99, 0.5, 0.7, 3))
+    # print(sim2(100, 99, 0.5, 0.7, 3))
 
-    #print(time.time() - start)
-    kTiming(100,15)
+    # print(time.time() - start)
+    # kTiming(100,15)
