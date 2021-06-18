@@ -66,10 +66,12 @@ def simulation1(m, n, p, H):
     pool.close()
 
     xH = resMSum / m
-    print(xH)
+    print('rec', xH)
+    print('exp', ev)
+    print(aut(H), ev/xH)
 
-    print("Ratio:", 1 - (ev / xH))
-    print(time.time() - start)
+    #print("Ratio:", 1 - (ev / xH))
+    print('sim1 time', time.time() - start)
 
     return xH
 
@@ -157,8 +159,8 @@ if __name__ == '__main__':
 
     start = time.time()
 
-    args = [3, 100, 0.5, [0, 1, 1]]
-    print(simulation1(*args))
+    args = [3, 30, 0.8, [0, 1, 1, 1]]
+    simulation1(*args)
 
     #print(sim2(100, 99, 0.5, 0.7, 3))
 

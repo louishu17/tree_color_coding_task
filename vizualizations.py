@@ -10,7 +10,7 @@ from simulations import simulation1, calculateExpectedValueOne
 def sim1_many():
     # runs simulation many times and outputs to a csv
 
-    args = [3, False, 0.5, [0, 1, 1]]
+    args = [3, False, 0.5, [0, 1, 1, 1, 1]]
     lst = [i * 10 for i in range(1, 51)]
 
     df = pd.DataFrame(columns=['m', 'n', 'p', 'H', 'K', 'rec', 'exp', 'err'])

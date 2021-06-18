@@ -205,6 +205,8 @@ def X_func_sm(X_dict, T_k, T_a, T_b, d, M, x, C, n, last):
         print(X_dict[x][T_b])
     """
     for y in range(1, n + 1):
+        if y == x or M[x-1][y-1] == 0:
+            continue
         for i in range(num_C_splits):
             #print(x, T_a, tuple(C1s[i]))
             #print('ye', y, T_b, tuple(C2s[i]))
@@ -230,8 +232,8 @@ def X_func_sm(X_dict, T_k, T_a, T_b, d, M, x, C, n, last):
 
 
 def XMH(tree, M, C):
-    print('LOOK', tree, C)
-    print(M)
+    #print('LOOK', tree, C)
+    #print(M)
     t0 = time.time()
     edges = get_edges(tree)
 
@@ -297,6 +299,8 @@ def XMH(tree, M, C):
     t4 = time.time()
 
     #print("Time of X_function:", t4-t3)
+
+    #print(tree_dict)
 
     return XMH / q
 
