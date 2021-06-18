@@ -31,9 +31,9 @@ def erd_ren(n, p):
 
 def calculateExpectedValueOne(m, n, p, H):
     # returns expected value based on r, n, K, p, H
+    print(m, n, p, H)
     r = math.factorial(len(H)) / math.pow(len(H), len(H))
-    exp_val = r * math.factorial(n) / math.factorial(n - len(H)) * math.pow(
-        p, len(H) - 1) / aut(H)
+    exp_val = r * math.factorial(n) / math.factorial(n - len(H)) * math.pow(p, len(H) - 1) / aut(H)
     return exp_val
 
 
