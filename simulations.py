@@ -5,6 +5,7 @@ Created on 6/7/21
 import math
 import time
 import random
+from decimal import Decimal
 
 from automorphisms import aut
 from get_x import algorithmOne, algorithm2, rand_assign
@@ -32,8 +33,9 @@ def erd_ren(n, p):
 def calculateExpectedValueOne(m, n, p, H):
     # returns expected value based on r, n, K, p, H
     print(m, n, p, H)
-    r = math.factorial(len(H)) / math.pow(len(H), len(H))
-    exp_val = r * math.factorial(n) / math.factorial(n - len(H)) * math.pow(p, len(H) - 1) / aut(H)
+    r = Decimal(math.factorial(len(H)) / math.pow(len(H), len(H)))
+    exp_val = Decimal(r * math.factorial(n) / math.factorial(n - len(H)))
+    exp_val *= Decimal(math.pow(p, len(H) - 1) / aut(H))
     return exp_val
 
 
@@ -61,8 +63,8 @@ def simulation1(m, n, p, H):
 
     pool.close()
 
-    xH = resMSum / m
-    print("xH:",xH)
+    xH = Decimal(resMSum / m)
+    print("xH:", xH)
     print("ev:", ev)
 
     print("Ratio:", 1 - (ev / xH))
@@ -93,8 +95,11 @@ def centerAdjMatrix(g, n, p, s):
 
 def calculateExpectedValueTwo(r, n, p, s, K, sizeT):
     # calculates expected value of simulation 2
-    return 0.5 * r * r * ((math.factorial(n) * math.pow(
-        (p * s * s * (1 - p)), K)) / math.factorial(n - K - 1)) * sizeT
+
+    ret = Decimal(math.factorial(n) / math.factorial(n - K - 1))
+    ret *= Decimal(math.pow((p * s * s * (1 - p)), K))
+    ret *= Decimal(0.5 * r * r * sizeT)
+    return ret
 
 def run_Y_comp(n, p, s, K, Corr):
     # run one time, get Y and compare
@@ -113,7 +118,7 @@ def run_Y_comp(n, p, s, K, Corr):
 
     A_center = centerAdjMatrix(A, n, p, s)
     B_center = centerAdjMatrix(B, n, p, s)
-    Y_corr = algorithm2(T, A_center, B_center, K)
+    Y_corr = Decimal(algorithm2(T, A_center, B_center, K))
     exp_corr = calculateExpectedValueTwo(r, n, p, s, K, len(T))
     print('rec_Y', Y_corr)
     print('exp_Y', exp_corr)
@@ -149,15 +154,14 @@ def kTiming(N,maxK):
         print(timings)
     return timings
 
-
 if __name__ == '__main__':
 
-    start = time.time()
-
-    args = [3, 100, 0.5, [0, 1, 1]]
-    simulation1(*args)
+    #args = [3, 100, 0.5, [0, 1, 1]]
+    #simulation1(*args)
 
     # print(sim2(100, 99, 0.5, 0.7, 3))
 
     # print(time.time() - start)
     # kTiming(100,15)
+
+    print(sim2(30, 60, 0.5, 1, 3))
