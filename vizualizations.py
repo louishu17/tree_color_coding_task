@@ -12,8 +12,8 @@ from simulations import simulation1, calculateExpectedValueOne, sim2
 def sim1_many():
     # runs simulation many times and outputs to a csv
 
-    args = [3, False, 0.5, [0, 1, 1]]
-    lst = [i * 10 for i in range(1, 51)]
+    args = [3, False, 0.5, [0, 1, 2, 1]]
+    lst = [i * 10 for i in range(1, 101, 6)]
 
     """
     for i in range(len(lst)):
@@ -103,12 +103,12 @@ def scatter_corr_ind(file):
     plt.show()
 
 if __name__ == '__main__':
-    #sim1_many()
+    sim1_many()
 
-    #file = "out1.csv"
+    file = "out1_n.csv"
     #scatter_simp(file)
 
-    sim2_many()
+    #sim2_many()
 
-    file = "out2.csv"
-    scatter_corr_ind(file)
+    #file = "out2.csv"
+    #scatter_corr_ind(file)
