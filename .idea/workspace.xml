@@ -3,22 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="47a43bff-6854-4705-a9d3-f6c90c4251b7" name="Default Changelist" comment="broke everything into 4 files(I think the import statements should be done, but not positive.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_x.py" beforeDir="false" afterPath="$PROJECT_DIR$/get_x.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulations.py" beforeDir="false" afterPath="$PROJECT_DIR$/simulations.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vis_sim1/n_error_1/fin.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vis_sim1/n_error_1/inf_n_error_1.rtf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vis_sim1/n_error_1/out_1.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vis_sim1/n_error_1/out_2.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vis_sim1/n_error_1/out_3.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vis_sim1/n_error_1/out_4.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vis_sim1/n_error_1/out_5.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vis_sim1/p_rec_1/fin.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vis_sim1/p_rec_1/inf_p_rec_1.rtf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vis_sim1/plot_n_error_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vis_sim1/plot_p_rec_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vis_sim1/r_n_error_1.R" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vis_sim1/r_p_rec_1.R" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vis_sim1/vis_sim1.Rproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out2.csv" beforeDir="false" afterPath="$PROJECT_DIR$/out2.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vizualizations.py" beforeDir="false" afterPath="$PROJECT_DIR$/vizualizations.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -225,22 +210,22 @@
       <screen x="0" y="23" width="1680" height="987" />
     </state>
     <state x="282" y="130" key="#vizualizations/0.23.1680.987@0.23.1680.987" timestamp="1623940820662" />
-    <state width="1135" height="259" key="GridCell.Tab.0.bottom" timestamp="1624026388569">
+    <state width="1434" height="259" key="GridCell.Tab.0.bottom" timestamp="1624238075917">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
-    <state width="1135" height="259" key="GridCell.Tab.0.bottom/0.23.1680.987@0.23.1680.987" timestamp="1624026388569" />
-    <state width="1135" height="259" key="GridCell.Tab.0.center" timestamp="1624026388568">
+    <state width="1434" height="259" key="GridCell.Tab.0.bottom/0.23.1680.987@0.23.1680.987" timestamp="1624238075917" />
+    <state width="1434" height="259" key="GridCell.Tab.0.center" timestamp="1624238075916">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
-    <state width="1135" height="259" key="GridCell.Tab.0.center/0.23.1680.987@0.23.1680.987" timestamp="1624026388568" />
-    <state width="1135" height="259" key="GridCell.Tab.0.left" timestamp="1624026388568">
+    <state width="1434" height="259" key="GridCell.Tab.0.center/0.23.1680.987@0.23.1680.987" timestamp="1624238075916" />
+    <state width="1434" height="259" key="GridCell.Tab.0.left" timestamp="1624238075916">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
-    <state width="1135" height="259" key="GridCell.Tab.0.left/0.23.1680.987@0.23.1680.987" timestamp="1624026388568" />
-    <state width="1135" height="259" key="GridCell.Tab.0.right" timestamp="1624026388569">
+    <state width="1434" height="259" key="GridCell.Tab.0.left/0.23.1680.987@0.23.1680.987" timestamp="1624238075916" />
+    <state width="1434" height="259" key="GridCell.Tab.0.right" timestamp="1624238075917">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
-    <state width="1135" height="259" key="GridCell.Tab.0.right/0.23.1680.987@0.23.1680.987" timestamp="1624026388569" />
+    <state width="1434" height="259" key="GridCell.Tab.0.right/0.23.1680.987@0.23.1680.987" timestamp="1624238075917" />
     <state x="297" y="226" key="SettingsEditor" timestamp="1623994564680">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
