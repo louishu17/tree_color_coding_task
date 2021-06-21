@@ -4,7 +4,6 @@
     <list default="true" id="47a43bff-6854-4705-a9d3-f6c90c4251b7" name="Default Changelist" comment="broke everything into 4 files(I think the import statements should be done, but not positive.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out2.csv" beforeDir="false" afterPath="$PROJECT_DIR$/out2.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vizualizations.py" beforeDir="false" afterPath="$PROJECT_DIR$/vizualizations.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
