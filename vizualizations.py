@@ -50,8 +50,8 @@ def sim1_many():
 
 def sim2_many():
     #m, n, p, s, K
-    args = [20, 100, 0.5, False, 4]
-    lst = [0.05 *i for i in range(21)]
+    args = [20, 100, 0.1, False, 4]
+    lst = [0.05 * i for i in range(21)]
 
     df = pd.DataFrame(columns=['m', 'n', 'p', 's', 'K', 'corr', 'ind', 'time'])
 
