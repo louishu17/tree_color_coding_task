@@ -77,7 +77,7 @@ def sim2_many():
 
 def scatter_simp(file):
     var1 = 'n'
-    var2 = "err"
+    var2 = "time"
     df = pd.read_csv(file)
     if var2 == "err":
         df["err"] = df["err"].abs()
@@ -108,7 +108,7 @@ if __name__ == '__main__':
     #file = "out1.csv"
     #scatter_simp(file)
 
-    sim2_many()
+    #sim2_many()
 
     file = "out2.csv"
-    scatter_corr_ind(file)
+    scatter_simp(file)
