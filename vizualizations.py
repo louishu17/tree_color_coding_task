@@ -50,13 +50,17 @@ def sim1_many():
 
 def sim2_many():
     #m, n, p, s, K
-    args = [20, 100, 0.1, False, 4]
-    lst = [0.05 * i for i in range(21)]
+    args = [20, False, 0.2, 0.7, 4]
+    lst = [10 * i for i in range(1, 51)]
 
     df = pd.DataFrame(columns=['m', 'n', 'p', 's', 'K', 'corr', 'ind', 'time'])
 
+    for i in range(len(args)):
+        if args[i] == False:
+            alt = i
+
     for i in lst:
-        args[3] = i
+        args[alt] = i
 
         temp_lst = [i for i in args]
 
@@ -85,7 +89,7 @@ def scatter_simp(file):
     plt.show()
 
 def scatter_corr_ind(file):
-    var1 = 's'
+    var1 = 'p'
     var2 = "corr"
     var3 = "ind"
     df = pd.read_csv(file)

@@ -36,7 +36,7 @@ def calculateExpectedValueOne(m, n, p, H):
     r = Decimal(math.factorial(len(H)) / math.pow(len(H), len(H)))
     exp_val = Decimal(r * math.factorial(n) / math.factorial(n - len(H)))
     exp_val *= Decimal(math.pow(p, len(H) - 1) / aut(H))
-    return exp_val
+    return float(exp_val)
 
 
 def simulation1(m, n, p, H):
@@ -63,7 +63,7 @@ def simulation1(m, n, p, H):
 
     pool.close()
 
-    xH = Decimal(resMSum / m)
+    xH = resMSum / m
     print("xH:", xH)
     print("ev:", ev)
 
@@ -99,7 +99,7 @@ def calculateExpectedValueTwo(r, n, p, s, K, sizeT):
     ret = Decimal(math.factorial(n) / math.factorial(n - K - 1))
     ret *= Decimal(math.pow((p * s * s * (1 - p)), K))
     ret *= Decimal(0.5 * r * r * sizeT)
-    return ret
+    return float(ret)
 
 def run_Y_comp(n, p, s, K, Corr):
     # run one time, get Y and compare
@@ -118,7 +118,7 @@ def run_Y_comp(n, p, s, K, Corr):
 
     A_center = centerAdjMatrix(A, n, p, s)
     B_center = centerAdjMatrix(B, n, p, s)
-    Y_corr = Decimal(algorithm2(T, A_center, B_center, K))
+    Y_corr = algorithm2(T, A_center, B_center, K)
     exp_corr = calculateExpectedValueTwo(r, n, p, s, K, len(T))
     print('rec_Y', Y_corr)
     print('exp_Y', exp_corr)
