@@ -101,12 +101,9 @@ def calculateExpectedValueTwo(r, n, p, s, K, sizeT):
     ret *= Decimal(0.5 * r * r * sizeT)
     return float(ret)
 
-def run_Y_comp(n, p, s, K, Corr):
-    # run one time, get Y and compare
+def calc_rec_Y(T, n, p, s, K, Corr):
+    # receive Y value based on algorithm 2
     # Corr is True when graphs are correlated, False when independent
-
-    r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
-    T = generateFreeTrees(K)
 
     if Corr:
         C = erd_ren(n, p)
@@ -119,6 +116,17 @@ def run_Y_comp(n, p, s, K, Corr):
     A_center = centerAdjMatrix(A, n, p, s)
     B_center = centerAdjMatrix(B, n, p, s)
     Y_corr = algorithm2(T, A_center, B_center, K)
+    return Y_corr
+
+def run_Y_comp(n, p, s, K, Corr):
+    # run one time, get Y and compare
+    # Corr is True when graphs are correlated, False when independent
+
+    T = generateFreeTrees(K)
+    r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
+
+    Y_corr = calc_rec_Y(T, n, p, s, K, Corr)
+
     exp_corr = calculateExpectedValueTwo(r, n, p, s, K, len(T))
     print('rec_Y', Y_corr)
     print('exp_Y', exp_corr)
@@ -155,12 +163,12 @@ def kTiming(N,maxK):
 
 if __name__ == '__main__':
 
-    #args = [3, 100, 0.5, [0, 1, 1]]
-    #simulation1(*args)
+    args = [3, 40, 0.5, [0, 1, 1, 1, 1, 1]]
+    simulation1(*args)
 
     # print(sim2(100, 99, 0.5, 0.7, 3))
 
     # print(time.time() - start)
     # kTiming(100,15)
 
-    print(sim2(30, 60, 0.5, 1, 3))
+    #print(sim2(30, 60, 0.5, 1, 3))

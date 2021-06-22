@@ -4,16 +4,19 @@ trying out vscode functionality
 new functionality with jupyter too
 """
 
+import math
 import matplotlib.pyplot as plt
 import time
 import pandas as pd
-from simulations import simulation1, calculateExpectedValueOne, sim2
+from simulations import simulation1, calculateExpectedValueOne, sim2, \
+    calc_rec_Y, calculateExpectedValueTwo
+from tree_generation import generateFreeTrees
 
 def sim1_many():
     # runs simulation many times and outputs to a csv
-
-    args = [3, False, 0.5, [0, 1, 1]]
-    lst = [i * 10 for i in range(1, 51)]
+    # m, n, p, H
+    args = [3, False, 0.5, [0, 1, 2, 1, 1]]
+    lst = [i * 50 for i in range(6, 9)]
 
     """
     for i in range(len(lst)):
@@ -43,6 +46,8 @@ def sim1_many():
         temp_lst.append(ev)
         temp_lst.append(err)
         temp_lst.append(end)
+
+        print('temp_list', temp_lst)
 
         df.loc[len(df), :] = temp_lst
 
@@ -102,13 +107,42 @@ def scatter_corr_ind(file):
     plt.title("{} vs. {} and {}".format(var1, "ind", var2))
     plt.show()
 
+def mass_test_sim2():
+    # test
+    m = 100
+    n = 50
+    K = 6
+    p = 0.5
+    s = 0.8
+    Corr = True
+    rec_Y_vals = []
+    T = generateFreeTrees(K)
+    r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
+    exp_Y = calculateExpectedValueTwo(r, n, p, s, K, len(T))
+    comp = []
+    for i in range(m):
+        rec_Y_temp = calc_rec_Y(T, n, p, s, K, Corr)
+        rec_Y_vals.append(rec_Y_temp)
+        if rec_Y_temp >= exp_Y:
+            comp.append(1)
+        else:
+            comp.append(0)
+    print('exp_Y', exp_Y)
+    print('rec_Y_vals', rec_Y_vals)
+    print('average rec_Y', sum(rec_Y_vals) / m)
+    print('exceeds expected', comp)
+    print('proportion', sum(comp) / m)
+
+
 if __name__ == '__main__':
-    #sim1_many()
+    sim1_many()
 
     #file = "out1.csv"
     #scatter_simp(file)
 
     #sim2_many()
 
-    file = "out2.csv"
-    scatter_simp(file)
+    #file = "out2.csv"
+    #scatter_simp(file)
+
+    #mass_test_sim2()

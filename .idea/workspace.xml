@@ -3,6 +3,81 @@
   <component name="ChangeListManager">
     <list default="true" id="47a43bff-6854-4705-a9d3-f6c90c4251b7" name="Default Changelist" comment="broke everything into 4 files(I think the import statements should be done, but not positive.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/testing-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/testing-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jupyter Vizualizations/algo1_viz.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Jupyter Vizualizations/algo1_viz.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jupyter Vizualizations/showing_vizualizations.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Jupyter Vizualizations/showing_vizualizations.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jupyter Vizualizations/sim1_viz.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Jupyter Vizualizations/sim1_viz.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jupyter Vizualizations/sim2_viz.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Jupyter Vizualizations/sim2_viz.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/simulations.py" beforeDir="false" afterPath="$PROJECT_DIR$/simulations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/testing.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/.Rhistory" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/.Rproj.user/42AA4D8D/build_options" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/.Rproj.user/42AA4D8D/pcs/debug-breakpoints.pper" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/.Rproj.user/42AA4D8D/pcs/files-pane.pper" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/.Rproj.user/42AA4D8D/pcs/source-pane.pper" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/.Rproj.user/42AA4D8D/pcs/windowlayoutstate.pper" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/.Rproj.user/42AA4D8D/pcs/workbench-pane.pper" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/.Rproj.user/42AA4D8D/persistent-state" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/.Rproj.user/42AA4D8D/rmd-outputs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/.Rproj.user/42AA4D8D/saved_source_markers" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/.Rproj.user/42AA4D8D/sources/per/t/87BEAF62" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/.Rproj.user/42AA4D8D/sources/per/t/87BEAF62-contents" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/.Rproj.user/42AA4D8D/sources/per/t/DC7E13C1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/.Rproj.user/42AA4D8D/sources/per/t/DC7E13C1-contents" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/.Rproj.user/42AA4D8D/sources/prop/59347059" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/.Rproj.user/42AA4D8D/sources/prop/ADCDF607" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/.Rproj.user/42AA4D8D/sources/prop/C6ECBF8E" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/.Rproj.user/42AA4D8D/sources/prop/INDEX" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/.Rproj.user/shared/notebooks/patch-chunk-names" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/.Rproj.user/shared/notebooks/paths" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim1/k_1/dat_k_1.rtf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim1/k_1/incinf_k_1.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim1/k_1/test_csv.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim1/n_1/dat_n_1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim1/n_1/gr_n_1_n_err.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim1/n_1/inf_n_1.rtf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim1/n_2/incinf_n_2.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim1/n_3/dat_n_3.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim1/n_3/gr_n_3_n_err.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim1/n_3/gr_n_3_n_time.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim1/n_3/inf_n_3.rtf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/n_1/dat_n_1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/n_1/inf_n_1.rtf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/n_2/dat_n_2.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/n_2/inf_n_1.rtf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/n_3/dat_n_3.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/n_3/inf_n_3.rtf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/p_1/dat_p_1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/p_1/gr_p_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/p_1/inf_p_1.rtf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/s_1/dat_s_1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/s_1/gr_s_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/s_1/inf_s_1.rtf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/s_2/dat_s_2.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/s_2/gr_s_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/s_2/inf_s_2.rtf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/s_3/dat_s_3.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/s_3/gr_s_3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/s_3/inf_s_3.rtf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/s_4/dat_s_4.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/s_4/gr_s_4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/data/sim2/s_4/inf_s_4.rtf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/old/n_error_1/fin.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/old/n_error_1/inf_n_error_1.rtf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/old/n_error_1/out_1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/old/n_error_1/out_2.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/old/n_error_1/out_3.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/old/n_error_1/out_4.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/old/n_error_1/out_5.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/old/p_rec_1/fin.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/old/p_rec_1/inf_p_rec_1.rtf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/old/plot_n_error_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/old/plot_p_rec_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/old/r_n_error_1.R" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/old/r_p_rec_1.R" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vis_sim1/old/vis_sim1.Rproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vizualizations.py" beforeDir="false" afterPath="$PROJECT_DIR$/vizualizations.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,6 +178,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="tree_generation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="tree_color_coding_task" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tree_generation.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="vizualizations" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tree_color_coding_task" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -128,6 +224,7 @@
       <list>
         <item itemvalue="Python.vizualizations" />
         <item itemvalue="Python.simulations" />
+        <item itemvalue="Python.tree_generation" />
         <item itemvalue="Python.get_x" />
         <item itemvalue="Python.tree_color_coding" />
       </list>
@@ -208,22 +305,22 @@
       <screen x="0" y="23" width="1680" height="987" />
     </state>
     <state x="282" y="130" key="#vizualizations/0.23.1680.987@0.23.1680.987" timestamp="1623940820662" />
-    <state width="1434" height="259" key="GridCell.Tab.0.bottom" timestamp="1624314929802">
+    <state width="1434" height="259" key="GridCell.Tab.0.bottom" timestamp="1624360574669">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
-    <state width="1434" height="259" key="GridCell.Tab.0.bottom/0.23.1680.987@0.23.1680.987" timestamp="1624314929802" />
-    <state width="1434" height="259" key="GridCell.Tab.0.center" timestamp="1624314929801">
+    <state width="1434" height="259" key="GridCell.Tab.0.bottom/0.23.1680.987@0.23.1680.987" timestamp="1624360574669" />
+    <state width="1434" height="259" key="GridCell.Tab.0.center" timestamp="1624360574668">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
-    <state width="1434" height="259" key="GridCell.Tab.0.center/0.23.1680.987@0.23.1680.987" timestamp="1624314929801" />
-    <state width="1434" height="259" key="GridCell.Tab.0.left" timestamp="1624314929801">
+    <state width="1434" height="259" key="GridCell.Tab.0.center/0.23.1680.987@0.23.1680.987" timestamp="1624360574668" />
+    <state width="1434" height="259" key="GridCell.Tab.0.left" timestamp="1624360574668">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
-    <state width="1434" height="259" key="GridCell.Tab.0.left/0.23.1680.987@0.23.1680.987" timestamp="1624314929801" />
-    <state width="1434" height="259" key="GridCell.Tab.0.right" timestamp="1624314929801">
+    <state width="1434" height="259" key="GridCell.Tab.0.left/0.23.1680.987@0.23.1680.987" timestamp="1624360574668" />
+    <state width="1434" height="259" key="GridCell.Tab.0.right" timestamp="1624360574668">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
-    <state width="1434" height="259" key="GridCell.Tab.0.right/0.23.1680.987@0.23.1680.987" timestamp="1624314929801" />
+    <state width="1434" height="259" key="GridCell.Tab.0.right/0.23.1680.987@0.23.1680.987" timestamp="1624360574668" />
     <state x="297" y="226" key="SettingsEditor" timestamp="1623994564680">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
@@ -232,5 +329,9 @@
       <screen x="0" y="23" width="1680" height="987" />
     </state>
     <state x="417" y="348" key="com.intellij.ide.util.TipDialog/0.23.1680.987@0.23.1680.987" timestamp="1623895740501" />
+    <state x="633" y="240" width="670" height="676" key="search.everywhere.popup" timestamp="1624340089491">
+      <screen x="0" y="23" width="1680" height="987" />
+    </state>
+    <state x="633" y="240" width="670" height="676" key="search.everywhere.popup/0.23.1680.987@0.23.1680.987" timestamp="1624340089491" />
   </component>
 </project>
