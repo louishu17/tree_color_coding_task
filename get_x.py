@@ -383,20 +383,26 @@ def algorithmOne(tree, M, C):
 Algorithm two in research paper
 """
 
-def alg2_fetch(key, value, A, B, CA, CB):
+def alg1_fetch(key, value, A, B, CA, CB):
     return value * algorithmOne(key, A, CA) * algorithmOne(key, B, CB)
 
 def algorithm2(freeTrees, A, B, K):
     n = len(A)
+
+
     CA = rand_assign(K, n)
     CB = rand_assign(K, n)
 
-    pool = mp.Pool(mp.cpu_count())
-    results = pool.starmap(alg2_fetch, [(key, freeTrees[key], A, B, CA,
-                                         CB) for key in freeTrees.keys()])
-    pool.close()
-    sumX = sum(results)
+    sumX = 0
+    for keys, values in freeTrees.items():
+        sumX += alg1_fetch(keys, values, A, B, CA, CB)
     return sumX
+
+
+def alg2_fetch(freeTrees, A, B, K, t):
+    pool = mp.Pool(mp.cpu_count())
+    results = pool.starmap(algorithm2, [(freeTrees, A, B, K) for i in range(t)])
+    return sum(results) / t
 
 
 
@@ -419,66 +425,33 @@ def erd_ren(n, p):
 
 if __name__ == '__main__':
 
+    t0 = time.time()
 
-    # A = [[0, 1, 0, 1, 1, 0, 1, 0, 0, 0],
-    #      [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    #      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #      [1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-    #      [1, 0, 0, 0, 0, 1, 1, 1, 0, 0],
-    #      [0, 0, 0, 1, 1, 0, 0, 0, 1, 0],
-    #      [1, 0, 0, 0, 1, 0, 0, 1, 1, 0],
-    #      [0, 0, 0, 0, 1, 0, 1, 0, 1, 0],
-    #      [0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
-    #      [0, 1, 0, 1, 0, 0, 0, 0, 0, 0]]
+    A = np.ones((100,100))
     
-    # B = [[0, 1, 0, 1, 1, 0, 1, 0, 0, 0],
-    #      [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    #      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #      [1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-    #      [1, 0, 0, 0, 0, 1, 1, 1, 0, 0],
-    #      [0, 0, 0, 1, 1, 0, 0, 0, 1, 0],
-    #      [1, 0, 0, 0, 1, 0, 0, 1, 0, 0],
-    #      [0, 0, 0, 0, 1, 0, 1, 0, 0, 0],
-    #      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-    #      [0, 1, 0, 1, 0, 0, 0, 0, 0, 0]]
+    B = np.ones((100,100))
 
-    A = erd_ren(10,1).tolist()
-    print(A)
-    L = [0, 1]
-    C = rand_assign(len(L)-1, len(A))
-    trials = 1
-    times = []
-    for i in range(trials):
-        t0 = time.time()
-        a = algorithmOne(L, A, C)
-        t1 = time.time()
-        times.append(t1-t0)
-    print(a)
-    print("Time:", sum(times)/len(times))
+    K = 2
 
-    
-
-    # K = 4
-
-    # #constant time
-    # freeTrees = generateFreeTrees(K)
+    #constant time
+    freeTrees = generateFreeTrees(K)
 
 
-    # r = math.factorial(K+1) / pow(K+1, K+1)
+    r = math.factorial(K+1) / pow(K+1, K+1)
 
-    # t = math.ceil(1/pow(r,2))
+    t = math.ceil(1/pow(r,2))
 
 
-    # pool = mp.Pool(mp.cpu_count())
-    # results = pool.starmap(algorithm2, [(freeTrees, A, B, K) for i in range(t)])
-    # pool.close()
-    # # ressum = 0
-    # # for i in range(t):
-    # #     ressum += algorithm2(freeTrees, A, B, K)
+    pool = mp.Pool(mp.cpu_count())
+    results = pool.starmap(algorithm2, [(freeTrees, A, B, K) for i in range(t)])
+    pool.close()
+    # ressum = 0
+    # for i in range(t):
+    #     ressum += algorithm2(freeTrees, A, B, K)
 
-    # resY = sum(results) / t
-    # t1 = time.time() 
-    # print(resY)
-    # print("Time:", t1-t0)
+    resY = sum(results) / t
+    t1 = time.time() 
+    print(resY)
+    print("Time:", t1-t0)
 
 
