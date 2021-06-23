@@ -136,6 +136,8 @@ def sim2(m, n, p, s, K):
     T = generateFreeTrees(K)
     r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
     exp_corr = calculateExpectedValueTwo(r, n, p, s, K, len(T))
+    print(T)
+    print(exp_corr)
     sum_corr = 0
     sum_ind = 0
     for i in range(m):
@@ -170,5 +172,5 @@ if __name__ == '__main__':
     # print(time.time() - start)
     # kTiming(100,15)
 
-    args2 = [20, 1000, 0.1, 0.8, 3]
+    args2 = [18, 1000, 0.1, 0.8, 3]
     print(sim2(*args2))
