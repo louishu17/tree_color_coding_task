@@ -387,16 +387,23 @@ def alg2_fetch(key, value, A, B, CA, CB):
     return value * algorithmOne(key, A, CA) * algorithmOne(key, B, CB)
 
 def algorithm2(freeTrees, A, B, K):
+    r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
+    t = int(math.ceil(1 / (math.pow(r, 2))))
     n = len(A)
-    CA = rand_assign(K, n)
-    CB = rand_assign(K, n)
 
-    pool = mp.Pool(mp.cpu_count())
-    results = pool.starmap(alg2_fetch, [(key, freeTrees[key], A, B, CA,
+    sumY = 0
+    for i in range(t):
+        CA = rand_assign(K, n)
+        CB = rand_assign(K, n)
+
+        pool = mp.Pool(mp.cpu_count())
+        results = pool.starmap(alg2_fetch, [(key, freeTrees[key], A, B, CA,
                                          CB) for key in freeTrees.keys()])
-    pool.close()
-    sumX = sum(results)
-    return sumX
+        pool.close()
+        sumX = sum(results)
+        sumY += sumX
+    sumY = sumY / t
+    return sumY
 
 
 
