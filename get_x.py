@@ -383,10 +383,14 @@ def algorithmOne(tree, M, C):
 Algorithm two in research paper
 """
 
+
 def alg1_fetch(key, value, A, B, CA, CB):
     return value * algorithmOne(key, A, CA) * algorithmOne(key, B, CB)
 
+
 def algorithm2(freeTrees, A, B, K):
+    r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
+    t = int(math.ceil(1 / (math.pow(r, 2))))
     n = len(A)
 
 

@@ -108,14 +108,13 @@ def scatter_corr_ind(file):
     plt.title("{} vs. {} and {}".format(var1, "ind", var2))
     plt.show()
 
-def mass_test_sim2():
+def mass_test_sim2(Corr):
     # test
-    m = 100
-    n = 50
-    K = 6
+    m = 20
+    n = 1000
+    K = 3
     p = 0.5
     s = 0.8
-    Corr = True
     rec_Y_vals = []
     T = generateFreeTrees(K)
     r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
@@ -124,12 +123,12 @@ def mass_test_sim2():
     for i in range(m):
         rec_Y_temp = calc_rec_Y(T, n, p, s, K, Corr)
         rec_Y_vals.append(rec_Y_temp)
+        print('rec_Y_vals', rec_Y_vals)
         if rec_Y_temp >= exp_Y:
             comp.append(1)
         else:
             comp.append(0)
     print('exp_Y', exp_Y)
-    print('rec_Y_vals', rec_Y_vals)
     print('average rec_Y', sum(rec_Y_vals) / m)
     print('exceeds expected', comp)
     print('proportion', sum(comp) / m)
@@ -146,4 +145,5 @@ if __name__ == '__main__':
     #file = "out2.csv"
     #scatter_simp(file)
 
-    #mass_test_sim2()
+    mass_test_sim2(True)
+    mass_test_sim2(False)

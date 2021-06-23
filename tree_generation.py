@@ -165,7 +165,7 @@ def generateFreeTrees(K):
 
 
 if __name__ == '__main__':
-    freeTrees = generateFreeTrees(3)
+    freeTrees = generateFreeTrees(4)
 
     for keys, values in freeTrees.items():
         print(keys, values)
