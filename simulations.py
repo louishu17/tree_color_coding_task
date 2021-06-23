@@ -118,18 +118,14 @@ def calc_rec_Y(T, n, p, s, K, Corr):
     Y_corr = algorithm2(T, A_center, B_center, K)
     return Y_corr
 
-def run_Y_comp(n, p, s, K, Corr):
+def run_Y_comp(T, n, p, s, K, Corr, exp_corr):
     # run one time, get Y and compare
     # Corr is True when graphs are correlated, False when independent
 
-    T = generateFreeTrees(K)
-    r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
-
     Y_corr = calc_rec_Y(T, n, p, s, K, Corr)
 
-    exp_corr = calculateExpectedValueTwo(r, n, p, s, K, len(T))
-    print('rec_Y', Y_corr)
-    print('exp_Y', exp_corr)
+    print('rec_Y', Corr, Y_corr)
+    #print('exp_Y', exp_corr)
     if Y_corr >= exp_corr:
         return 1
     else:
@@ -137,11 +133,14 @@ def run_Y_comp(n, p, s, K, Corr):
 
 def sim2(m, n, p, s, K):
     # runs simulation 2
+    T = generateFreeTrees(K)
+    r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
+    exp_corr = calculateExpectedValueTwo(r, n, p, s, K, len(T))
     sum_corr = 0
     sum_ind = 0
     for i in range(m):
-        sum_corr += run_Y_comp(n, p, s, K, True)
-        sum_ind += run_Y_comp(n, p, s, K, False)
+        sum_corr += run_Y_comp(T, n, p, s, K, True, exp_corr)
+        sum_ind += run_Y_comp(T, n, p, s, K, False, exp_corr)
     sum_corr = sum_corr / m
     sum_ind = sum_ind / m
     return [sum_corr, sum_ind]
@@ -163,12 +162,13 @@ def kTiming(N,maxK):
 
 if __name__ == '__main__':
 
-    args = [3, 40, 0.5, [0, 1, 1, 1, 1, 1]]
-    simulation1(*args)
+    #args1 = [3, 40, 0.5, [0, 1, 1, 1, 1, 1]]
+    #simulation1(*args)
 
     # print(sim2(100, 99, 0.5, 0.7, 3))
 
     # print(time.time() - start)
     # kTiming(100,15)
 
-    #print(sim2(30, 60, 0.5, 1, 3))
+    args2 = [20, 1000, 0.1, 0.8, 3]
+    print(sim2(*args2))
