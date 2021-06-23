@@ -136,13 +136,17 @@ def skip(tree):
 
 """
 Genereates all the free trees...
+
+input: K- number of edges
+output- dicitonary of all the free trees as the key, and the number of automorphisms as the value pairing
 """
 
 
 def generateFreeTrees(K):
     # adding initial primary rooted free tree
+    n = K+1
     free = {}
-    tree = center_tree(K)
+    tree = center_tree(n)
     tree_key = tuple(tree)
     free.setdefault(tree_key, aut(tree))
 
@@ -150,7 +154,7 @@ def generateFreeTrees(K):
     while sum(tree) != len(tree) - 1:
         vals = find_pq(tree)
         tree = get_si(tree, vals)
-        while (free_check(tree, K) == False):
+        while (free_check(tree, n) == False):
             tree = skip(tree)
 
         tree_key = tuple(tree)
@@ -158,3 +162,10 @@ def generateFreeTrees(K):
 
     return free
 
+
+
+if __name__ == '__main__':
+    freeTrees = generateFreeTrees(3)
+
+    for keys, values in freeTrees.items():
+        print(keys, values)
