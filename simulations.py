@@ -5,10 +5,11 @@ Created on 6/7/21
 import math
 import time
 import random
+import sys
 from decimal import Decimal
 
 from automorphisms import aut
-from get_x import algorithmOne, algorithm2, rand_assign
+from get_x import algorithmOne, alg2_fetch, rand_assign
 from tree_generation import generateFreeTrees, center_tree
 
 import multiprocessing as mp
@@ -27,6 +28,23 @@ def erd_ren(n, p):
             if temp < p:
                 M[i][j] = 1
                 M[j][i] = 1
+    return M
+
+
+def erd_ren_centered(n, p):
+
+    M = np.zeros((n, n))
+    for i in range(n):
+        for j in range(i):
+            temp = random.random()
+            if temp < p:
+                M[i][j] = 1 - p
+                M[j][i] = M[i][j]
+            else:
+                M[i][j] = 0 - p
+                M[j][i] = M[i][j]
+    
+
     return M
 
 
@@ -49,28 +67,29 @@ def simulation1(m, n, p, H):
 
     t = int(math.ceil(1 / (math.pow(r, 2))))
 
-    ev = calculateExpectedValueOne(m, n, p, H)
+    # ev = calculateExpectedValueOne(m, n, p, H)
 
     pool = mp.Pool(mp.cpu_count())
-    graphs = pool.starmap(erd_ren, [(n, p) for i in range(m)])
+    graphs = pool.starmap(erd_ren_centered, [(n, p) for i in range(m)])
 
     resMSum = 0
     for g in graphs:
+        print()
+        print(g)
         color_nodes = pool.starmap(rand_assign, [(K, n) for i in range(t)])
         results = pool.starmap(algorithmOne, [(H, g, C) for C in color_nodes])
-
-        resMSum += sum(results) / t
+        xH = sum(results) / t
+        print(xH)
+        resMSum += xH
 
     pool.close()
 
-    xH = resMSum / m
-    print("xH:", xH)
-    print("ev:", ev)
+    avgxH = resMSum / m
+    print("xH:", avgxH)
 
-    print("Ratio:", 1 - (ev / xH))
     print(time.time() - start)
 
-    return xH
+    return avgxH
 
 def corr_erd_ren(n, s, C):
     # creates a correlated Erdos-Renyi random graph from a random graph C
@@ -101,7 +120,7 @@ def calculateExpectedValueTwo(r, n, p, s, K, sizeT):
     ret *= Decimal(0.5 * r * r * sizeT)
     return float(ret)
 
-def calc_rec_Y(T, n, p, s, K, Corr):
+def calc_rec_Y(T, n, p, s, K, Corr, t):
     # receive Y value based on algorithm 2
     # Corr is True when graphs are correlated, False when independent
 
@@ -115,20 +134,25 @@ def calc_rec_Y(T, n, p, s, K, Corr):
 
     A_center = centerAdjMatrix(A, n, p, s)
     B_center = centerAdjMatrix(B, n, p, s)
-    Y_corr = algorithm2(T, A_center, B_center, K)
+
+    print(A_center)
+    print(B_center)
+    Y_corr = alg2_fetch(T, A_center, B_center, K, t)
     return Y_corr
 
 def run_Y_comp(T, n, p, s, K, Corr, exp_corr):
     # run one time, get Y and compare
     # Corr is True when graphs are correlated, False when independent
 
-    Y_corr = calc_rec_Y(T, n, p, s, K, Corr)
-    if Corr:
-        print('rec_Y corr', Corr, Y_corr)
-        print('exp_Y', exp_corr)
-    else:
-        print('rec_Y ind', Corr, Y_corr)
-        print('exp_Y', exp_corr)
+    T = generateFreeTrees(K)
+    print("T:",len(T))
+    r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
+    t = int(math.ceil(1 / (math.pow(r, 2))))
+
+    Y_corr = calc_rec_Y(T, n, p, s, K, Corr, t)
+
+    print('rec_Y', Corr, Y_corr)
+    #print('exp_Y', exp_corr)
     if Y_corr >= exp_corr:
         return 1
     else:
@@ -167,8 +191,8 @@ def kTiming(N,maxK):
 
 if __name__ == '__main__':
 
-    #args1 = [3, 40, 0.5, [0, 1, 1, 1, 1, 1]]
-    #simulation1(*args)
+    args = [20, 100, 0.5, [0, 1, 2, 1]]
+    simulation1(*args)
 
     # print(sim2(100, 99, 0.5, 0.7, 3))
 

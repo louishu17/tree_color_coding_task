@@ -8,8 +8,7 @@ import math
 import matplotlib.pyplot as plt
 import time
 import pandas as pd
-from simulations import simulation1, calculateExpectedValueOne, sim2, \
-    calc_rec_Y, calculateExpectedValueTwo
+from simulations import calculateExpectedValueTwo, simulation1, calculateExpectedValueOne, sim2, calculateExpectedValueTwo, calc_rec_Y
 from tree_generation import generateFreeTrees
 
 def sim1_many():
@@ -55,8 +54,8 @@ def sim1_many():
 
 def sim2_many():
     #m, n, p, s, K
-    args = [20, False, 0.2, 0.7, 3]
-    lst = [10 * i for i in range(1, 51)]
+    args = [20, 100, 0.5, False, 3]
+    lst = [0.1 * i for i in range(6, 10)]
 
     df = pd.DataFrame(columns=['m', 'n', 'p', 's', 'K', 'corr', 'ind', 'time'])
 
@@ -70,6 +69,8 @@ def sim2_many():
         temp_lst = [i for i in args]
 
         start = time.time()
+        print()
+        print(i)
         res = sim2(*args)
         end = time.time() - start
 
@@ -134,7 +135,7 @@ def mass_test_sim2(Corr):
 
 
 if __name__ == '__main__':
-    #sim1_many()
+    sim2_many()
 
     #file = "out1.csv"
     #scatter_simp(file)
