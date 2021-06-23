@@ -172,8 +172,5 @@ if __name__ == '__main__':
     # print(time.time() - start)
     # kTiming(100,15)
 
-    #args2 = [18, 1000, 0.1, 0.8, 4]
-    #print(sim2(*args2))
-
-    for i in range(5):
-        print(erd_ren(5, 0.5))
+    args2 = [20, 1000, 0.1, 0.8, 4]
+    print(sim2(*args2))
