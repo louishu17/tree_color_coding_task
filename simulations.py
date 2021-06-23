@@ -123,9 +123,12 @@ def run_Y_comp(T, n, p, s, K, Corr, exp_corr):
     # Corr is True when graphs are correlated, False when independent
 
     Y_corr = calc_rec_Y(T, n, p, s, K, Corr)
-
-    print('rec_Y', Corr, Y_corr)
-    #print('exp_Y', exp_corr)
+    if Corr:
+        print('rec_Y corr', Corr, Y_corr)
+        print('exp_Y', exp_corr)
+    else:
+        print('rec_Y ind', Corr, Y_corr)
+        print('exp_Y', exp_corr)
     if Y_corr >= exp_corr:
         return 1
     else:
@@ -171,6 +174,7 @@ if __name__ == '__main__':
 
     # print(time.time() - start)
     # kTiming(100,15)
+    #m, n, p, s, K
 
-    args2 = [20, 1000, 0.1, 0.8, 4]
+    args2 = [20, 100, .1, 0.8, 3]
     print(sim2(*args2))

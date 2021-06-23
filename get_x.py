@@ -393,8 +393,9 @@ def alg2_XAB(freeTrees, n, A, B, K):
 
 
 def algorithm2(freeTrees, A, B, K):
-    r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
-    t = int(math.ceil(1 / (math.pow(r, 2))))
+    #r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
+    #t = int(math.ceil(1 / (math.pow(r, 2))))
+    t = 10
     n = len(A)
 
     pool = mp.Pool(mp.cpu_count())
