@@ -146,17 +146,18 @@ def run_Y_comp(T, n, p, s, K, Corr, exp_corr):
 
     T = generateFreeTrees(K)
     print("T:",len(T))
-    r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
-    t = int(math.ceil(1 / (math.pow(r, 2))))
+    #r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
+    #t = int(math.ceil(1 / (math.pow(r, 2))))
+    t = 15
 
     Y_corr = calc_rec_Y(T, n, p, s, K, Corr, t)
 
     print('rec_Y', Corr, Y_corr)
     #print('exp_Y', exp_corr)
     if Y_corr >= exp_corr:
-        return 1
+        return [Y_corr, 1]
     else:
-        return 0
+        return [Y_corr, 0]
 
 def sim2(m, n, p, s, K):
     # runs simulation 2
@@ -167,12 +168,19 @@ def sim2(m, n, p, s, K):
     print(exp_corr)
     sum_corr = 0
     sum_ind = 0
+    #corr_vals = []
+    #ind_vals = []
     for i in range(m):
-        sum_corr += run_Y_comp(T, n, p, s, K, True, exp_corr)
-        sum_ind += run_Y_comp(T, n, p, s, K, False, exp_corr)
+        corr = run_Y_comp(T, n, p, s, K, True, exp_corr)
+        sum_corr += corr[1]
+        #corr_vals.append(corr[0])
+        ind = run_Y_comp(T, n, p, s, K, False, exp_corr)
+        sum_ind += ind[1]
+        #ind_vals.append(ind[0])
     sum_corr = sum_corr / m
     sum_ind = sum_ind / m
     return [sum_corr, sum_ind]
+    #return ["correlated", corr_vals, sum_corr, "independent", ind_vals, sum_ind]
 
 def kTiming(N,maxK):
     #function to test algo1 timings
@@ -191,14 +199,14 @@ def kTiming(N,maxK):
 
 if __name__ == '__main__':
 
-    args = [20, 100, 0.5, [0, 1, 2, 1]]
-    simulation1(*args)
+    #args = [20, 0.5, [0, 1, 2, 1]]
+    #simulation1(*args)
 
     # print(sim2(100, 99, 0.5, 0.7, 3))
 
     # print(time.time() - start)
     # kTiming(100,15)
+    
     #m, n, p, s, K
-
-    args2 = [20, 100, .1, 0.8, 3]
+    args2 = [20, 500, .1, 0.8, 3]
     print(sim2(*args2))
