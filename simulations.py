@@ -140,14 +140,12 @@ def calc_rec_Y(T, n, p, s, K, Corr, t):
     Y_corr = alg2_fetch(T, A_center, B_center, K, t)
     return Y_corr
 
-def run_Y_comp(T, n, p, s, K, Corr, exp_corr):
+def run_Y_comp(T, n, p, s, K, Corr, exp_corr, t):
     # run one time, get Y and compare
     # Corr is True when graphs are correlated, False when independent
 
     T = generateFreeTrees(K)
     #print("T:",len(T))
-    r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
-    t = int(math.ceil(1 / (math.pow(r, 2))))
 
     Y_corr = calc_rec_Y(T, n, p, s, K, Corr, t)
 
@@ -162,6 +160,7 @@ def sim2(m, n, p, s, K):
     # runs simulation 2
     T = generateFreeTrees(K)
     r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
+    t = int(math.ceil(1 / (math.pow(r, 2))))
     exp_corr = calculateExpectedValueTwo(r, n, p, s, K, len(T))
     print(T)
     print(exp_corr)
@@ -170,10 +169,10 @@ def sim2(m, n, p, s, K):
     #corr_vals = []
     #ind_vals = []
     for i in range(m):
-        corr = run_Y_comp(T, n, p, s, K, True, exp_corr)
+        corr = run_Y_comp(T, n, p, s, K, True, exp_corr, t)
         sum_corr += corr[1]
         #corr_vals.append(corr[0])
-        ind = run_Y_comp(T, n, p, s, K, False, exp_corr)
+        ind = run_Y_comp(T, n, p, s, K, False, exp_corr, t)
         sum_ind += ind[1]
         #ind_vals.append(ind[0])
     sum_corr = sum_corr / m
