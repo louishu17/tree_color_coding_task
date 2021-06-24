@@ -135,8 +135,8 @@ def calc_rec_Y(T, n, p, s, K, Corr, t):
     A_center = centerAdjMatrix(A, n, p, s)
     B_center = centerAdjMatrix(B, n, p, s)
 
-    print(A_center)
-    print(B_center)
+    #print(A_center)
+    #print(B_center)
     Y_corr = alg2_fetch(T, A_center, B_center, K, t)
     return Y_corr
 
@@ -145,10 +145,9 @@ def run_Y_comp(T, n, p, s, K, Corr, exp_corr):
     # Corr is True when graphs are correlated, False when independent
 
     T = generateFreeTrees(K)
-    print("T:",len(T))
-    #r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
-    #t = int(math.ceil(1 / (math.pow(r, 2))))
-    t = 15
+    #print("T:",len(T))
+    r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
+    t = int(math.ceil(1 / (math.pow(r, 2))))
 
     Y_corr = calc_rec_Y(T, n, p, s, K, Corr, t)
 
@@ -199,7 +198,7 @@ def kTiming(N,maxK):
 
 if __name__ == '__main__':
 
-    #args = [20, 0.5, [0, 1, 2, 1]]
+    #args = [20, 100, 0.5, [0, 1, 2, 1]]
     #simulation1(*args)
 
     # print(sim2(100, 99, 0.5, 0.7, 3))
