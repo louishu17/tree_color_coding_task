@@ -198,6 +198,7 @@ if __name__ == '__main__':
 
     # print(time.time() - start)
     # kTiming(100,15)
+    #m, n, p, s, K
 
-    args2 = [20, 1000, 0.1, 0.8, 4]
+    args2 = [20, 100, .1, 0.8, 3]
     print(sim2(*args2))
