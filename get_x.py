@@ -8,6 +8,8 @@ import multiprocessing as mp
 import time
 import math
 import numpy as np
+import sys
+import os
 
 from tree_generation import generateFreeTrees
 
@@ -398,7 +400,12 @@ def algorithm2(freeTrees, A, B, K):
 
 
 def alg2_fetch(freeTrees, A, B, K, t):
-    pool = mp.Pool(mp.cpu_count())
+    sys.path.append(os.getcwd())
+    try:
+        npcus = int(os.environ['SLURM_JOB_CPUS_PER_TASK'])
+    except KeyError:
+        npcus = mp.cpu_count()
+    pool = mp.Pool(npcus)
     results = pool.starmap(algorithm2, [(freeTrees, A, B, K) for i in range(t)])
     return sum(results) / t
 

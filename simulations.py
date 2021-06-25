@@ -9,6 +9,7 @@ import sys
 import decimal
 import multiprocessing as mp
 import numpy as np
+import os
 
 from automorphisms import aut
 from get_x import algorithmOne, alg2_fetch, rand_assign
@@ -66,7 +67,12 @@ def simulation1(m, n, p, H):
 
     # ev = calculateExpectedValueOne(m, n, p, H)
 
-    pool = mp.Pool(mp.cpu_count())
+    sys.path.append(os.getcwd())
+    try:
+        ncpus = int(os.environ['SLURM_JOB_CPUS_PER_NODE'])
+    except KeyError:
+        ncpus = mp.cpu_count()
+    pool = mp.Pool(ncpus)
     graphs = pool.starmap(erd_ren_centered, [(n, p) for i in range(m)])
 
     resMSum = 0

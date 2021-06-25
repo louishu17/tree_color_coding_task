@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="47a43bff-6854-4705-a9d3-f6c90c4251b7" name="Default Changelist" comment="broke everything into 4 files(I think the import statements should be done, but not positive.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/automorphisms.py" beforeDir="false" afterPath="$PROJECT_DIR$/automorphisms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_x.py" beforeDir="false" afterPath="$PROJECT_DIR$/get_x.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/simulations.py" beforeDir="false" afterPath="$PROJECT_DIR$/simulations.py" afterDir="false" />
     </list>
