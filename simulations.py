@@ -148,7 +148,7 @@ def run_Y_comp(T, n, p, s, K, Corr, exp_corr, t):
 
     Y_corr = calc_rec_Y(T, n, p, s, K, Corr, t)
 
-    print('rec_Y', Corr, Y_corr)
+    print(Y_corr)
     #print('exp_Y', exp_corr)
     if Y_corr >= exp_corr:
         return [Y_corr, 1]
@@ -167,10 +167,13 @@ def sim2(m, n, p, s, K):
     sum_ind = 0
     #corr_vals = []
     #ind_vals = []
+    print('Correlated')
     for i in range(m):
         corr = run_Y_comp(T, n, p, s, K, True, exp_corr, t)
         sum_corr += corr[1]
         #corr_vals.append(corr[0])
+    print('Independent')
+    for i in range(m):
         ind = run_Y_comp(T, n, p, s, K, False, exp_corr, t)
         sum_ind += ind[1]
         #ind_vals.append(ind[0])
