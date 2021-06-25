@@ -144,7 +144,6 @@ def run_Y_comp(T, n, p, s, K, Corr, exp_corr, t):
     # run one time, get Y and compare
     # Corr is True when graphs are correlated, False when independent
 
-    T = generateFreeTrees(K)
     #print("T:",len(T))
 
     Y_corr = calc_rec_Y(T, n, p, s, K, Corr, t)
