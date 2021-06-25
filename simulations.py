@@ -183,6 +183,7 @@ def sim2(m, n, p, s, K):
     sum_corr = sum_corr / m
     sum_ind = sum_ind / m
     ret = [sum_corr, sum_ind]
+    sys.stdout.flush()
     print(ret)
     return ret
     #return ["correlated", corr_vals, sum_corr, "independent", ind_vals, sum_ind]
