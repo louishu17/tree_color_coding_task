@@ -4,7 +4,6 @@ Created on 6/7/21
 """
 import math
 
-
 """
 checks if L1 and L2 are equal
 """

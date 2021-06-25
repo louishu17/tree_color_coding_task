@@ -4,16 +4,12 @@ Created on 6/7/21
 """
 import itertools
 import random
-
 import multiprocessing as mp
 import time
 import math
-from tree_generation import generateFreeTrees
-import networkx as nx
-import matplotlib.pyplot as plt
 import numpy as np
-import pprint
 
+from tree_generation import generateFreeTrees
 
 
 
