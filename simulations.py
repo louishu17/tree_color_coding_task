@@ -6,17 +6,13 @@ import math
 import time
 import random
 import sys
-from decimal import Decimal
+import decimal
+import multiprocessing as mp
+import numpy as np
 
 from automorphisms import aut
 from get_x import algorithmOne, alg2_fetch, rand_assign
 from tree_generation import generateFreeTrees, center_tree
-
-import multiprocessing as mp
-from networkx.linalg.graphmatrix import adjacency_matrix
-import numpy as np
-import networkx as nx
-import matplotlib.pyplot as plt
 
 def erd_ren(n, p):
     # returns adjacency matrix for randomly created Erdos-Renyi graph
@@ -51,9 +47,10 @@ def erd_ren_centered(n, p):
 def calculateExpectedValueOne(m, n, p, H):
     # returns expected value based on r, n, K, p, H
     print(m, n, p, H)
-    r = Decimal(math.factorial(len(H)) / math.pow(len(H), len(H)))
-    exp_val = Decimal(r * math.factorial(n) / math.factorial(n - len(H)))
-    exp_val *= Decimal(math.pow(p, len(H) - 1) / aut(H))
+    r = decimal.Decimal(math.factorial(len(H)) / math.pow(len(H), len(H)))
+    exp_val = decimal.Decimal(r * math.factorial(n) / math.factorial(n - len(
+        H)))
+    exp_val *= decimal.Decimal(math.pow(p, len(H) - 1) / aut(H))
     return float(exp_val)
 
 
@@ -115,9 +112,9 @@ def centerAdjMatrix(g, n, p, s):
 def calculateExpectedValueTwo(r, n, p, s, K, sizeT):
     # calculates expected value of simulation 2
 
-    ret = Decimal(math.factorial(n) / math.factorial(n - K - 1))
-    ret *= Decimal(math.pow((p * s * s * (1 - p)), K))
-    ret *= Decimal(0.5 * r * r * sizeT)
+    ret = decimal.Decimal(math.factorial(n) / math.factorial(n - K - 1))
+    ret *= decimal.Decimal(math.pow((p * s * s * (1 - p)), K))
+    ret *= decimal.Decimal(0.5 * r * r * sizeT)
     return float(ret)
 
 def calc_rec_Y(T, n, p, s, K, Corr, t):
@@ -144,12 +141,11 @@ def run_Y_comp(T, n, p, s, K, Corr, exp_corr, t):
     # run one time, get Y and compare
     # Corr is True when graphs are correlated, False when independent
 
-    T = generateFreeTrees(K)
     #print("T:",len(T))
 
     Y_corr = calc_rec_Y(T, n, p, s, K, Corr, t)
 
-    print('rec_Y', Corr, Y_corr)
+    print(Y_corr)
     #print('exp_Y', exp_corr)
     if Y_corr >= exp_corr:
         return [Y_corr, 1]
@@ -168,16 +164,21 @@ def sim2(m, n, p, s, K):
     sum_ind = 0
     #corr_vals = []
     #ind_vals = []
+    print('Correlated')
     for i in range(m):
         corr = run_Y_comp(T, n, p, s, K, True, exp_corr, t)
         sum_corr += corr[1]
         #corr_vals.append(corr[0])
+    print('Independent')
+    for i in range(m):
         ind = run_Y_comp(T, n, p, s, K, False, exp_corr, t)
         sum_ind += ind[1]
         #ind_vals.append(ind[0])
     sum_corr = sum_corr / m
     sum_ind = sum_ind / m
-    return [sum_corr, sum_ind]
+    ret = [sum_corr, sum_ind]
+    print(ret)
+    return ret
     #return ["correlated", corr_vals, sum_corr, "independent", ind_vals, sum_ind]
 
 def kTiming(N,maxK):
@@ -196,6 +197,12 @@ def kTiming(N,maxK):
     return timings
 
 if __name__ == '__main__':
+    args2 = []
+    args2.append(int(sys.argv[1]))
+    args2.append(int(sys.argv[2]))
+    args2.append(float(sys.argv[3]))
+    args2.append(float(sys.argv[4]))
+    args2.append(int(sys.argv[5]))
 
     #args = [20, 100, 0.5, [0, 1, 2, 1]]
     #simulation1(*args)
@@ -206,5 +213,5 @@ if __name__ == '__main__':
     # kTiming(100,15)
     
     #m, n, p, s, K
-    args2 = [20, 500, .1, 0.8, 3]
-    print(sim2(*args2))
+    #args2 = [2, 10, .1, 0.8, 3]
+    sim2(*args2)
