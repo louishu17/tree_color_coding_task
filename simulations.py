@@ -221,4 +221,7 @@ if __name__ == '__main__':
     
     #m, n, p, s, K
     #args2 = [2, 10, .1, 0.8, 3]
+    start = time.time()
     sim2(*args2)
+    end = time.time()
+    print("Time:", end-start)
