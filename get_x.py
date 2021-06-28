@@ -178,7 +178,7 @@ def initialize_X(C, n):
 """
 Finds combinations based on size k of C and memorizes it in color_dict
 """
-def findSubsets(k, C, color_dict, T_b):
+def findSubsets(k, C, color_dict):
     color_dict.setdefault(k, [])
     colorCombos = list(combinations(C, k))
     color_dict[k].append(colorCombos)
@@ -368,7 +368,7 @@ def algorithmOne(tree, M, C):
     pr.enable()
     xMH = X_func(X_dict, tree_dict, M, C, n, K, q)
     pr.disable()
-    pstats.Stats(pr).print_stats()
+    #pstats.Stats(pr).print_stats()
     # print("Time of X_function:", t4-t3)
 
     return xMH
