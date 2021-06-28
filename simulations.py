@@ -10,6 +10,8 @@ import decimal
 import multiprocessing as mp
 import numpy as np
 import os
+import cProfile
+import pstats
 
 from automorphisms import aut
 from get_x import algorithmOne, alg2_fetch, rand_assign
@@ -162,7 +164,8 @@ def sim2(m, n, p, s, K):
     # runs simulation 2
     T = generateFreeTrees(K)
     r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
-    t = int(math.ceil(1 / (math.pow(r, 2))))
+    # t = int(math.ceil(1 / (math.pow(r, 2))))
+    t = 1
     exp_corr = calculateExpectedValueTwo(r, n, p, s, K, len(T))
     print(T)
     print(exp_corr)

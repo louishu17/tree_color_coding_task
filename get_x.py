@@ -2,7 +2,8 @@
 Created on 6/7/21
 @author: louishu17, fayfayning, kieranlele
 """
-import itertools
+import cProfile
+from itertools import combinations
 import random
 import multiprocessing as mp
 import time
@@ -10,6 +11,7 @@ import math
 import numpy as np
 import sys
 import os
+import pstats
 
 from tree_generation import generateFreeTrees
 
@@ -176,18 +178,18 @@ def initialize_X(C, n):
 """
 Finds combinations based on size k of C and memorizes it in color_dict
 """
-def findSubsets(k, C, color_dict):
+def findSubsets(k, C, color_dict, T_b):
     color_dict.setdefault(k, [])
-    colorCombos = list(itertools.combinations(C, k))
-    color_dict[k] = colorCombos
+    colorCombos = list(combinations(C, k))
+    color_dict[k].append(colorCombos)
     return colorCombos
 
-# def findc1c2Subsets(k, Cs, c1c2_dict):
-#     cs_key = tuple(Cs)
-#     c1c2_dict.setdefault(cs_key, {}).setdefault(k, [])
-#     colorCombos = list(itertools.combinations(Cs, k))
-#     c1c2_dict[cs_key][k] = colorCombos
-#     return colorCombos
+def findc1c2Subsets(k, Cs, c1c2_dict):
+    cs_key = tuple(Cs)
+    c1c2_dict.setdefault(cs_key, {}).setdefault(k, [])
+    colorCombos = list(combinations(Cs, k))
+    c1c2_dict[cs_key][k] = colorCombos
+    return colorCombos
 
 """
 The X function in the research paper
@@ -201,13 +203,8 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
     c1c2_dict = {}
 
     # pprint.pprint(X_dict)
-
-    t0 = time.time()
+    
     for k in range(K, 0, -1):
-        # print()
-
-        # print(k)
-        # print(local_C)
         T_k = tuple(tree_dict[k][0])
         d = tree_dict[k][1]
         T_a = tuple(tree_dict[k][2])
@@ -215,20 +212,21 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
 
         # print(T_k, d, T_a, T_b)
 
-        t5 = time.time()
         if len(T_k) in color_dict:
             colorSubsets = color_dict[len(T_k)]
         else:
             colorSubsets = findSubsets(len(T_k), local_C, color_dict)
 
-        t6 = time.time()
 
-        # print(colorSubsets)
+    for k in range(K, 0, -1):
+        # print()
 
-        # pprint.pprint(color_dict)
+        # print(k)
+        # print(local_C)
+
 
         
-        counter = 0
+    
         for Cs in colorSubsets:
             Cs_key = tuple(Cs)
 
@@ -237,13 +235,13 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
             # resultingSum is X(x, T_k, C) in paper
             resultingSum = 0
 
-            # if Cs_key in c1c2_dict:
-            #     if len(T_b) in c1c2_dict[Cs_key]:
-            #         c1c2Subset = c1c2_dict[Cs_key][len(T_b)]
-            # else:
-            #     c1c2Subset = findc1c2Subsets(len(T_b), Cs, c1c2_dict)
+            if Cs_key in c1c2_dict:
+                if len(T_b) in c1c2_dict[Cs_key]:
+                    c1c2Subset = c1c2_dict[Cs_key][len(T_b)]
+            else:
+                c1c2Subset = findc1c2Subsets(len(T_b), Cs, c1c2_dict)
 
-            c1c2Subset = list(itertools.combinations(Cs, len(T_b)))
+            # c1c2Subset = list(combinations(Cs, len(T_b)))
             # print(Cs, c1c2Subset)
 
             for x in range(1, n + 1):
@@ -267,15 +265,15 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
                         c1_key = tuple(c1)
                         c2_key = tuple(c2)
 
-                        try:
-                            valueX = X_dict[x][T_a][c1_key]
-                        except KeyError:
-                            valueX = "Not Found"
+                        # try:
+                        #     valueX = X_dict[x][T_a][c1_key]
+                        # except KeyError:
+                        #     valueX = "Not Found"
                         
-                        try:
-                            valueY = X_dict[y][T_b][c2_key]
-                        except KeyError:
-                            valueY = "Not Found"
+                        # try:
+                        #     valueY = X_dict[y][T_b][c2_key]
+                        # except KeyError:
+                        #     valueY = "Not Found"
 
 
                         # print("X:", x, "Ta:", T_a, "C1", c1, "ValueX:", valueX)
@@ -347,15 +345,12 @@ def algorithmOne(tree, M, C):
 
     # print(C)
     X_dict = initialize_X(C, n)
-
-    t1 = time.time()
     # print("Time Of Initialization:", t1-t0)
 
     # for keys, values in X_dict.items():
     #      print(keys, values)
 
     tree_dict = get_Trees(tree, edges)
-    t2 = time.time()
     # print("Time of generating trees:", t2-t1)
 
     # for keys, values in tree_dict.items():
@@ -363,19 +358,20 @@ def algorithmOne(tree, M, C):
 
 
     q = check_equality(tree)
-    t3 = time.time()
 
     # print("Time of check equality:", t3-t2)
 
 
     # print("q", q)
-
-    finalSum = X_func(X_dict, tree_dict, M, C, n, K, q)
-    t4 = time.time()
-
+    
+    pr = cProfile.Profile()
+    pr.enable()
+    xMH = X_func(X_dict, tree_dict, M, C, n, K, q)
+    pr.disable()
+    pstats.Stats(pr).print_stats()
     # print("Time of X_function:", t4-t3)
 
-    return finalSum
+    return xMH
 
 """
 Algorithm two in research paper
