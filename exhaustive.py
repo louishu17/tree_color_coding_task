@@ -7,7 +7,7 @@ Created on 6/28/21
 import itertools
 import numpy as np
 
-from get_x import get_edges
+from get_x import get_edges, algorithmOne, rand_assign
 from tree_generation import aut, generateFreeTrees
 
 def WHM(G, H):
@@ -50,8 +50,13 @@ if __name__ == '__main__':
     H = [0, 1, 1, 1]
     print(WHM(M, H))
 
-    K = 3
+    K = len(H) - 1
     print(fAB(M, M, K))
+
+    #C = rand_assign(K, M.shape[1])
+    C = [1, 2, 3, 3, 4]
+    print(C)
+    print(algorithmOne(H, M, C))
 
 
 """
@@ -65,4 +70,8 @@ WHM = 14
 
 H = [0, 1, 1, 1]
 WMH = 6
+
+H = [0, 1, 1, 1]
+C = [1, 2, 3, 3, 4]
+should be 12
 """
