@@ -11,6 +11,7 @@ import math
 import os
 import time
 import multiprocessing as mp
+from sys import getsizeof
 
 from get_x import get_edges, algorithmOne, rand_assign
 from tree_generation import aut, generateFreeTrees
@@ -32,13 +33,17 @@ def WHM(G, H):
     #print(edges)
     tree_len = len(H)
     perms = list(itertools.permutations(range(1, n + 1), tree_len))
+    generator_expression = (i for i in itertools.permutations(range(1, n + 1), tree_len))
+
+    # for i in generator_expression:
+    #     print(i, end=" ")
 
     try:
         ncpus = int(os.environ['SLURM_JOB_CPUS_PER_NODE'])
     except KeyError:
         ncpus = mp.cpu_count()
     pool = mp.Pool(ncpus)
-    checks = pool.starmap(map_fetch, [(map, G, edges) for map in perms])
+    checks = pool.starmap(map_fetch, [(map, G, edges) for map in generator_expression])
     fin = sum(checks) / aut(H)
     return fin
 
