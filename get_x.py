@@ -217,16 +217,6 @@ def X_func(X_dict, tree_dict, M, C, n, K, q):
         else:
             colorSubsets = findSubsets(len(T_k), local_C, color_dict)
 
-
-    for k in range(K, 0, -1):
-        # print()
-
-        # print(k)
-        # print(local_C)
-
-
-        
-    
         for Cs in colorSubsets:
             Cs_key = tuple(Cs)
 
