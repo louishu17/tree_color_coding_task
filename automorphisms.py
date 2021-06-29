@@ -8,6 +8,8 @@ import math
 checks if L1 and L2 are equal
 """
 def checkL1L2(tree):
+    if tree == tuple([0, 1]) or tree == [0, 1]:
+        return True
     ind_1 = tree.index(1)
     m = tree.index(1, ind_1 + 1)
     L1 = [tree[i] - 1 for i in range(1, m)]
@@ -65,6 +67,8 @@ def calc_aut(labels):
 calculates automorphisms based on a given tree
 """
 def aut(tree):
+    if tree == tuple([0, 1]) or tree == [0, 1]:
+        return 2
     if not checkL1L2(tree):
         labels = all_labels(tree)
         num = calc_aut(labels)

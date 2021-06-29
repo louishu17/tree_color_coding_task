@@ -26,9 +26,7 @@ def WHM(G, H):
                 m1 = map[edge[0] - 1] - 1
                 m2 = map[edge[1] - 1] - 1
                 #print(edge, m1, m2)
-                if G[m1][m2] == 0:
-                    check = 0
-                    break
+                check *= G[m1][m2]
             sum += check
     fin = sum / aut(H)
     return fin
@@ -47,14 +45,19 @@ if __name__ == '__main__':
          [0, 1, 0, 0, 1],
          [1, 1, 0, 1, 0]]
     M = np.array(M)
-    H = [0, 1, 1, 1]
+    H = [0, 1, 1]
     print(WHM(M, H))
 
     K = len(H) - 1
     print(fAB(M, M, K))
 
+
+
+
+
+
     #C = rand_assign(K, M.shape[1])
-    C = [1, 2, 3, 3, 4]
+    C = [1, 3, 2, 2, 2]
     print(C)
     print(algorithmOne(H, M, C))
 
