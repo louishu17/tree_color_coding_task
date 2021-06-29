@@ -110,13 +110,13 @@ def scatter_corr_ind(file):
 
 def mass_test_sim2(Corr):
     # test
-    m = 20
-    n = 1000
-    K = 3
-    p = 0.5
-    s = 0.8
+    m = 1
+    n = 100
+    K = 8
+    p = .05
+    s = 1
     rec_Y_vals = []
-    T = generateFreeTrees(K)
+    T = 1
     r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
     exp_Y = calculateExpectedValueTwo(r, n, p, s, K, len(T))
     comp = []
