@@ -149,13 +149,13 @@ def test_both(Corr):
     T = 1
     r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
     t = 1
-    exp_y = calculateExpectedValueTwo(r, n, p, s, K, len(T))
+    exp = calculateExpectedValueTwo(r, n, p, s, K, len(T))
     for i in range(m):
         rec_Y_temp = calc_rec_Y_both(T, n, p, s, K, Corr, t)
         rec_Y_exhaust.append(rec_Y_temp[1])
         rec_Y_algo.append(rec_Y_temp[0])
         print('rec_Y_vals', rec_Y_temp, rec_Y_algo)
-    print('exp_Y', exp_y)
+    print('exp_Y', exp)
 
 if __name__ == '__main__':
     #sim2_many()
