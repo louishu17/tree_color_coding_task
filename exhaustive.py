@@ -108,6 +108,18 @@ def exh_sim2(m, n, p, s, K):
     print(ret)
     return ret
 
+if __name__ == '__main__':
+
+    args = []
+    args.append(int(sys.argv[1]))
+    args.append(int(sys.argv[2]))
+    args.append(float(sys.argv[3]))
+    args.append(float(sys.argv[4]))
+    args.append(int(sys.argv[5]))
+
+    exh_sim2(*args)
+
+
 
 def test():
     M = [[0, 1, 1, 0, 1],
@@ -139,9 +151,8 @@ def timing():
 
 if __name__ == '__main__':
 
-    test()
+    #test()
 
-    """
     # m, n, p, s, K
     args = []
     args.append(int(sys.argv[1]))
@@ -153,7 +164,6 @@ if __name__ == '__main__':
     sys.path.append(os.getcwd())
     
     exh_sim2(*args)
-    """
 
 
 
