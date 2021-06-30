@@ -98,6 +98,8 @@ def simulation1(m, n, p, H):
 
 def corr_erd_ren(n, s, C):
     # creates a correlated Erdos-Renyi random graph from a random graph C
+    if s == 1:
+        return C
     M = np.zeros((n, n))
     for i in range(n):
         for j in range(i):
