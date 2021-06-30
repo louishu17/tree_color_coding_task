@@ -13,7 +13,7 @@ import time
 import multiprocessing as mp
 from sys import getsizeof
 
-from get_x import get_edges, algorithmOne, rand_assign
+from get_x import get_edges, algorithmOne, rand_assign, alg2_fetch
 from tree_generation import aut, generateFreeTrees
 from simulations import erd_ren, corr_erd_ren, centerAdjMatrix, calculateExpectedValueTwo
 
@@ -107,6 +107,25 @@ def exh_sim2(m, n, p, s, K):
     sys.stdout.flush()
     print(ret)
     return ret
+
+def calc_rec_Y_both(T,n,p,s,K,Corr, t):
+    if Corr:
+        C = erd_ren(n, p)
+        A = corr_erd_ren(n, s, C)
+        B = corr_erd_ren(n, s, C)
+    else:
+        A = erd_ren(n, p * s)
+        B = erd_ren(n, p * s)
+
+    A_center = centerAdjMatrix(A, n, p, s)
+    B_center = centerAdjMatrix(B, n, p, s)
+
+    #print(A_center)
+    #print(B_center)
+    Y_corr_exhaust = fAB(A_center, B_center, K)
+    Y_corr_algo = alg2_fetch(T, A_center, B_center, K, t)
+    return [Y_corr_algo, Y_corr_exhaust]
+
 
 if __name__ == '__main__':
 

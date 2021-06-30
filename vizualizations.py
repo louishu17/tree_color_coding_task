@@ -8,8 +8,9 @@ import math
 import matplotlib.pyplot as plt
 import time
 import pandas as pd
-from simulations import calculateExpectedValueTwo, simulation1, calculateExpectedValueOne, sim2, calculateExpectedValueTwo, calc_rec_Y, calc_rec_Y_both
+from simulations import calculateExpectedValueTwo, simulation1, calculateExpectedValueOne, sim2, calculateExpectedValueTwo, calc_rec_Y
 from tree_generation import generateFreeTrees
+from exhaustive import calc_rec_Y_both
 
 
 def sim1_many():
@@ -117,7 +118,7 @@ def mass_test_sim2(Corr):
     p = .05
     s = 1
     rec_Y_vals = []
-    T = 1
+    T = generateFreeTrees(K)
     r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
     t = 1
     exp_Y = calculateExpectedValueTwo(r, n, p, s, K, len(T))
@@ -139,8 +140,8 @@ def mass_test_sim2(Corr):
 def test_both(Corr):
     # test
     m = 1
-    n = 100
-    K = 8
+    n = 10
+    K = 2
     p = .05
     s = 1
     rec_Y_exhaust = []
@@ -148,13 +149,13 @@ def test_both(Corr):
     T = 1
     r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
     t = 1
-    exp_Y = calculateExpectedValueTwo(r, n, p, s, K, len(T))
+    exp_y = calculateExpectedValueTwo(r, n, p, s, K, len(T))
     for i in range(m):
         rec_Y_temp = calc_rec_Y_both(T, n, p, s, K, Corr, t)
         rec_Y_exhaust.append(rec_Y_temp[1])
         rec_Y_algo.append(rec_Y_temp[0])
         print('rec_Y_vals', rec_Y_temp, rec_Y_algo)
-    print('exp_Y', exp_Y)
+    print('exp_Y', exp_y)
 
 if __name__ == '__main__':
     #sim2_many()
