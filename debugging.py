@@ -32,20 +32,12 @@ def WHM(G, H):
     edges = get_edges(H)
     #print(edges)
     tree_len = len(H)
-    perms = list(itertools.permutations(range(1, n + 1), tree_len))
     perms = itertools.permutations(range(1, n + 1), tree_len)
-
-    # for i in generator_expression:
-    #     print(i, end=" ")
-
-    try:
-        ncpus = int(os.environ['SLURM_JOB_CPUS_PER_NODE'])
-    except KeyError:
-        ncpus = mp.cpu_count()
-    pool = mp.Pool(ncpus)
-    checks = pool.starmap(map_fetch, [(map, G, edges) for map in perms])
-    fin = sum(checks) / aut(H)
-    return fin
+    sum = 0
+    for map in perms:
+        sum += map_fetch(map, G, edges)
+    sum = sum / aut(H)
+    return sum
 
 def fAB(A, B, K):
     T = generateFreeTrees(K)
@@ -116,40 +108,8 @@ def exh_sim2(m, n, p, s, K):
     print(ret)
     return ret
 
-def test():
-    M = [[0, 1, 1, 0, 1],
-         [1, 0, 1, 1, 1],
-         [1, 1, 0, 0, 0],
-         [0, 1, 0, 0, 1],
-         [1, 1, 0, 1, 0]]
-    M = np.array(M)
-    H = [0, 1, 1, 1]
-    print(WHM(M, H))
-
-    K = len(H) - 1
-    print(fAB(M, M, K))
-
-    # C = rand_assign(K, M.shape[1])
-    C = [1, 2, 1, 2, 2]
-    print(C)
-    print(algorithmOne(H, M, C))
-
-def timing():
-    n_lst = [i * 5 for i in range(1, 10)]
-    for n in n_lst:
-        H = [0]
-        H.extend([1 for i in range(n - 1)])
-        G = erd_ren(n, 0.1)
-        start = time.time()
-        WHM(G, H)
-        print('time', n, time.time() - start)
-
 if __name__ == '__main__':
 
-    test()
-
-    """
-    # m, n, p, s, K
     args = []
     args.append(int(sys.argv[1]))
     args.append(int(sys.argv[2]))
@@ -157,28 +117,4 @@ if __name__ == '__main__':
     args.append(float(sys.argv[4]))
     args.append(int(sys.argv[5]))
 
-    sys.path.append(os.getcwd())
-    
     exh_sim2(*args)
-    """
-
-
-
-
-
-"""
-M = [[0, 1, 1, 0, 1],
-         [1, 0, 1, 1, 1],
-         [1, 1, 0, 0, 0],
-         [0, 1, 0, 0, 1],
-         [1, 1, 0, 1, 0]]
-H = [0, 1, 1]
-WHM = 14
-
-H = [0, 1, 1, 1]
-WMH = 6
-
-H = [0, 1, 1, 1]
-C = [1, 2, 3, 3, 4]
-should be 12
-"""
