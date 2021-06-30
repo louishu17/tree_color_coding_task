@@ -8,8 +8,9 @@ import math
 import matplotlib.pyplot as plt
 import time
 import pandas as pd
-from simulations import calculateExpectedValueTwo, simulation1, calculateExpectedValueOne, sim2, calculateExpectedValueTwo, calc_rec_Y
+from simulations import calculateExpectedValueTwo, simulation1, calculateExpectedValueOne, sim2, calculateExpectedValueTwo, calc_rec_Y, calc_rec_Y_both
 from tree_generation import generateFreeTrees
+
 
 def sim1_many():
     # runs simulation many times and outputs to a csv
@@ -118,10 +119,11 @@ def mass_test_sim2(Corr):
     rec_Y_vals = []
     T = 1
     r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
+    t = 1
     exp_Y = calculateExpectedValueTwo(r, n, p, s, K, len(T))
     comp = []
     for i in range(m):
-        rec_Y_temp = calc_rec_Y(T, n, p, s, K, Corr)
+        rec_Y_temp = calc_rec_Y(T, n, p, s, K, Corr, t)
         rec_Y_vals.append(rec_Y_temp)
         print('rec_Y_vals', rec_Y_vals)
         if rec_Y_temp >= exp_Y:
@@ -134,8 +136,28 @@ def mass_test_sim2(Corr):
     print('proportion', sum(comp) / m)
 
 
+def test_both(Corr):
+    # test
+    m = 1
+    n = 100
+    K = 8
+    p = .05
+    s = 1
+    rec_Y_exhaust = []
+    rec_Y_algo = []
+    T = 1
+    r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
+    t = 1
+    exp_Y = calculateExpectedValueTwo(r, n, p, s, K, len(T))
+    for i in range(m):
+        rec_Y_temp = calc_rec_Y_both(T, n, p, s, K, Corr, t)
+        rec_Y_exhaust.append(rec_Y_temp[1])
+        rec_Y_algo.append(rec_Y_temp[0])
+        print('rec_Y_vals', rec_Y_temp, rec_Y_algo)
+    print('exp_Y', exp_Y)
+
 if __name__ == '__main__':
-    sim2_many()
+    #sim2_many()
 
     #file = "out1.csv"
     #scatter_simp(file)

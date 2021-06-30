@@ -16,6 +16,7 @@ import pstats
 from automorphisms import aut
 from get_x import algorithmOne, alg2_fetch, rand_assign
 from tree_generation import generateFreeTrees, center_tree
+from exhaustive import fAB
 
 def erd_ren(n, p):
     # returns adjacency matrix for randomly created Erdos-Renyi graph
@@ -207,6 +208,24 @@ def kTiming(N,maxK):
         timings[1].append(end-start)
         print(timings)
     return timings
+
+def calc_rec_Y_both(T,n,p,s,K,Corr, t):
+    if Corr:
+        C = erd_ren(n, p)
+        A = corr_erd_ren(n, s, C)
+        B = corr_erd_ren(n, s, C)
+    else:
+        A = erd_ren(n, p * s)
+        B = erd_ren(n, p * s)
+
+    A_center = centerAdjMatrix(A, n, p, s)
+    B_center = centerAdjMatrix(B, n, p, s)
+
+    #print(A_center)
+    #print(B_center)
+    Y_corr_exhaust = fAB(A_center, B_center, K)
+    Y_corr_algo = alg2_fetch(T, A_center, B_center, K, t)
+    return [Y_corr_algo, Y_corr_exhaust]
 
 if __name__ == '__main__':
     args2 = []
