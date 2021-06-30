@@ -32,20 +32,12 @@ def WHM(G, H):
     edges = get_edges(H)
     #print(edges)
     tree_len = len(H)
-    perms = list(itertools.permutations(range(1, n + 1), tree_len))
     perms = itertools.permutations(range(1, n + 1), tree_len)
-
-    # for i in generator_expression:
-    #     print(i, end=" ")
-
-    try:
-        ncpus = int(os.environ['SLURM_JOB_CPUS_PER_NODE'])
-    except KeyError:
-        ncpus = mp.cpu_count()
-    pool = mp.Pool(ncpus)
-    checks = pool.starmap(map_fetch, [(map, G, edges) for map in perms])
-    fin = sum(checks) / aut(H)
-    return fin
+    sum = 0
+    for map in perms:
+        sum += map_fetch(map, G, edges)
+    sum = sum / aut(H)
+    return sum
 
 def fAB(A, B, K):
     T = generateFreeTrees(K)
@@ -115,6 +107,7 @@ def exh_sim2(m, n, p, s, K):
     sys.stdout.flush()
     print(ret)
     return ret
+
 
 def test():
     M = [[0, 1, 1, 0, 1],
