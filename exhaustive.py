@@ -14,7 +14,7 @@ import multiprocessing as mp
 from sys import getsizeof
 
 from get_x import get_edges, algorithmOne, rand_assign, alg2_fetch
-from tree_generation import aut, generateFreeTrees
+from tree_generation import generateFreeTrees, aut
 from simulations import erd_ren, corr_erd_ren, centerAdjMatrix, calculateExpectedValueTwo
 
 def map_fetch(map, G, edges):
@@ -27,23 +27,24 @@ def map_fetch(map, G, edges):
         check *= G[m1][m2]
     return check
 
-def WHM(G, H):
+def WHM(G, H, aut):
     n = G.shape[1]
     edges = get_edges(H)
     #print(edges)
     tree_len = len(H)
     perms = itertools.permutations(range(1, n + 1), tree_len)
+
     sum = 0
     for map in perms:
         sum += map_fetch(map, G, edges)
-    sum = sum / aut(H)
+    sum = sum / aut
     return sum
 
 def fAB(A, B, K):
     T = generateFreeTrees(K)
     sum = 0
-    for H in T:
-        sum += aut(H) * WHM(A, H) * WHM(B, H)
+    for H, aut in T.items():
+        sum += aut * WHM(A, H, aut) * WHM(B, H, aut)
     return sum
 
 def fAB_fetch(n, p, s, K, Corr):
@@ -74,7 +75,7 @@ def run_fAB(n, p, s, K, Corr, exp_corr):
 
     Y_corr = fAB_fetch(n, p, s, K, Corr)
 
-    print(Y_corr)
+    #print(Y_corr)
     #print('exp_Y', exp_corr)
     if Y_corr >= exp_corr:
         return [Y_corr, 1]
@@ -94,11 +95,13 @@ def exh_sim2(m, n, p, s, K):
     print('Correlated')
     for i in range(m):
         corr = run_fAB(n, p, s, K, True, exp_corr)
+        print(corr[0])
         sum_corr += corr[1]
         #corr_vals.append(corr[0])
     print('Independent')
     for i in range(m):
         ind = run_fAB(n, p, s, K, False, exp_corr)
+        print(ind[0])
         sum_ind += ind[1]
         #ind_vals.append(ind[0])
     sum_corr = sum_corr / m
@@ -124,21 +127,39 @@ def calc_rec_Y_both(T,n,p,s,K,Corr, t):
     #print(B_center)
     Y_corr_exhaust = fAB(A_center, B_center, K)
     Y_corr_algo = alg2_fetch(T, A_center, B_center, K, t)
-    return [Y_corr_algo, Y_corr_exhaust]
+    return [Y_corr_exhaust, Y_corr_algo]
 
+def sim2_same_graphs(m, n, p, s, K):
+    # runs simulation 2 with the same graphs for color and exhaustive
+    T = generateFreeTrees(K)
+    r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
+    t = math.ceil(1 / pow(r, 2))
+    exp_corr = calculateExpectedValueTwo(r, n, p, s, K, len(T))
+    print('expected', exp_corr)
+    # corr_vals = []
+    # ind_vals = []
+    color_corr = []
+    color_ind = []
+    exh_corr = []
+    exh_ind = []
+    for i in range(m):
+        corr = calc_rec_Y_both(T, n, p, s, K, True, t)
+        exh_corr.append(corr[0] * r * r)
+        color_corr.append(corr[1])
+        ind = calc_rec_Y_both(T, n, p, s, K, False, t)
+        exh_ind.append(ind[0] * r * r)
+        color_ind.append(ind[1])
 
-if __name__ == '__main__':
-
-    args = []
-    args.append(int(sys.argv[1]))
-    args.append(int(sys.argv[2]))
-    args.append(float(sys.argv[3]))
-    args.append(float(sys.argv[4]))
-    args.append(int(sys.argv[5]))
-
-    exh_sim2(*args)
-
-
+    print('Color Correlated')
+    print(color_corr)
+    print('Color Independent')
+    print(color_ind)
+    print('Exhaustive Correlated')
+    print(exh_corr)
+    print('Exhaustive Independent')
+    print(exh_ind)
+    sys.stdout.flush()
+    return [exh_corr, exh_ind, color_corr, color_ind]
 
 def test():
     M = [[0, 1, 1, 0, 1],
@@ -148,7 +169,15 @@ def test():
          [1, 1, 0, 1, 0]]
     M = np.array(M)
     H = [0, 1, 1, 1]
-    print(WHM(M, H))
+    print(WHM(M, H, aut(H)))
+
+    M = [[0, 1, 1, 1],
+         [1, 0, 0, 0],
+         [1, 0, 0, 1],
+         [1, 0, 1, 0]]
+    M = np.array(M)
+    H = [0, 1, 1]
+    print(WHM(M, H, aut(H)))
 
     K = len(H) - 1
     print(fAB(M, M, K))
@@ -158,21 +187,13 @@ def test():
     print(C)
     print(algorithmOne(H, M, C))
 
-def timing():
-    n_lst = [i * 5 for i in range(1, 10)]
-    for n in n_lst:
-        H = [0]
-        H.extend([1 for i in range(n - 1)])
-        G = erd_ren(n, 0.1)
-        start = time.time()
-        WHM(G, H)
-        print('time', n, time.time() - start)
-
 if __name__ == '__main__':
 
     #test()
 
     # m, n, p, s, K
+
+    """
     args = []
     args.append(int(sys.argv[1]))
     args.append(int(sys.argv[2]))
@@ -183,24 +204,8 @@ if __name__ == '__main__':
     sys.path.append(os.getcwd())
     
     exh_sim2(*args)
+    """
 
-
-
-
-
-"""
-M = [[0, 1, 1, 0, 1],
-         [1, 0, 1, 1, 1],
-         [1, 1, 0, 0, 0],
-         [0, 1, 0, 0, 1],
-         [1, 1, 0, 1, 0]]
-H = [0, 1, 1]
-WHM = 14
-
-H = [0, 1, 1, 1]
-WMH = 6
-
-H = [0, 1, 1, 1]
-C = [1, 2, 3, 3, 4]
-should be 12
-"""
+    args2 = [1, 20, 0.1, 1, 4]
+    #exh_sim2(*args2)
+    #sim2_same_graphs(*args2)

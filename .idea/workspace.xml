@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="47a43bff-6854-4705-a9d3-f6c90c4251b7" name="Default Changelist" comment="broke everything into 4 files(I think the import statements should be done, but not positive.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jupyter Vizualizations/.ipynb_checkpoints/sim2_viz-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Jupyter Vizualizations/.ipynb_checkpoints/sim2_viz-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jupyter Vizualizations/sim1_viz.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Jupyter Vizualizations/sim1_viz.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Jupyter Vizualizations/sim2_viz.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Jupyter Vizualizations/sim2_viz.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/exhaustive.py" beforeDir="false" afterPath="$PROJECT_DIR$/exhaustive.py" afterDir="false" />
     </list>
@@ -42,7 +44,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -240,30 +242,30 @@
       <screen x="0" y="23" width="1680" height="987" />
     </state>
     <state x="282" y="130" key="#vizualizations/0.23.1680.987@0.23.1680.987" timestamp="1623940820662" />
-    <state width="492" height="259" key="GridCell.Tab.0.bottom" timestamp="1625062320120">
+    <state width="987" height="259" key="GridCell.Tab.0.bottom" timestamp="1625148695441">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
-    <state width="492" height="259" key="GridCell.Tab.0.bottom/0.23.1680.987@0.23.1680.987" timestamp="1625062320120" />
+    <state width="987" height="259" key="GridCell.Tab.0.bottom/0.23.1680.987@0.23.1680.987" timestamp="1625148695441" />
     <state width="987" height="259" key="GridCell.Tab.0.bottom/0.23.1680.988@0.23.1680.988" timestamp="1624421178929" />
-    <state width="492" height="259" key="GridCell.Tab.0.center" timestamp="1625062320119">
+    <state width="987" height="259" key="GridCell.Tab.0.center" timestamp="1625148695441">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
-    <state width="492" height="259" key="GridCell.Tab.0.center/0.23.1680.987@0.23.1680.987" timestamp="1625062320119" />
+    <state width="987" height="259" key="GridCell.Tab.0.center/0.23.1680.987@0.23.1680.987" timestamp="1625148695441" />
     <state width="987" height="259" key="GridCell.Tab.0.center/0.23.1680.988@0.23.1680.988" timestamp="1624421178928" />
-    <state width="492" height="259" key="GridCell.Tab.0.left" timestamp="1625062320119">
+    <state width="987" height="259" key="GridCell.Tab.0.left" timestamp="1625148695440">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
-    <state width="492" height="259" key="GridCell.Tab.0.left/0.23.1680.987@0.23.1680.987" timestamp="1625062320119" />
+    <state width="987" height="259" key="GridCell.Tab.0.left/0.23.1680.987@0.23.1680.987" timestamp="1625148695440" />
     <state width="987" height="259" key="GridCell.Tab.0.left/0.23.1680.988@0.23.1680.988" timestamp="1624421178928" />
-    <state width="492" height="259" key="GridCell.Tab.0.right" timestamp="1625062320120">
+    <state width="987" height="259" key="GridCell.Tab.0.right" timestamp="1625148695441">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
-    <state width="492" height="259" key="GridCell.Tab.0.right/0.23.1680.987@0.23.1680.987" timestamp="1625062320120" />
+    <state width="987" height="259" key="GridCell.Tab.0.right/0.23.1680.987@0.23.1680.987" timestamp="1625148695441" />
     <state width="987" height="259" key="GridCell.Tab.0.right/0.23.1680.988@0.23.1680.988" timestamp="1624421178929" />
-    <state x="297" y="226" key="SettingsEditor" timestamp="1624943480547">
+    <state x="297" y="226" key="SettingsEditor" timestamp="1625136339009">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
-    <state x="297" y="226" key="SettingsEditor/0.23.1680.987@0.23.1680.987" timestamp="1624943480547" />
+    <state x="297" y="226" key="SettingsEditor/0.23.1680.987@0.23.1680.987" timestamp="1625136339009" />
     <state x="417" y="348" key="com.intellij.ide.util.TipDialog" timestamp="1625013093554">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
