@@ -415,7 +415,26 @@ def erd_ren(n, p):
 
 
 if __name__ == '__main__':
+    random.seed(1)
+    n = 20
+    p = 0.1
+    tree = [0, 1, 2, 1]
 
+    M = erd_ren(n, p)
+    C = rand_assign(len(tree) - 1, n)
+    print(algorithmOne(tree, M, C))
+
+    """
+    count = 0
+    for i in range(n):
+        for j in range(i):
+            if M[i][j] == 1:
+                if C[i] != C[j]:
+                    count += 1
+    print(count)
+    """
+
+    """
     t0 = time.time()
 
     A = np.ones((100,100))
@@ -444,5 +463,6 @@ if __name__ == '__main__':
     t1 = time.time() 
     print(resY)
     print("Time:", t1-t0)
+    """
 
 

@@ -3,10 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="47a43bff-6854-4705-a9d3-f6c90c4251b7" name="Default Changelist" comment="broke everything into 4 files(I think the import statements should be done, but not positive.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Jupyter Vizualizations/.ipynb_checkpoints/sim2_viz-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Jupyter Vizualizations/.ipynb_checkpoints/sim2_viz-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Jupyter Vizualizations/sim1_viz.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Jupyter Vizualizations/sim1_viz.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Jupyter Vizualizations/sim2_viz.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Jupyter Vizualizations/sim2_viz.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/exhaustive.py" beforeDir="false" afterPath="$PROJECT_DIR$/exhaustive.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/facebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/facebook.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_x.py" beforeDir="false" afterPath="$PROJECT_DIR$/get_x.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +49,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.exhaustive">
+  <component name="RunManager" selected="Python.facebook">
     <configuration name="exhaustive" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tree_color_coding_task" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -86,6 +84,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/facebook.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="get_x" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="tree_color_coding_task" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/get_x.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -136,34 +155,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="vizualizations" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="tree_color_coding_task" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="$USER_HOME$/.conda/envs/Data_Plus/bin/python" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/vizualizations.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.exhaustive" />
         <item itemvalue="Python.facebook" />
+        <item itemvalue="Python.get_x" />
+        <item itemvalue="Python.exhaustive" />
         <item itemvalue="Python.simulations" />
         <item itemvalue="Python.tree_generation" />
-        <item itemvalue="Python.vizualizations" />
       </list>
     </recent_temporary>
   </component>
@@ -242,30 +240,55 @@
       <screen x="0" y="23" width="1680" height="987" />
     </state>
     <state x="282" y="130" key="#vizualizations/0.23.1680.987@0.23.1680.987" timestamp="1623940820662" />
-    <state width="987" height="259" key="GridCell.Tab.0.bottom" timestamp="1625148695441">
+    <state width="987" height="259" key="GridCell.Tab.0.bottom" timestamp="1625613021398">
+      <screen x="0" y="23" width="1680" height="990" />
+    </state>
+    <state width="987" height="259" key="GridCell.Tab.0.bottom/0.23.1680.987@0.23.1680.987" timestamp="1625548739561" />
+    <state width="987" height="259" key="GridCell.Tab.0.bottom/0.23.1680.988@0.23.1680.988" timestamp="1625575806598" />
+    <state width="987" height="259" key="GridCell.Tab.0.bottom/0.23.1680.989@0.23.1680.989" timestamp="1625612593417" />
+    <state width="987" height="259" key="GridCell.Tab.0.bottom/0.23.1680.990@0.23.1680.990" timestamp="1625613021398" />
+    <state width="987" height="259" key="GridCell.Tab.0.center" timestamp="1625613021398">
+      <screen x="0" y="23" width="1680" height="990" />
+    </state>
+    <state width="987" height="259" key="GridCell.Tab.0.center/0.23.1680.987@0.23.1680.987" timestamp="1625548739560" />
+    <state width="987" height="259" key="GridCell.Tab.0.center/0.23.1680.988@0.23.1680.988" timestamp="1625575806597" />
+    <state width="987" height="259" key="GridCell.Tab.0.center/0.23.1680.989@0.23.1680.989" timestamp="1625612593416" />
+    <state width="987" height="259" key="GridCell.Tab.0.center/0.23.1680.990@0.23.1680.990" timestamp="1625613021398" />
+    <state width="987" height="259" key="GridCell.Tab.0.left" timestamp="1625613021397">
+      <screen x="0" y="23" width="1680" height="990" />
+    </state>
+    <state width="987" height="259" key="GridCell.Tab.0.left/0.23.1680.987@0.23.1680.987" timestamp="1625548739559" />
+    <state width="987" height="259" key="GridCell.Tab.0.left/0.23.1680.988@0.23.1680.988" timestamp="1625575806596" />
+    <state width="987" height="259" key="GridCell.Tab.0.left/0.23.1680.989@0.23.1680.989" timestamp="1625612593415" />
+    <state width="987" height="259" key="GridCell.Tab.0.left/0.23.1680.990@0.23.1680.990" timestamp="1625613021397" />
+    <state width="987" height="259" key="GridCell.Tab.0.right" timestamp="1625613021398">
+      <screen x="0" y="23" width="1680" height="990" />
+    </state>
+    <state width="987" height="259" key="GridCell.Tab.0.right/0.23.1680.987@0.23.1680.987" timestamp="1625548739560" />
+    <state width="987" height="259" key="GridCell.Tab.0.right/0.23.1680.988@0.23.1680.988" timestamp="1625575806597" />
+    <state width="987" height="259" key="GridCell.Tab.0.right/0.23.1680.989@0.23.1680.989" timestamp="1625612593416" />
+    <state width="987" height="259" key="GridCell.Tab.0.right/0.23.1680.990@0.23.1680.990" timestamp="1625613021398" />
+    <state width="987" height="320" key="GridCell.Tab.1.bottom" timestamp="1625548080617">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
-    <state width="987" height="259" key="GridCell.Tab.0.bottom/0.23.1680.987@0.23.1680.987" timestamp="1625148695441" />
-    <state width="987" height="259" key="GridCell.Tab.0.bottom/0.23.1680.988@0.23.1680.988" timestamp="1624421178929" />
-    <state width="987" height="259" key="GridCell.Tab.0.center" timestamp="1625148695441">
+    <state width="987" height="320" key="GridCell.Tab.1.bottom/0.23.1680.987@0.23.1680.987" timestamp="1625548080617" />
+    <state width="987" height="320" key="GridCell.Tab.1.center" timestamp="1625548080616">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
-    <state width="987" height="259" key="GridCell.Tab.0.center/0.23.1680.987@0.23.1680.987" timestamp="1625148695441" />
-    <state width="987" height="259" key="GridCell.Tab.0.center/0.23.1680.988@0.23.1680.988" timestamp="1624421178928" />
-    <state width="987" height="259" key="GridCell.Tab.0.left" timestamp="1625148695440">
+    <state width="987" height="320" key="GridCell.Tab.1.center/0.23.1680.987@0.23.1680.987" timestamp="1625548080616" />
+    <state width="987" height="320" key="GridCell.Tab.1.left" timestamp="1625548080616">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
-    <state width="987" height="259" key="GridCell.Tab.0.left/0.23.1680.987@0.23.1680.987" timestamp="1625148695440" />
-    <state width="987" height="259" key="GridCell.Tab.0.left/0.23.1680.988@0.23.1680.988" timestamp="1624421178928" />
-    <state width="987" height="259" key="GridCell.Tab.0.right" timestamp="1625148695441">
+    <state width="987" height="320" key="GridCell.Tab.1.left/0.23.1680.987@0.23.1680.987" timestamp="1625548080616" />
+    <state width="987" height="320" key="GridCell.Tab.1.right" timestamp="1625548080616">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
-    <state width="987" height="259" key="GridCell.Tab.0.right/0.23.1680.987@0.23.1680.987" timestamp="1625148695441" />
-    <state width="987" height="259" key="GridCell.Tab.0.right/0.23.1680.988@0.23.1680.988" timestamp="1624421178929" />
-    <state x="297" y="226" key="SettingsEditor" timestamp="1625136339009">
-      <screen x="0" y="23" width="1680" height="987" />
+    <state width="987" height="320" key="GridCell.Tab.1.right/0.23.1680.987@0.23.1680.987" timestamp="1625548080616" />
+    <state x="297" y="226" key="SettingsEditor" timestamp="1625610708783">
+      <screen x="0" y="23" width="1680" height="989" />
     </state>
     <state x="297" y="226" key="SettingsEditor/0.23.1680.987@0.23.1680.987" timestamp="1625136339009" />
+    <state x="297" y="226" key="SettingsEditor/0.23.1680.989@0.23.1680.989" timestamp="1625610708783" />
     <state x="417" y="348" key="com.intellij.ide.util.TipDialog" timestamp="1625013093554">
       <screen x="0" y="23" width="1680" height="987" />
     </state>

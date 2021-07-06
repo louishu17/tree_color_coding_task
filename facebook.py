@@ -10,7 +10,8 @@ import math
 import random
 from simulations import alg2_fetch
 from tree_generation import generateFreeTrees
-import csv
+from scipy.sparse import csr_matrix
+from scipy import io
 
 def sample_n(A,B,n):
     x = random.randint(0,len(A) - n - 1)
@@ -27,11 +28,16 @@ def to_matrix(fname):
     file = open(fname)
     result = np.loadtxt(file, delimiter=",")
     return result
+def read_mat(filename):
+    loaded = io.loadmat(filename)
+    data = loaded['A'].toarray()
+    return data
+
 if __name__ == '__main__':
-    A = to_matrix('American75.csv')
-    B = to_matrix('Amherst41.csv')
+    A = read_mat('Auburn71.mat')
+    B = read_mat('Baylor93.mat')
     m = 2
     ret = []
-    for x in range(0,m):
-        ret.append(run_social_networks(A,B,2,100))
+    for x in range(0, m):
+        ret.append(run_social_networks(A, B, 2, 100))
     print(ret)
