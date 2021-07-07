@@ -32,19 +32,25 @@ def read_mat(filename):
     loaded = io.loadmat(filename)
     data = loaded['A'].toarray()
     return data
-def to_edge_list(matrix):
+
+def to_edge_list(matrix, file):
     edge_list = []
-    edge_list.append([len(matrix)])
-    edge_list.append([0])
+    edge_list.append(str((len(matrix))))
+    edge_list.append(0)
     for i in range(len(matrix)):
         for j in range(i + 1, len(matrix)):
             if i < j:
                 if matrix[i,j] == 1:
-                    edge_list[1][0] += 1
-                    edge_list.append([i,j])
+                    edge_list[1] += 1
+                    string = "\n" + " ".join([str(i),str(j)])
+                    edge_list.append(string)
             else:
                 break
-    return edge_list
+    edge_list[1] = "\n" + str((edge_list[1]))
+    f = open(file, 'a')
+    f.writelines(edge_list)
+    f.close
+    print(f)   
 
 
 if __name__ == '__main__':
@@ -59,4 +65,4 @@ if __name__ == '__main__':
     print(ret)
     '''
     matrix = np.array([[0,1,1,1,1],[1,0,1,1,0],[1,1,0,1,0],[1,1,1,0,0],[1,0,0,0,0]])
-    print(to_edge_list(matrix))
+    print(to_edge_list(matrix, 'edge_list.txt'))
