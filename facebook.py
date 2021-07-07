@@ -32,12 +32,31 @@ def read_mat(filename):
     loaded = io.loadmat(filename)
     data = loaded['A'].toarray()
     return data
+def to_edge_list(matrix):
+    edge_list = []
+    edge_list.append([len(matrix)])
+    edge_list.append([0])
+    for i in range(len(matrix)):
+        for j in range(i + 1, len(matrix)):
+            if i < j:
+                if matrix[i,j] == 1:
+                    edge_list[1][0] += 1
+                    edge_list.append([i,j])
+            else:
+                break
+    return edge_list
+
 
 if __name__ == '__main__':
+    '''
     A = read_mat('Auburn71.mat')
     B = read_mat('Baylor93.mat')
+    print(to_edge_list(A))
     m = 2
     ret = []
     for x in range(0, m):
         ret.append(run_social_networks(A, B, 2, 100))
     print(ret)
+    '''
+    matrix = np.array([[0,1,1,1,1],[1,0,1,1,0],[1,1,0,1,0],[1,1,1,0,0],[1,0,0,0,0]])
+    print(to_edge_list(matrix))
