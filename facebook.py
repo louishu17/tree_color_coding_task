@@ -47,15 +47,16 @@ def to_edge_list(matrix, file):
             else:
                 break
     edge_list[1] = "\n" + str((edge_list[1]))
-    f = open(file, 'a')
+    f = open(file, 'w')
     f.writelines(edge_list)
     f.close
     print(f)   
 
 
 if __name__ == '__main__':
-    '''
+    
     A = read_mat('Auburn71.mat')
+    
     B = read_mat('Baylor93.mat')
     print(to_edge_list(A))
     m = 2
@@ -63,6 +64,9 @@ if __name__ == '__main__':
     for x in range(0, m):
         ret.append(run_social_networks(A, B, 2, 100))
     print(ret)
-    '''
+    
+    
     matrix = np.array([[0,1,1,1,1],[1,0,1,1,0],[1,1,0,1,0],[1,1,1,0,0],[1,0,0,0,0]])
-    print(to_edge_list(matrix, 'edge_list.txt'))
+    print(to_edge_list(A, 'edge_list.txt'))
+    
+    print(len(A))
