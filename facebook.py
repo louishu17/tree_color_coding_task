@@ -10,6 +10,7 @@ import math
 import random
 from simulations import alg2_fetch
 from tree_generation import generateFreeTrees
+from get_x import get_edges
 from scipy.sparse import csr_matrix
 from scipy import io
 
@@ -50,7 +51,17 @@ def to_edge_list(matrix, file):
     f = open(file, 'a')
     f.writelines(edge_list)
     f.close
-    print(f)   
+    print(f)
+
+def tree_to_mat(tree):
+    n = len(tree)
+    edges = get_edges(tree)
+    M = np.zeros((n, n))
+    for i in edges:
+        M[i[0] - 1][i[1] - 1] = 1
+        M[i[1] - 1][i[0] - 1] = 1
+    return M
+
 
 
 if __name__ == '__main__':
@@ -63,6 +74,15 @@ if __name__ == '__main__':
     for x in range(0, m):
         ret.append(run_social_networks(A, B, 2, 100))
     print(ret)
+
+    f1 = 'Auburn71.mat'
+    to_edge_list(read_mat(f1), f1.split('.')[0] + '.txt')
+    f1 = 'Baylor93.mat'
+    to_edge_list(read_mat(f1), f1.split('.')[0] + '.txt')
     '''
-    matrix = np.array([[0,1,1,1,1],[1,0,1,1,0],[1,1,0,1,0],[1,1,1,0,0],[1,0,0,0,0]])
-    print(to_edge_list(matrix, 'edge_list.txt'))
+
+    print(tree_to_mat([0, 1, 2, 1]))
+
+   # matrix = np.array([[0,1,1,1,1],[1,0,1,1,0],[1,1,0,1,0],[1,1,1,0,0],[1,0,
+    # 0,0,0]])
+    #print(to_edge_list(matrix, 'edge_list.txt'))

@@ -3,8 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="47a43bff-6854-4705-a9d3-f6c90c4251b7" name="Default Changelist" comment="broke everything into 4 files(I think the import statements should be done, but not positive.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/American75.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Amherst41.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/facebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/facebook.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_x.py" beforeDir="false" afterPath="$PROJECT_DIR$/get_x.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,10 +159,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.facebook" />
+        <item itemvalue="Python.tree_generation" />
         <item itemvalue="Python.get_x" />
         <item itemvalue="Python.exhaustive" />
         <item itemvalue="Python.simulations" />
-        <item itemvalue="Python.tree_generation" />
       </list>
     </recent_temporary>
   </component>
@@ -228,6 +229,11 @@
     <option name="LAST_COMMIT_MESSAGE" value="broke everything into 4 files(I think the import statements should be done, but not positive." />
   </component>
   <component name="WindowStateProjectService">
+    <state x="861" y="326" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1625746144337">
+      <screen x="0" y="23" width="1680" height="989" />
+    </state>
+    <state x="861" y="326" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1680.989@0.23.1680.989" timestamp="1625746144337" />
+    <state x="861" y="326" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1680.990@0.23.1680.990" timestamp="1625663165349" />
     <state x="271" y="130" key="#get_x" timestamp="1623936019585">
       <screen x="0" y="23" width="1680" height="987" />
     </state>
@@ -240,33 +246,33 @@
       <screen x="0" y="23" width="1680" height="987" />
     </state>
     <state x="282" y="130" key="#vizualizations/0.23.1680.987@0.23.1680.987" timestamp="1623940820662" />
-    <state width="987" height="259" key="GridCell.Tab.0.bottom" timestamp="1625613021398">
-      <screen x="0" y="23" width="1680" height="990" />
+    <state width="987" height="259" key="GridCell.Tab.0.bottom" timestamp="1625746701006">
+      <screen x="0" y="23" width="1680" height="989" />
     </state>
     <state width="987" height="259" key="GridCell.Tab.0.bottom/0.23.1680.987@0.23.1680.987" timestamp="1625548739561" />
     <state width="987" height="259" key="GridCell.Tab.0.bottom/0.23.1680.988@0.23.1680.988" timestamp="1625575806598" />
-    <state width="987" height="259" key="GridCell.Tab.0.bottom/0.23.1680.989@0.23.1680.989" timestamp="1625612593417" />
+    <state width="987" height="259" key="GridCell.Tab.0.bottom/0.23.1680.989@0.23.1680.989" timestamp="1625746701006" />
     <state width="987" height="259" key="GridCell.Tab.0.bottom/0.23.1680.990@0.23.1680.990" timestamp="1625613021398" />
-    <state width="987" height="259" key="GridCell.Tab.0.center" timestamp="1625613021398">
-      <screen x="0" y="23" width="1680" height="990" />
+    <state width="987" height="259" key="GridCell.Tab.0.center" timestamp="1625746701005">
+      <screen x="0" y="23" width="1680" height="989" />
     </state>
     <state width="987" height="259" key="GridCell.Tab.0.center/0.23.1680.987@0.23.1680.987" timestamp="1625548739560" />
     <state width="987" height="259" key="GridCell.Tab.0.center/0.23.1680.988@0.23.1680.988" timestamp="1625575806597" />
-    <state width="987" height="259" key="GridCell.Tab.0.center/0.23.1680.989@0.23.1680.989" timestamp="1625612593416" />
+    <state width="987" height="259" key="GridCell.Tab.0.center/0.23.1680.989@0.23.1680.989" timestamp="1625746701005" />
     <state width="987" height="259" key="GridCell.Tab.0.center/0.23.1680.990@0.23.1680.990" timestamp="1625613021398" />
-    <state width="987" height="259" key="GridCell.Tab.0.left" timestamp="1625613021397">
-      <screen x="0" y="23" width="1680" height="990" />
+    <state width="987" height="259" key="GridCell.Tab.0.left" timestamp="1625746701004">
+      <screen x="0" y="23" width="1680" height="989" />
     </state>
     <state width="987" height="259" key="GridCell.Tab.0.left/0.23.1680.987@0.23.1680.987" timestamp="1625548739559" />
     <state width="987" height="259" key="GridCell.Tab.0.left/0.23.1680.988@0.23.1680.988" timestamp="1625575806596" />
-    <state width="987" height="259" key="GridCell.Tab.0.left/0.23.1680.989@0.23.1680.989" timestamp="1625612593415" />
+    <state width="987" height="259" key="GridCell.Tab.0.left/0.23.1680.989@0.23.1680.989" timestamp="1625746701004" />
     <state width="987" height="259" key="GridCell.Tab.0.left/0.23.1680.990@0.23.1680.990" timestamp="1625613021397" />
-    <state width="987" height="259" key="GridCell.Tab.0.right" timestamp="1625613021398">
-      <screen x="0" y="23" width="1680" height="990" />
+    <state width="987" height="259" key="GridCell.Tab.0.right" timestamp="1625746701005">
+      <screen x="0" y="23" width="1680" height="989" />
     </state>
     <state width="987" height="259" key="GridCell.Tab.0.right/0.23.1680.987@0.23.1680.987" timestamp="1625548739560" />
     <state width="987" height="259" key="GridCell.Tab.0.right/0.23.1680.988@0.23.1680.988" timestamp="1625575806597" />
-    <state width="987" height="259" key="GridCell.Tab.0.right/0.23.1680.989@0.23.1680.989" timestamp="1625612593416" />
+    <state width="987" height="259" key="GridCell.Tab.0.right/0.23.1680.989@0.23.1680.989" timestamp="1625746701005" />
     <state width="987" height="259" key="GridCell.Tab.0.right/0.23.1680.990@0.23.1680.990" timestamp="1625613021398" />
     <state width="987" height="320" key="GridCell.Tab.1.bottom" timestamp="1625548080617">
       <screen x="0" y="23" width="1680" height="987" />
