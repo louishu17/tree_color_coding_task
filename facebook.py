@@ -58,7 +58,6 @@ def tree_to_mat(tree):
         M[i[1] - 1][i[0] - 1] = 1
     return M
 
-
 def subsample_run(A,K,n):
     samples = sample_n(A,A,n)
     T = generateFreeTrees(K)
@@ -76,7 +75,6 @@ def run_two_networks(A,B,K,n):
 def get_sim1_txt(n,p,file):
     graph = erd_ren(n,p)
     to_edge_list(graph,file)
-
 
 
 if __name__ == '__main__':
@@ -98,7 +96,9 @@ if __name__ == '__main__':
     to_edge_list(read_mat(f1), f1.split('.')[0] + '.txt')
     '''
 
-    print(tree_to_mat([0, 1, 2, 1]))
+    #print(tree_to_mat([0, 1, 2, 1]))
+
+    get_sim1_txt(500,.8,'sim1_test_files/n_500.txt')
 
    # matrix = np.array([[0,1,1,1,1],[1,0,1,1,0],[1,1,0,1,0],[1,1,1,0,0],[1,0,
     # 0,0,0]])
