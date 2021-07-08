@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 import math
 import random
-from simulations import alg2_fetch
+from simulations import alg2_fetch, erd_ren
 from tree_generation import generateFreeTrees
 from scipy.sparse import csr_matrix
 from scipy import io
@@ -62,9 +62,14 @@ def run_two_networks(A,B,K,n):
     t = int(math.ceil(1 / (math.pow(r, 2))))
     return alg2_fetch(T, samples[0], samples[1], K, t)
 
+def get_sim1_txt(n,p,file):
+    graph = erd_ren(n,p)
+    to_edge_list(graph,file)
+
+
 
 if __name__ == '__main__':
-    
+    '''
     A = read_mat('American75.mat')
     B = read_mat('Amherst41.mat')
     m = 1
@@ -76,4 +81,5 @@ if __name__ == '__main__':
         ret_diff.append(run_two_networks(A, B, 5, 100))
         ret_same.append(subsample_run(A,5,1000))
     print(ret_diff,ret_same)
-    
+    '''
+    get_sim1_txt(100,.8,'sim1_test_files/n_100.txt')
