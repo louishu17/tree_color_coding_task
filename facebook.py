@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 import math
 import random
-from simulations import alg2_fetch, erd_ren
+from simulations import alg2_fetch, erd_ren, calculateExpectedValueOne
 from tree_generation import generateFreeTrees
 from get_x import get_edges
 from scipy.sparse import csr_matrix
@@ -76,6 +76,12 @@ def get_sim1_txt(n,p,file):
     graph = erd_ren(n,p)
     to_edge_list(graph,file)
 
+def get_expected_list(top,increment,p,K,):
+    ret = []
+    for x in range(50, top, increment):
+        ret.append(calculateExpectedValueOne(1,x,p,K))
+    return ret
+
 
 if __name__ == '__main__':
     '''
@@ -97,9 +103,10 @@ if __name__ == '__main__':
     '''
 
     #print(tree_to_mat([0, 1, 2, 1]))
-
+    '''
     get_sim1_txt(500,.8,'sim1_test_files/n_500.txt')
-
+    '''
+    print(get_expected_list(1050,50,.8,[0,1,2,2,1,2,2]))
    # matrix = np.array([[0,1,1,1,1],[1,0,1,1,0],[1,1,0,1,0],[1,1,1,0,0],[1,0,
     # 0,0,0]])
     #print(to_edge_list(matrix, 'edge_list.txt'))
