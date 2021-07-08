@@ -18,16 +18,12 @@ def sample_n(A,B,n):
     A = A[x:x + n,x:x + n]
     B = B[x:x + n,x:x + n]
     return [A,B]
-def run_social_networks(A,B,K,n):
-    samples = sample_n(A,B,n)
-    T = generateFreeTrees(K)
-    r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
-    t = int(math.ceil(1 / (math.pow(r, 2))))
-    return alg2_fetch(T, samples[0], samples[1], K, t)
+
 def to_matrix(fname):
     file = open(fname)
     result = np.loadtxt(file, delimiter=",")
     return result
+    
 def read_mat(filename):
     loaded = io.loadmat(filename)
     data = loaded['A'].toarray()
@@ -52,21 +48,32 @@ def to_edge_list(matrix, file):
     f.close
     print(f)   
 
+def subsample_run(A,K,n):
+    samples = sample_n(A,A,n)
+    T = generateFreeTrees(K)
+    r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
+    t = int(math.ceil(1 / (math.pow(r, 2))))
+    return alg2_fetch(T, samples[0], samples[1], K, t)
+
+def run_two_networks(A,B,K,n):
+    samples = sample_n(A,B,n)
+    T = generateFreeTrees(K)
+    r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
+    t = int(math.ceil(1 / (math.pow(r, 2))))
+    return alg2_fetch(T, samples[0], samples[1], K, t)
+
 
 if __name__ == '__main__':
     
-    A = read_mat('Auburn71.mat')
-    
-    B = read_mat('Baylor93.mat')
-    print(to_edge_list(A))
-    m = 2
-    ret = []
+    A = read_mat('American75.mat')
+    B = read_mat('Amherst41.mat')
+    m = 1
+    ret_same = []
+    ret_diff = []
+    ret_same.append("same network")
+    ret_diff.append("diff network")
     for x in range(0, m):
-        ret.append(run_social_networks(A, B, 2, 100))
-    print(ret)
+        ret_diff.append(run_two_networks(A, B, 5, 100))
+        ret_same.append(subsample_run(A,5,1000))
+    print(ret_diff,ret_same)
     
-    
-    matrix = np.array([[0,1,1,1,1],[1,0,1,1,0],[1,1,0,1,0],[1,1,1,0,0],[1,0,0,0,0]])
-    print(to_edge_list(A, 'edge_list.txt'))
-    
-    print(len(A))
