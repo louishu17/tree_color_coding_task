@@ -210,6 +210,7 @@ def kTiming(N,maxK):
 
 
 if __name__ == '__main__':
+    '''
     args2 = []
     args2.append(int(sys.argv[1]))
     args2.append(int(sys.argv[2]))
@@ -231,3 +232,5 @@ if __name__ == '__main__':
     sim2(*args2)
     end = time.time()
     print("Time:", end-start)
+    '''
+    print(calculateExpectedValueOne(1,50,.8,[0,1,2,2,1,2,2]))

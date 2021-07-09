@@ -15,10 +15,21 @@ from scipy.sparse import csr_matrix
 from scipy import io
 import os
 
-def sample_n(A,B,n):
+def sample_n(A,B,n,p):
     x = random.randint(0,len(A) - n - 1)
     A = A[x:x + n,x:x + n]
     B = B[x:x + n,x:x + n]
+    for i in range(n):
+        for j in range(i):
+            if A[i][j] == 1:
+                temp = random.random()
+                if temp < p:
+                    continue
+                else:
+                    A[i][j] == 0
+                    A[j][i] == 0
+    
+                
     return [A,B]
 
 def to_matrix(fname):
