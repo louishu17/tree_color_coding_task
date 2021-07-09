@@ -13,6 +13,7 @@ from tree_generation import generateFreeTrees
 from get_x import get_edges
 from scipy.sparse import csr_matrix
 from scipy import io
+import os
 
 def sample_n(A,B,n):
     x = random.randint(0,len(A) - n - 1)
@@ -82,6 +83,14 @@ def get_expected_list(top,increment,p,K,):
         ret.append(calculateExpectedValueOne(1,x,p,K))
     return ret
 
+def convert_all_files(directory):
+    save_path = '/Users/kieranlele/PycharmProjects/Data+Networks/tree_color_coding_task/facebook edge_lists'
+    for filename in os.listdir(directory):
+        new_name = filename[0:-4] + '.txt'
+        completeName = os.path.join(save_path, new_name)  
+        to_edge_list(read_mat('facebook100/' + filename),completeName)
+
+
 
 if __name__ == '__main__':
     '''
@@ -106,7 +115,12 @@ if __name__ == '__main__':
     '''
     get_sim1_txt(500,.8,'sim1_test_files/n_500.txt')
     '''
+    '''
     print(get_expected_list(1050,50,.8,[0,1,2,2,1,2,2]))
+    '''
+    
+    convert_all_files('/Users/kieranlele/PycharmProjects/Data+Networks/tree_color_coding_task/facebook100')
+
    # matrix = np.array([[0,1,1,1,1],[1,0,1,1,0],[1,1,0,1,0],[1,1,1,0,0],[1,0,
     # 0,0,0]])
     #print(to_edge_list(matrix, 'edge_list.txt'))
