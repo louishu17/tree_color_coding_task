@@ -8,17 +8,18 @@ import numpy as np
 import pandas as pd
 import math
 import random
-from simulations import alg2_fetch, erd_ren, calculateExpectedValueOne
-from tree_generation import generateFreeTrees
+from simulations import alg2_fetch, erd_ren, calculateExpectedValueOne, \
+    calculateExpectedValueTwo
+from tree_generation import generateFreeTrees, aut
 from get_x import get_edges
 from scipy.sparse import csr_matrix
 from scipy import io
 import os
 
-def sample_n(A,B,n,p):
-    x = random.randint(0,len(A) - n - 1)
-    A = A[x:x + n,x:x + n]
-    B = B[x:x + n,x:x + n]
+def sample_n(A, B, n, p):
+    x = random.randint(0, len(A) - n - 1)
+    A = A[x:x + n, x:x + n]
+    B = B[x:x + n, x:x + n]
     for i in range(n):
         for j in range(i):
             if A[i][j] == 1:
@@ -28,19 +29,21 @@ def sample_n(A,B,n,p):
                 else:
                     A[i][j] == 0
                     A[j][i] == 0
-    
-                
-    return [A,B]
+
+    return [A, B]
+
 
 def to_matrix(fname):
     file = open(fname)
     result = np.loadtxt(file, delimiter=",")
     return result
-    
+
+
 def read_mat(filename):
     loaded = io.loadmat(filename)
     data = loaded['A'].toarray()
     return data
+
 
 def to_edge_list(matrix, file):
     edge_list = []
@@ -49,9 +52,9 @@ def to_edge_list(matrix, file):
     for i in range(len(matrix)):
         for j in range(i + 1, len(matrix)):
             if i < j:
-                if matrix[i,j] == 1:
+                if matrix[i, j] == 1:
                     edge_list[1] += 1
-                    string = "\n" + " ".join([str(i),str(j)])
+                    string = "\n" + " ".join([str(i), str(j)])
                     edge_list.append(string)
             else:
                 break
@@ -60,6 +63,7 @@ def to_edge_list(matrix, file):
     f.writelines(edge_list)
     f.close
     print(f)
+
 
 def tree_to_mat(tree):
     n = len(tree)
@@ -70,37 +74,64 @@ def tree_to_mat(tree):
         M[i[1] - 1][i[0] - 1] = 1
     return M
 
-def subsample_run(A,K,n):
-    samples = sample_n(A,A,n)
+
+def subsample_run(A, K, n):
+    samples = sample_n(A, A, n)
     T = generateFreeTrees(K)
     r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
     t = int(math.ceil(1 / (math.pow(r, 2))))
     return alg2_fetch(T, samples[0], samples[1], K, t)
 
-def run_two_networks(A,B,K,n):
-    samples = sample_n(A,B,n)
+
+def run_two_networks(A, B, K, n):
+    samples = sample_n(A, B, n)
     T = generateFreeTrees(K)
     r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
     t = int(math.ceil(1 / (math.pow(r, 2))))
     return alg2_fetch(T, samples[0], samples[1], K, t)
 
-def get_sim1_txt(n,p,file):
-    graph = erd_ren(n,p)
-    to_edge_list(graph,file)
 
-def get_expected_list(top,increment,p,K,):
+def get_expected_list(top, increment, p, K, ):
     ret = []
     for x in range(50, top, increment):
-        ret.append(calculateExpectedValueOne(1,x,p,K))
+        ret.append(calculateExpectedValueOne(1, x, p, K))
     return ret
+
+def get_sim1_txt(n, p, file):
+    graph = erd_ren(n, p)
+    to_edge_list(graph, file)
 
 def convert_all_files(directory):
     save_path = '/Users/kieranlele/PycharmProjects/Data+Networks/tree_color_coding_task/facebook edge_lists'
     for filename in os.listdir(directory):
         new_name = filename[0:-4] + '.txt'
-        completeName = os.path.join(save_path, new_name)  
+        completeName = os.path.join(save_path, new_name)
         to_edge_list(read_mat('facebook100/' + filename),completeName)
 
+
+def expected_sim1():
+    K = 6
+
+    t = get_t(K)
+    print('t =', t)
+
+    H = [0, 1, 2, 2, 1, 2, 2]
+    p = 0.001
+
+    lst = [i * 50 for i in range(1, 21)]
+    exp_val = []
+    for n in lst:
+        exp = calculateExpectedValueOne(1, n, p, H)
+        exp_val.append(exp)
+        name = "graphs/{}.txt".format(str(n))
+        # to_edge_list(erd_ren(n, p), name)
+    print(exp_val)
+
+
+def get_t(K):
+    r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
+    t = int(math.ceil(1 / (math.pow(r, 2))))
+    return t
 
 
 if __name__ == '__main__':
@@ -120,18 +151,29 @@ if __name__ == '__main__':
     to_edge_list(read_mat(f1), f1.split('.')[0] + '.txt')
     f1 = 'Baylor93.mat'
     to_edge_list(read_mat(f1), f1.split('.')[0] + '.txt')
-    '''
 
-    #print(tree_to_mat([0, 1, 2, 1]))
-    '''
+    # print(tree_to_mat([0, 1, 2, 1])
+    
     get_sim1_txt(500,.8,'sim1_test_files/n_500.txt')
-    '''
-    '''
     print(get_expected_list(1050,50,.8,[0,1,2,2,1,2,2]))
     '''
-    
-    convert_all_files('/Users/kieranlele/PycharmProjects/Data+Networks/tree_color_coding_task/facebook100')
 
-   # matrix = np.array([[0,1,1,1,1],[1,0,1,1,0],[1,1,0,1,0],[1,1,1,0,0],[1,0,
-    # 0,0,0]])
-    #print(to_edge_list(matrix, 'edge_list.txt'))
+    convert_all_files(
+        '/Users/kieranlele/PycharmProjects/Data+Networks/tree_color_coding_task/facebook100')
+
+
+    expected_sim1()
+
+    """
+    tree = [0, 1, 2, 2, 1, 2, 2]
+    print(aut(tree))
+
+    K = 4
+    r = math.factorial(K + 1) / math.pow(K + 1, K + 1)
+    n = 100
+    p = 0.1
+    s = 0.9
+    T = generateFreeTrees(K)
+    sizeT = len(T)
+    print(calculateExpectedValueTwo(r, n, p, s, K, len(T)))
+    """
