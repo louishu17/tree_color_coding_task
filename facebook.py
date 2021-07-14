@@ -20,15 +20,24 @@ def sample_n(A, B, n, p):
     x = random.randint(0, len(A) - n - 1)
     A = A[x:x + n, x:x + n]
     B = B[x:x + n, x:x + n]
-    for i in range(n):
+    for i in range(len(A)):
         for j in range(i):
-            if A[i][j] == 1:
-                temp = random.random()
-                if temp < p:
-                    continue
+            temp1 = random.random()
+            temp2 = random.random()
+            if A[i,j] == 1:
+                if temp1 < p:
+                    A[i,j] = 1 - p
+                    A[j,i] = A[i,j]
                 else:
-                    A[i][j] == 0
-                    A[j][i] == 0
+                    A[i,j] = 0 - p
+                    A[j,i] = A[i,j]
+            if B[i,j] == 1:
+                if temp2 < p:
+                    B[i,j] = 1 - p
+                    B[j,i] = B[i,j]
+                else: 
+                    B[i,j] = 0 - p
+                    B[j,i] = B[i,j]
 
     return [A, B]
 
