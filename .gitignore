@@ -1,0 +1,11 @@
+.DS_Store
+.idea/workspace.xml
+
+all_out/*
+!all_out/gitkeep.txt
+
+facebook100/*
+!facebook100/gitkeep.txt
+
+file_lists/*
+!file_lists/gitkeep.txt
