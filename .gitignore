@@ -9,3 +9,6 @@ facebook100/*
 
 file_lists/*
 !file_lists/gitkeep.txt
+
+samp_file_lists/*
+!samp_file_lists/gitkeep.txt
